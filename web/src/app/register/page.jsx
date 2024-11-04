@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import logo from "../../assets/images/logo.png";
 
-const AccountRegistrationForm = () => {
+const Register = () => {
   const [step, setStep] = useState(1); // Track the current step
   const [accountType, setAccountType] = useState(""); // Manage account type state
 
@@ -285,4 +285,4 @@ const AccountRegistrationForm = () => {
   );
 };
 
-export default AccountRegistrationForm;
+export default Register;
