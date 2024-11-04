@@ -39,7 +39,7 @@ const AboutUs = () => {
           </span>
         </div>
       </div>
-      <div className="w-full mt-16 bg-gray-100 p-8 ">
+      <div className="w-full mt-16 bg-gray-100 p-12 ">
         <div className="flex justify-center items-center flex-col">
           <h1 className="text-4xl text-black">What You Can Expect</h1>
           <span className="text-2xl ">Our Promises To You</span>
@@ -95,11 +95,65 @@ const AboutUs = () => {
               src="https://i.shgcdn.com/9529a9a9-5eec-45c9-9ec3-f2052b1c38d4/"
               alt="img"
             />
-            <h3 className="text-red-600 text-2xl p-4">
-              Get Expert Assistance
-            </h3>
+            <h3 className="text-red-600 text-2xl p-4">Get Expert Assistance</h3>
             <span className="text-black ">
-              We're here to help you solve problems. Whether you know exactly what you want to buy or if you have no clue, you can rest assured that we'll give you a straightforward and honest answer from a real person. You tell us what you're trying to accomplish, and we'll make sure you have what you need.
+              We're here to help you solve problems. Whether you know exactly
+              what you want to buy or if you have no clue, you can rest assured
+              that we'll give you a straightforward and honest answer from a
+              real person. You tell us what you're trying to accomplish, and
+              we'll make sure you have what you need.
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="w-full flex justify-center items-center mt-14">
+        <img
+          src="https://i.shgcdn.com/13722dc3-3d41-4024-9ace-0271544486fa/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
+          alt=""
+        />
+      </div>
+      <div>
+        <div className="flex flex-col justify-center items-center mt-12 text-2xl">
+          <h1 className="text-4xl ">Meet the Team</h1>
+          <p className="text-gray-500">
+            Real People Working Hard to Get You What You Need, When You Need It
+          </p>
+        </div>
+        <div className="flex justify-center items-center mt-14 flex-wrap">
+          <div className="w-1/3 h-[450px] border rounded-3xl flex justify-center items-center flex-col shadow-md mr-4 ">
+            <img
+              src="https://i.shgcdn.com/98578e91-c68f-4185-bbc2-7e2c6d25b843/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
+              alt="img"
+            />
+            <h1 className="font-bold text-red-600 ">MICHELLE IVERSON</h1>
+            <span className="text-gray-400 text-lg">President | CEO</span>
+          </div>
+          <div className="w-1/3 h-[450px] border rounded-3xl flex justify-center items-center flex-col shadow-md ml-4">
+            <img
+              src="https://i.shgcdn.com/212a7928-d5b5-4f9a-86e1-9be705cd78f2/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
+              alt="img"
+            />
+            <h1 className="font-bold text-red-600">JEANETTE MORRISON</h1>
+            <span className="text-gray-400">
+              Director of Finance & Administration
+            </span>
+          </div>
+          <div className="w-1/3 h-[450px] border rounded-3xl flex justify-center items-center flex-col shadow-md mr-4 mt-6">
+            <img
+              src="https://i.shgcdn.com/58baed84-630c-4943-9a12-74361b6f258f/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
+              alt="img"
+            />
+            <h1 className="font-bold text-red-600">Lance Iverson</h1>
+            <span className="text-gray-400">Director of Operations</span>
+          </div>
+          <div className="w-1/3 h-[450px] border rounded-3xl flex justify-center items-center flex-col shadow-md ml-4 mt-6">
+            <img
+              src="https://i.shgcdn.com/f8322c7b-1913-4410-aea3-5409718a9ace/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
+              alt="img"
+            />
+            <h1 className="font-bold text-red-600">LEAH SPURZEM</h1>
+            <span className="text-gray-400 ">
+              Director of Customer Experience
             </span>
           </div>
         </div>
