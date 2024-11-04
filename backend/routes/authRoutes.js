@@ -1,10 +1,9 @@
+// backend/routes/authRoutes.js
 const express = require("express");
-const { signup, login } = require("../controllers/authController");
-const authValidator = require("../validators/authValidator");
+const { registerUser } = require("../controllers/authController"); // Ensure this path is correct and `registerUser` exists
 
 const router = express.Router();
 
-router.post("/signup", authValidator.validateSignup, signup);
-router.post("/login", authValidator.validateLogin, login);
+router.post("/register", registerUser); // Ensure `registerUser` is correctly imported and defined
 
 module.exports = router;
