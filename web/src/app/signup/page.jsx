@@ -2,7 +2,7 @@
 import React from "react";
 import logo from "../../assets/images/logo.png";
 
-const LoginPage = () => {
+const SigninPage = () => {
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 pt-5">
       <div className="w-full flex justify-center bg-gray-200 py-5">
@@ -45,4 +45,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SigninPage;
