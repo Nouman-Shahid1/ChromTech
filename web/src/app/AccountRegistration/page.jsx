@@ -1,17 +1,17 @@
 "use client"; 
-// components/AccountRegistrationForm.js
+
 import React from 'react';
 import logo from "../../assets/images/logo.png";
 
 const AccountRegistrationForm = () => {
   const handleClose = () => {
-    // Add logic to handle close action, e.g., navigating back or hiding the form
+   
     console.log("Close button clicked");
   };
 
   return (
     <div className="relative flex flex-col items-center min-h-screen bg-gray-100 pt-5">
-      {/* Close Button */}
+    
       <button
         className="absolute top-4 right-4 text-gray-700 text-2xl focus:outline-none"
         onClick={handleClose}
@@ -19,14 +19,14 @@ const AccountRegistrationForm = () => {
         &times;
       </button>
       
-      {/* Logo */}
+      
       <div className="flex items-center justify-center mb-8">
         <img src={logo.src} alt="Logo" className="h-12 mr-2" />
       </div>
 
-      {/* Form Container */}
+     
       <div className="bg-white w-full max-w-md p-8 rounded-lg shadow-lg">
-        {/* Progress Steps */}
+        
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
             <div className="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center">1</div>
@@ -44,10 +44,10 @@ const AccountRegistrationForm = () => {
           </div>
         </div>
 
-        {/* Form Title */}
+        
         <h2 className="text-xl font-semibold mb-4">Account registration</h2>
         
-        {/* Account Type */}
+        
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">Account type</label>
           <div className="flex items-center">
@@ -56,7 +56,7 @@ const AccountRegistrationForm = () => {
           </div>
         </div>
 
-        {/* Contact Information */}
+        
         <div className="mb-6">
           <h3 className="text-lg font-semibold mb-2">Contact Information</h3>
           <div className="mb-4">
