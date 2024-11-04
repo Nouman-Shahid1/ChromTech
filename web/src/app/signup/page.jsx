@@ -7,7 +7,7 @@ import logo from "../../assets/images/logo.png";
 const SigninPage = () => {
   return (
     <div className="relative flex flex-col items-center min-h-screen bg-gray-100 pt-5">
-      {/* Close Button */}
+     
       <button
         className="absolute top-4 right-4 text-gray-700 text-2xl focus:outline-none"
         onClick={() => console.log('Close button clicked')}
