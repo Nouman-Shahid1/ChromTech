@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import ServiceCard from "@/components/ServiceCard/ServiceCard";
 import TeamCard from "@/components/TeamCard/TeamCard";
+
 const AboutUs = () => {
   const serviceCardData = [
     {
@@ -29,6 +30,7 @@ const AboutUs = () => {
         "We're here to help you solve problems. Whether you know exactly what you want to buy or if you have no clue, you can rest assured that we'll give you a straightforward and honest answer from a real person. You tell us what you're trying to accomplish, and we'll make sure you have what you need.",
     },
   ];
+
   const teamData = [
     {
       imgSrc:
@@ -60,78 +62,89 @@ const AboutUs = () => {
     <div>
       <Navbar />
 
-      <div className="w-[73%]  mx-auto mt-10 text-gray-700 ">
-        <span>Home / about</span>
-        <h1 className=" font-bold text-4xl mt-8">About Us</h1>
-        <p className="mt-8 text-3xl font-bold text-black">
+      <div className="w-full sm:w-11/12 lg:w-[73%] mx-auto mt-10 text-gray-700 px-4 sm:px-8">
+        <span className="text-xs sm:text-sm md:text-base">Home / about</span>
+        <h1 className="font-bold text-2xl sm:text-4xl mt-6 md:mt-8">
+          About Us
+        </h1>
+        <p className="mt-4 md:mt-8 text-lg sm:text-2xl md:text-3xl font-bold text-black">
           Your Chromatography Product Specialist & Trusted Supplier
         </p>
 
         <img
           src="https://i.shgcdn.com/8d512b62-0c00-4ed2-81ba-d22246c9aa0c/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
-          alt="img"
-          className="mt-10 mb-12"
+          alt="Chromatography Image"
+          className="w-full mt-6 md:mt-10 mb-6 md:mb-12 object-cover"
         />
 
-        <div className="flex justify-center flex-col items-center">
-          <span className="w-[76%] flex justify-center items-center  font-medium ">
+        <div className="flex flex-col items-center text-center space-y-6 md:space-y-10">
+          <span className="w-full sm:w-4/5 md:w-[76%] text-sm sm:text-base">
             Frustrated with all the time and energy you're wasting shopping for
             chromatography supplies or waiting on unresponsive vendors? Chrom
             Tech is a team of chromatography consumables specialists who
             expedite procurement so you can get back to the work that matters.
           </span>
 
-          <h1 className=" w-[76%]  flex mt-10 text-3xl font-bold text-black  ">
+          <h1 className="w-full sm:w-4/5 md:w-[76%] text-2xl sm:text-3xl font-bold text-black">
             About Us
           </h1>
-          <span className="w-[76%] flex justify-center items-center  font-medium mt-10">
+          <span className="w-full sm:w-4/5 md:w-[76%] text-sm sm:text-base">
             Since 1983, Chrom Tech has been dedicated to providing technical
             expertise in the chromatography field by recommending products to
             meet your analytical requirements. We're proud to be a worldwide
             distributor of chromatography instrumentation and supplies to
-            leading labs and facilities like yours
+            leading labs and facilities like yours.
           </span>
         </div>
       </div>
-      <div className="w-full mt-16 bg-gray-100 p-12 ">
-        <div className="flex justify-center items-center flex-col">
-          <h1 className="text-4xl text-black">What You Can Expect</h1>
-          <span className="text-2xl ">Our Promises To You</span>
+
+      <div className="w-full mt-10 bg-gray-100 p-6 sm:p-8 lg:p-12">
+        <div className="text-center space-y-2">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl text-black">
+            What You Can Expect
+          </h1>
+          <span className="text-lg sm:text-xl md:text-2xl">
+            Our Promises To You
+          </span>
         </div>
-        <div className="flex flex-wrap justify-center items-center ">
+        <div className="flex flex-wrap justify-center gap-4 mt-6 sm:mt-10">
           {serviceCardData.map((card, index) => (
             <ServiceCard
               key={index}
               imgSrc={card.imgSrc}
               title={card.title}
               description={card.description}
+              className="w-full sm:w-1/2 lg:w-1/4 p-4"
             />
           ))}
         </div>
       </div>
-      <div className="w-full flex justify-center items-center mt-14">
+
+      <div className="w-full flex justify-center mt-8 sm:mt-12">
         <img
           src="https://i.shgcdn.com/13722dc3-3d41-4024-9ace-0271544486fa/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
-          alt=""
+          alt="Team"
+          className="w-full sm:w-3/4 lg:w-1/2 object-cover"
         />
       </div>
-      <div>
-        <div className="flex flex-col justify-center items-center mt-12 text-2xl">
-          <h1 className="text-4xl ">Meet the Team</h1>
-          <p className="text-gray-500">
-            Real People Working Hard to Get You What You Need, When You Need It
-          </p>
-        </div>
-        <div className="flex justify-center items-center mt-14 flex-wrap">
-          {teamData.map((member, index) => (
-            <TeamCard
-              key={index}
-              imgSrc={member.imgSrc}
-              name={member.name}
-              position={member.position}
-            />
-          ))}
-        </div>
+
+      <div className="flex flex-col items-center mt-10 sm:mt-14 text-center px-4">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl">Meet the Team</h1>
+        <p className="text-gray-500 text-base sm:text-lg md:text-xl mt-2">
+          Real People Working Hard to Get You What You Need, When You Need It
+        </p>
+      </div>
+
+      <div className="flex flex-wrap justify-center mt-6 sm:mt-10 gap-4">
+        {teamData.map((member, index) => (
+          <TeamCard
+            key={index}
+            imgSrc={member.imgSrc}
+            name={member.name}
+            position={member.position}
+            className="w-full sm:w-1/2 md:w-1/4 p-4"
+          />
+        ))}
       </div>
     </div>
   );
