@@ -1,24 +1,38 @@
+// backend/controllers/authController.js
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const authService = require("../services/authService");
 
-exports.signup = async (req, res) => {
-  const { email, password } = req.body;
+exports.registerUser = async (req, res) => {
   try {
-    const user = await authService.createUser(email, password);
-    res.status(201).json({ message: "User created successfully", user });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
+    const {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      accountType,
+      password,
+      ...rest
+    } = req.body;
 
-exports.login = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const token = await authService.authenticateUser(email, password);
-    res.status(200).json({ message: "Login successful", token });
+    const userExists = await User.findOne({ email });
+    if (userExists)
+      return res.status(400).json({ message: "User already exists" });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await authService.createUser({
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      accountType,
+      password: hashedPassword,
+      ...rest,
+    });
+
+    res.status(201).json(user);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
