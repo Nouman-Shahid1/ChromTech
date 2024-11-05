@@ -1,38 +1,23 @@
-// backend/controllers/authController.js
-const bcrypt = require("bcryptjs");
 const User = require("../models/User");
-const authService = require("../services/authService");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 exports.registerUser = async (req, res) => {
   try {
-    const {
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      accountType,
-      password,
-      ...rest
-    } = req.body;
+    const { firstName, lastName, email, password } = req.body; // Check if user exists
 
-    const userExists = await User.findOne({ email });
-    if (userExists)
-      return res.status(400).json({ message: "User already exists" });
+    let user = await User.findOne({ email });
+    if (user) return res.status(400).json({ message: "User already exists" }); // Create user
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    user = new User(req.body);
+    await user.save(); // Generate token
 
-    const user = await authService.createUser({
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      accountType,
-      password: hashedPassword,
-      ...rest,
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
     });
 
-    res.status(201).json(user);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(201).json({ token, user });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

@@ -1,12 +1,13 @@
+// config.js
 import axios from "axios";
 import {
   addAccessToken,
   handleRequestError,
   handleResponseOK,
-  handleResponseError,
+  handleResponseError, // This should now be available
 } from "./interceptors";
 
-const baseURL = process?.env?.REACT_APP_GW_URL || "http://127.0.0.1:8000";
+const baseURL = process?.env?.REACT_APP_GW_URL || "http://localhost:5000";
 
 const instance = axios.create({
   baseURL,
@@ -21,4 +22,5 @@ const secureInstance = axios.create({
 secureInstance.interceptors.request.use(addAccessToken, handleRequestError);
 secureInstance.interceptors.response.use(handleResponseOK, handleResponseError);
 
-export { instance, secureInstance };
+export default secureInstance;
+export { instance };
