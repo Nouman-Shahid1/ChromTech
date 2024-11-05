@@ -1,37 +1,67 @@
 "use client";
 
 import React, { useState } from "react";
-import logo from "../../assets/images/logo.png"; 
+import logo from "../../assets/images/logo.png";
 import Image from 'next/image';
 
 export default function Home() {
   const [isFilterPopupVisible, setIsFilterPopupVisible] = useState(false);
+  const [activeItem, setActiveItem] = useState("my-orders"); 
 
   const toggleFilterPopup = () => {
     setIsFilterPopupVisible(prevState => !prevState); 
   };
 
+  const handleMenuClick = (item) => {
+    setActiveItem(item); 
+  };
+
   return (
     <div className="flex h-screen relative">
       
+      
       <div className="w-72 bg-gray-100 p-6">
         <div className="mb-5">
-          <Image src={logo} alt="CHROM TECH Logo" width={220} height={90} /> 
+          <Image src={logo} alt="CHROM TECH Logo" width={220} height={90} />
         </div>
         <ul className="space-y-2">
-          <li className="p-3 bg-red-600 text-white rounded">My orders</li>
-          <li className="p-3 text-red-600 hover:bg-red-600 hover:text-white rounded cursor-pointer">Company orders</li>
-          <li className="p-3 text-red-600 hover:bg-red-600 hover:text-white rounded cursor-pointer">Quick order</li>
-          <li className="p-3 text-red-600 hover:bg-red-600 hover:text-white rounded cursor-pointer">Addresses</li>
-          <li className="p-3 text-red-600 hover:bg-red-600 hover:text-white rounded cursor-pointer">User management</li>
+          <li 
+            className={`p-3 ${activeItem === "my-orders" ? "bg-red-600 text-white" : "text-red-600 hover:bg-red-600 hover:text-white"} rounded cursor-pointer`}
+            onClick={() => handleMenuClick("my-orders")}
+          >
+            My orders
+          </li>
+          <li 
+            className={`p-3 ${activeItem === "company-orders" ? "bg-red-600 text-white" : "text-red-600 hover:bg-red-600 hover:text-white"} rounded cursor-pointer`}
+            onClick={() => handleMenuClick("company-orders")}
+          >
+            Company orders
+          </li>
+          <li 
+            className={`p-3 ${activeItem === "quick-order" ? "bg-red-600 text-white" : "text-red-600 hover:bg-red-600 hover:text-white"} rounded cursor-pointer`}
+            onClick={() => handleMenuClick("quick-order")}
+          >
+            Quick order
+          </li>
+          <li 
+            className={`p-3 ${activeItem === "addresses" ? "bg-red-600 text-white" : "text-red-600 hover:bg-red-600 hover:text-white"} rounded cursor-pointer`}
+            onClick={() => handleMenuClick("addresses")}
+          >
+            Addresses
+          </li>
+          <li 
+            className={`p-3 ${activeItem === "user-management" ? "bg-red-600 text-white" : "text-red-600 hover:bg-red-600 hover:text-white"} rounded cursor-pointer`}
+            onClick={() => handleMenuClick("user-management")}
+          >
+            User management
+          </li>
         </ul>
       </div>
 
-      
+     
       <div className="flex-1 flex flex-col">
-        
         <div className="flex justify-between items-center bg-gray-100 p-4 border-b border-gray-300 relative">
-          <h2 className="text-lg font-semibold">My orders</h2>
+          <h2 className="text-lg font-semibold">Addresses</h2>
 
           
           <div className="flex items-center space-x-2">
@@ -47,6 +77,7 @@ export default function Home() {
             </button>
           </div>
 
+          
           <div className="flex items-center space-x-4">
             <span className="text-gray-700">user name</span>
             <button className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600">
@@ -56,10 +87,8 @@ export default function Home() {
               CART
             </button>
           </div>
-          <br />
+         <br />
 
-
-          
           <button
             className="absolute top-2 right-6 text-gray-600 hover:text-gray-900"
             onClick={() => console.log("Close button clicked")}
@@ -80,7 +109,6 @@ export default function Home() {
       {isFilterPopupVisible && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg p-6 w-80 relative">
-           
             <button
               className="absolute top-3 right-3 text-gray-600 hover:text-gray-900"
               onClick={toggleFilterPopup}
@@ -93,17 +121,23 @@ export default function Home() {
             <h3 className="text-xl font-semibold mb-4">Filters</h3>
 
             <div className="space-y-4">
-              <select className="w-full border border-gray-300 rounded-lg p-2">
-                <option>Order status</option>
-                <option>Pending</option>
-                <option>Completed</option>
-                <option>Cancelled</option>
-              </select>
-
-              <div className="flex space-x-2">
-                <input type="text" placeholder="From" className="w-1/2 border border-gray-300 rounded-lg p-2" />
-                <input type="text" placeholder="To" className="w-1/2 border border-gray-300 rounded-lg p-2" />
-              </div>
+              
+        <select className="w-full border border-gray-300 rounded-lg p-2">
+          <option>City</option>
+          
+        </select>
+        
+        
+        <select className="w-full border border-gray-300 rounded-lg p-2">
+          <option>State</option>
+          
+        </select>
+        
+        
+        <select className="w-full border border-gray-300 rounded-lg p-2">
+          <option>Country</option>
+          
+        </select>
 
               <button className="text-red-600 text-sm">CLEAR FILTERS</button>
             </div>
