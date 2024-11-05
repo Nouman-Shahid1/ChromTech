@@ -4,19 +4,19 @@ import React, { useState } from "react";
 import logo from "../../assets/images/logo.png";
 
 const Register = () => {
-  const [step, setStep] = useState(1); // Track the current step
-  const [accountType, setAccountType] = useState(""); // Manage account type state
+  const [step, setStep] = useState(1); 
+  const [accountType, setAccountType] = useState("");
 
   const handleClose = () => {
     console.log("Close button clicked");
   };
 
   const handleNext = () => {
-    setStep((prevStep) => prevStep + 1); // Move to the next step
+    setStep((prevStep) => prevStep + 1); 
   };
 
   const handleBack = () => {
-    setStep((prevStep) => prevStep - 1); // Move to the previous step
+    setStep((prevStep) => prevStep - 1); 
   };
 
   return (
@@ -93,7 +93,7 @@ const Register = () => {
           </div>
         </div>
 
-        {/* Step 1: Account Registration */}
+       
         {step === 1 && (
           <div>
             <h2 className="text-lg sm:text-xl font-semibold mb-4">
@@ -157,7 +157,7 @@ const Register = () => {
           </div>
         )}
 
-        {/* Step 2: Business Details */}
+       
         {step === 2 && (
           <div>
             <h2 className="text-lg sm:text-xl font-semibold mb-4">
@@ -214,7 +214,7 @@ const Register = () => {
           </div>
         )}
 
-        {/* Step 3: Finish */}
+       
         {step === 3 && (
           <div>
             <h2 className="text-lg sm:text-xl font-semibold mb-4">

@@ -6,19 +6,18 @@ import Image from 'next/image';
 
 export default function Home() {
   const [isFilterPopupVisible, setIsFilterPopupVisible] = useState(false);
-  const [activeItem, setActiveItem] = useState("my-orders"); 
+  const [activeItem, setActiveItem] = useState("my-orders");
 
   const toggleFilterPopup = () => {
-    setIsFilterPopupVisible(prevState => !prevState); 
+    setIsFilterPopupVisible(prevState => !prevState);
   };
 
   const handleMenuClick = (item) => {
-    setActiveItem(item); 
+    setActiveItem(item);
   };
 
   return (
-    <div className="flex h-screen relative">
-      
+    <div className="flex bg-gray-100 h-screen relative">
       
       <div className="w-72 bg-gray-100 p-6">
         <div className="mb-5">
@@ -58,12 +57,10 @@ export default function Home() {
         </ul>
       </div>
 
-     
       <div className="flex-1 flex flex-col">
         <div className="flex justify-between items-center bg-gray-100 p-4 border-b border-gray-300 relative">
           <h2 className="text-lg font-semibold">Addresses</h2>
 
-          
           <div className="flex items-center space-x-2">
             <input
               type="text"
@@ -77,17 +74,16 @@ export default function Home() {
             </button>
           </div>
 
-          
           <div className="flex items-center space-x-4">
             <span className="text-gray-700">user name</span>
-            <button className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600">
+            <button className="text-gray-700 font-semibold hover:text-gray-900 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600">
               HOME
             </button>
-            <button className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md ml-6 focus:outline-none focus:ring-2 focus:ring-red-600">
+            <button className="text-gray-700 font-semibold hover:text-gray-900 px-4 py-2 rounded-md ml-6 focus:outline-none focus:ring-2 focus:ring-red-600">
               CART
             </button>
           </div>
-         <br />
+          <br />
 
           <button
             className="absolute top-2 right-6 text-gray-600 hover:text-gray-900"
@@ -99,56 +95,56 @@ export default function Home() {
           </button>
         </div>
 
-       
-        <div className="flex-1 flex justify-center items-center text-gray-500 text-lg">
-          No data
+        <div className="flex justify-between items-center p-6">
+          <div className="w-1/3 bg-white shadow-lg rounded-lg p-4">
+            <h3 className="text-xl">user name</h3>
+            <p className="text-gray-500">Main Road</p>
+            <p className="text-gray-500">New Mexico 70018, United States</p>
+            <p className="text-gray-500">+92 0311897345</p>
+            
+          </div>
+
+          
         </div>
-      </div>
-
       
-      {isFilterPopupVisible && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg p-6 w-80 relative">
-            <button
-              className="absolute top-3 right-3 text-gray-600 hover:text-gray-900"
-              onClick={toggleFilterPopup}
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-              </svg>
-            </button>
+        {isFilterPopupVisible && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white rounded-lg p-6 w-80 relative">
+              <button
+                className="absolute top-3 right-3 text-gray-600 hover:text-gray-900"
+                onClick={toggleFilterPopup}
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
 
-            <h3 className="text-xl font-semibold mb-4">Filters</h3>
+              <h3 className="text-xl font-semibold mb-4">Filters</h3>
 
-            <div className="space-y-4">
-              
-        <select className="w-full border border-gray-300 rounded-lg p-2">
-          <option>City</option>
-          
-        </select>
-        
-        
-        <select className="w-full border border-gray-300 rounded-lg p-2">
-          <option>State</option>
-          
-        </select>
-        
-        
-        <select className="w-full border border-gray-300 rounded-lg p-2">
-          <option>Country</option>
-          
-        </select>
+              <div className="space-y-4">
+                <select className="w-full border border-gray-300 rounded-lg p-2">
+                  <option>City</option>
+                </select>
 
-              <button className="text-red-600 text-sm">CLEAR FILTERS</button>
-            </div>
+                <select className="w-full border border-gray-300 rounded-lg p-2">
+                  <option>State</option>
+                </select>
 
-            <div className="flex justify-end space-x-4 mt-4">
-              <button className="text-red-600" onClick={toggleFilterPopup}>CANCEL</button>
-              <button className="text-red-600 font-semibold">APPLY</button>
+                <select className="w-full border border-gray-300 rounded-lg p-2">
+                  <option>Country</option>
+                </select>
+
+                <button className="text-red-600 text-sm">CLEAR FILTERS</button>
+              </div>
+
+              <div className="flex justify-end space-x-4 mt-4">
+                <button className="text-red-600" onClick={toggleFilterPopup}>CANCEL</button>
+                <button className="text-red-600 font-semibold">APPLY</button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

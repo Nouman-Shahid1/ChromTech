@@ -49,10 +49,10 @@ export default function Home() {
 
           <div className="flex items-center space-x-4">
             <span className="text-gray-700">user name</span>
-            <button className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600">
+            <button className="text-gray-700 font-semibold hover:text-gray-900 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600">
               HOME
             </button>
-            <button className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md ml-6 focus:outline-none focus:ring-2 focus:ring-red-600">
+            <button className="text-gray-700 font-semibold hover:text-gray-900 px-4 py-2 rounded-md ml-6 focus:outline-none focus:ring-2 focus:ring-red-600">
               CART
             </button>
           </div>
