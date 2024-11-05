@@ -13,7 +13,7 @@ export default function Home() {
           Safety First, Coffee Second: Score a FREE coffee tumbler with the purchase of our safety waste containment kits!
           <span>
             <strong>
-              <Link href="/" className="underline">SHOP NOW</Link>
+              <Link href="/" className="underline"><strong>SHOP NOW</strong></Link>
             </strong>
           </span>
         </p>
@@ -119,15 +119,17 @@ export default function Home() {
   </div>
 </div>
 {/* subscribe section */}
-<div className="text-center  py-8" style={{background: 'linear-gradient(to right, #FAF8F6, #C7B299)'}}>
+<div className="text-center py-8" style={{background: 'linear-gradient(to right, #FAF8F6, #C7B299)'}}>
   <Title text1={'Stay Connected And Stay Ahead'}/>
-  <p className="py-8 m-auto w-[700px]">Subscribe to Chromatography Connections for a monthly update from our team of product specialists. Each month, we’ll send updates about the latest chromatography trends, our best deals, and product spotlights.</p>
-  <div className="bg-white flex w-[500px] border border-black m-auto px-8 mb-8 rounded-full justify-between">
-    <input className="border-none outline-none py-3" type="email" placeholder="Enter Your Email Address" name="" id="" />
+  <p className="py-8 flex flex-wrap m-auto text-sm w-full max-w-[700px]">
+    Subscribe to Chromatography Connections for a monthly update from our team of product specialists. Each month, we’ll send updates about the latest chromatography trends, our best deals, and product spotlights.
+  </p>
+  <div className="bg-white flex max-w-[500px] border border-black m-auto px-8 mb-8 rounded-full justify-between">
+    <input className="border-none outline-none py-3" type="email" placeholder="Enter Your Email Address" />
     <button className="outline-none cursor-pointer py-3 pl-4 border-l border-black">Subscribe</button>
   </div>
-
 </div>
+
       <Footer />
     </>
   );
