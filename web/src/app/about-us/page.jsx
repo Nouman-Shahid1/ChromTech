@@ -184,34 +184,6 @@ const AboutUs = () => {
           </div>
         </div>
       </div>
-
-      <div>
-        <div className="w-full mt-10  flex flex-col justify-center items-center  gap-y-6 leading-loose">
-          <h1 className="text-3xl font-bold mt-16  text-neutral-600">
-            Stay Connected and Stay Ahead
-          </h1>
-
-          <p className="w-[45%] align-center mt-4 text-xl text-neutral-700">
-            Subscribe to Chromatography Connections for a monthly update from
-            our team of product specialists.Each moth, we'll send updates about
-            the latest chromatography trends, our best deals, abd product
-            spotlights.
-          </p>
-          <div className="mt-6 mb-10 p-2 w-1/2 flex justify-between bg-white rounded-xl border border-black">
-            <input
-              className="pl-6"
-              type="email"
-              name="email"
-              placeholder="Enter your email address"
-            />
-            <input
-              className="pr-4 font-bold text-gray-600"
-              type="submit"
-              value={"SUBSCRIBE"}
-            />
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
