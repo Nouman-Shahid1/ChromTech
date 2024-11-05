@@ -158,6 +158,60 @@ const AboutUs = () => {
           </div>
         </div>
       </div>
+      <div className="w-full h-[500px] bg-gray-100">
+        <div className=" flex justify-center items-center flex-col mt-16 ">
+          <h1 className="text-4xl mt-14 ">Testimonials</h1>
+          <span className="text-gray-500 text-2xl">
+            Don't Just Take Our Word For It...
+          </span>
+        </div>
+        <div className="flex justify-center items-center ">
+          <div className=" w-[40%] h-[230px] text-red-600 border border-red-700 rounded-xl  bg-white p-8  mt-14 mr-4">
+            <i className="text-2xl">
+              The sales team at Chrom Tech has a tremendous knowledge base and
+              the team of sourcing specialists are critical to the success of my
+              work
+            </i>
+            <p className=" mt-4 mb-4 text-right ">-Mark, Facility Manager</p>
+          </div>
+          <div className=" w-[40%] h-[230px] text-red-600 border border-red-700 rounded-xl  bg-white p-8  mt-14 ml-4">
+            <i className="text-2xl">
+              Chrom Tech always responds to us, and that is important to us. The
+              decision to work with Chrom Tech was based on a relationship where
+              we know you'll be there to help us
+            </i>
+            <p className=" mt-4 mb-4 text-right ">-Cody, Supervisor </p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div className="w-full mt-10  flex flex-col justify-center items-center  gap-y-6 leading-loose">
+          <h1 className="text-3xl font-bold mt-16  text-neutral-600">
+            Stay Connected and Stay Ahead
+          </h1>
+
+          <p className="w-[45%] align-center mt-4 text-xl text-neutral-700">
+            Subscribe to Chromatography Connections for a monthly update from
+            our team of product specialists.Each moth, we'll send updates about
+            the latest chromatography trends, our best deals, abd product
+            spotlights.
+          </p>
+          <div className="mt-6 mb-10 p-2 w-1/2 flex justify-between bg-white rounded-xl border border-black">
+            <input
+              className="pl-6"
+              type="email"
+              name="email"
+              placeholder="Enter your email address"
+            />
+            <input
+              className="pr-4 font-bold text-gray-600"
+              type="submit"
+              value={"SUBSCRIBE"}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
