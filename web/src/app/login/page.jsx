@@ -4,7 +4,7 @@ import logo from "../../assets/images/logo.png";
 
 const Login = () => {
   return (
-    <div className="relative flex flex-col items-center min-h-screen bg-gray-100 pt-5">
+    <div className="relative flex flex-col items-center min-h-screen bg-gray-200 pt-5">
       <button
         className="absolute top-4 right-4 text-gray-700 text-2xl focus:outline-none"
         onClick={() => console.log("Close button clicked")}
@@ -12,13 +12,13 @@ const Login = () => {
         &times;
       </button>
 
-      <div className="w-full flex justify-center bg-gray-200 py-5">
-        <img src={logo.src} alt="Chrom Tech Logo" className="h-10" />
+      <div className="w-full flex justify-center bg-gray-200 pt-32 py-16">
+        <img src={logo.src} alt="Chrom Tech Logo" className="h-12" />
       </div>
 
-      <div className="flex bg-white rounded-lg shadow-lg max-w-4xl w-full mt-5 p-5">
+      <div className="flex bg-white rounded-lg shadow-lg max-w-6xl w-full mt-5 p-5">
         <div className="flex-1 pr-5 border-r border-gray-200">
-          <h2 className="text-xl font-semibold mb-4">Sign in</h2>
+          <h2 className="text-3xl font-semibold mb-4 text-center">Sign in</h2>
           <form className="flex flex-col">
             <label className="mb-2">
               Email address *
@@ -36,20 +36,24 @@ const Login = () => {
                 required
               />
             </label>
-            <button
-              type="submit"
-              className="bg-red-600 text-white py-2 px-4 mt-4 rounded hover:bg-red-700"
-            >
-              SIGN IN
-            </button>
+            <div className="flex items-center space-x-4 mt-4">
+              <button
+                type="submit"
+                className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
+              >
+                SIGN IN
+              </button>
+              <a href="#" className="text-black underline">
+                Forgot your password?
+              </a>
+            </div>
           </form>
-          <a href="#" className="mt-4 inline-block text-gray-600 underline">
-            Forgot your password?
-          </a>
         </div>
 
         <div className="flex-1 pl-5">
-          <h2 className="text-xl font-semibold mb-4">New Customer?</h2>
+          <h2 className="text-3xl font-semibold mb-4 text-center">
+            New Customer?
+          </h2>
           <p className="mb-4">
             At Chrom Tech, we know how frustrating it can be to spend so much of
             your time ordering supplies. That’s why we’ve created a convenient
@@ -71,7 +75,7 @@ const Login = () => {
         </div>
       </div>
 
-      <div className="mt-5 py-5 bg-gray-200 w-full text-left text-gray-700 px-4">
+      <div className="mt-5 py-5 bg-gray-200 w-full text-left text-black text-lg px-4">
         <p>
           <strong>Please note:</strong> Due to the sensitive nature of selling
           analytical consumables, all accounts are vetted through our customer
