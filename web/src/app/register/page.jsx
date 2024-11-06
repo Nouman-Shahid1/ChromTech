@@ -8,8 +8,8 @@ import logo from "../../assets/images/logo.png";
 const Register = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { loading } = useSelector((state) => state.auth); // Removed error from useSelector since we're handling it here
-  const [error, setError] = useState(null); // Add error state
+  const { loading } = useSelector((state) => state.auth);
+  const [error, setError] = useState(null);
   const [step, setStep] = useState(1);
   const [accountType, setAccountType] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -77,7 +77,7 @@ const Register = () => {
       });
   };
   const handleFinish = () => {
-    router.push("/login"); // Navigate to /login when "Finish" is clicked
+    router.push("/login");
   };
   if (isSubmitted) {
     return (

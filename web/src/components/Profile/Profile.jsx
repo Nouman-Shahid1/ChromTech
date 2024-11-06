@@ -11,7 +11,6 @@ const Profile = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // Access the user's name from Redux state
   const user = useSelector((state) => state.auth.user);
 
   const toggleDropdown = () => {
@@ -19,8 +18,8 @@ const Profile = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logout()); // Dispatch the logout action
-    router.push("/login"); // Redirect to login page after logout
+    dispatch(logout());
+    router.push("/login");
   };
 
   return (

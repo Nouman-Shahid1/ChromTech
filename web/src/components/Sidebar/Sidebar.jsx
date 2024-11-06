@@ -21,8 +21,8 @@ const Sidebar = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logout()); // Dispatch the logout action
-    router.push("/login"); // Redirect to login page after logout
+    dispatch(logout());
+    router.push("/login");
   };
   const isActive = (path) => {
     return window.location.pathname === path;
