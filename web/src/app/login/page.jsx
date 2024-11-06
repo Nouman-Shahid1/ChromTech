@@ -20,8 +20,7 @@ const Login = () => {
 
   useEffect(() => {
     if (accessToken) {
-      // Navigate to the /admin page after successful login
-      router.push("/admin");
+      router.push("/myaccount");
     }
   }, [accessToken, router]);
   return (
@@ -66,13 +65,18 @@ const Login = () => {
                 type="submit"
                 className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
               >
-                SIGN IN
+                {loading ? "Signing in..." : "SIGN IN"}
               </button>
               <a href="#" className="text-black underline">
                 Forgot your password?
               </a>
             </div>
           </form>
+          {error && (
+            <div className="mt-4 text-red-600 text-center">
+              {error.message || "Failed to sign in. Please try again."}
+            </div>
+          )}
         </div>
 
         <div className="flex-1 pl-5">

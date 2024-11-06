@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-
-
 import Logo from "../../assets/images/logo.png";
 
 const Sidebar = () => {
@@ -68,7 +66,7 @@ const Sidebar = () => {
         aria-label="Sidebar"
       >
         <Image src={Logo} height={56} width={200} alt="" />
-        <Link href="/admin" passHref>
+        <Link href="/myaccount" passHref>
           <div className="rounded-2xl text-lg items-center font-poppins font-semibold mt-11 leading-[27px] py-4 px-6 pr-1 flex gap-6 text-white bg-red-600 shadow-[0px 20px 50px 0px #3745571A]">
             <span>Dashboard</span>
           </div>
@@ -76,8 +74,8 @@ const Sidebar = () => {
         <div id="separator-sidebar" className="mt-8">
           <ul className="space-y-2 font-medium pl-8 pb-8 md:pl-10 lg:pl-12 overflow-y-auto">
             <Link
-              href="/admin/orders"
-              className={`${isActive("/admin/orders") ? "active" : ""}  `}
+              href="/myaccount/orders"
+              className={`${isActive("/myaccount/orders") ? "active" : ""}  `}
             >
               <li
                 className="flex mt-12 gap-6 p-2 text-red-500 category rounded-lg dark:text-white group transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -104,8 +102,10 @@ const Sidebar = () => {
               </li>
             </Link>
             <Link
-              href="/admin/company-orders"
-              className={`${isActive("/admin/company-orders") ? "active" : ""}  `}
+              href="/myaccount/company-orders"
+              className={`${
+                isActive("/myaccount/company-orders") ? "active" : ""
+              }  `}
             >
               <li
                 className="flex gap-6 mt-1 p-2 text-red-500 category rounded-lg dark:text-white group transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -132,8 +132,10 @@ const Sidebar = () => {
               </li>
             </Link>
             <Link
-              href="/admin/quick-orders"
-              className={`${isActive("/admin/quick-orders") ? "active" : ""}  `}
+              href="/myaccount/quick-orders"
+              className={`${
+                isActive("/myaccount/quick-orders") ? "active" : ""
+              }  `}
             >
               <li
                 className="flex gap-6 mt-1 p-2 text-red-500 category rounded-lg dark:text-white group transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -161,8 +163,8 @@ const Sidebar = () => {
             </Link>
 
             <Link
-              href="/admin/users"
-              className={`${isActive("/admin/users") ? "active" : ""}  `}
+              href="/myaccount/users"
+              className={`${isActive("/myaccount/users") ? "active" : ""}  `}
             >
               <li
                 className="flex gap-6 mt-1 p-2 text-red-500 category rounded-lg dark:text-white group transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700"

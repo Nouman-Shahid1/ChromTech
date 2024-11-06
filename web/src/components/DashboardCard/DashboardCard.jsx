@@ -4,8 +4,8 @@ import Image from "next/image";
 const DashboardCard = ({ details }) => {
   const { name, src } = details;
   const dynamicLink = name
-    ? `/admin/${name.toLowerCase().replace(/\s+/g, "-")}`
-    : "/admin";
+    ? `/myaccount/${name.toLowerCase().replace(/\s+/g, "-")}`
+    : "/myaccount";
   return (
     <>
       <Link href={dynamicLink} passHref className="w-full md:w-1/2 ">

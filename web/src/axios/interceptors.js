@@ -1,55 +1,46 @@
-// interceptors.js
+import store from "../store/store"; // Import the Redux store
+import { refreshToken, logout } from "../reducers/Auth/authSlice"; // Import actions
+import { getCookie } from "../utilities/utils";
 
-// Helper function to get the access token from local storage
-const getAccessToken = () => localStorage.getItem("accessToken");
+export const addAccessToken = async (config) => {
+  // Retrieve access token from Redux state or cookie as a fallback
+  const accessToken =
+    store.getState().auth.accessToken || getCookie("access_token");
 
-// Request interceptor to add the access token
-export const addAccessToken = (config) => {
-  const token = getAccessToken();
-  if (token) {
-    config.headers["Authorization"] = `Bearer ${token}`;
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
   }
   return config;
 };
 
-// Error handler for request errors
 export const handleRequestError = (error) => {
-  console.error("Request Error:", error);
   return Promise.reject(error);
 };
 
-// Success handler for responses
 export const handleResponseOK = (response) => {
   return response;
 };
 
-// Placeholder function for token refresh
-const refreshAccessToken = async () => {
-  // Replace with actual logic to request a new access token if available
-  console.log("Refreshing access token...");
-  return null; // Return a new token or null if refresh fails
-};
-
-// Error handler for response errors, including 401 (unauthorized) retry logic
 export const handleResponseError = async (error) => {
-  const originalRequest = error.config;
+  const originalRequest = error.config; // If token is expired (usually 401 error) and it hasn't been retried
 
-  // Check if error is due to unauthorized access and retry if possible
-  if (
-    error.response &&
-    error.response.status === 401 &&
-    !originalRequest._retry
-  ) {
+  if (error.response?.status === 401 && !originalRequest._retry) {
     originalRequest._retry = true;
-    const refreshedToken = await refreshAccessToken();
 
-    if (refreshedToken) {
-      localStorage.setItem("accessToken", refreshedToken);
-      originalRequest.headers["Authorization"] = `Bearer ${refreshedToken}`;
+    try {
+      // Attempt to refresh the token
+      const result = await store.dispatch(refreshToken()).unwrap();
+      const newAccessToken = result.access_token; // Update the request's authorization header with the new token
+
+      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`; // Retry the original request with the new token
+
       return axios(originalRequest);
+    } catch (refreshError) {
+      // Refresh failed - logout the user
+      store.dispatch(logout());
+      return Promise.reject(refreshError);
     }
   }
 
-  console.error("Response Error:", error);
   return Promise.reject(error);
 };
