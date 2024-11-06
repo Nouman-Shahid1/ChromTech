@@ -1,34 +1,34 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/navigation"; // Use 'next/navigation' for client-only routing
-import { refreshToken } from "../reducers/Auth/authSlice";
+import { useRouter } from "next/navigation";
+import { refreshToken, setToken } from "../reducers/Auth/authSlice";
 
 const Authentication = ({ children }) => {
-  const [isMounted, setIsMounted] = useState(false); // Track client-side mounting
+  const [isMounted, setIsMounted] = useState(false);
   const dispatch = useDispatch();
-  const router = useRouter(); // Use router from next/navigation
+  const router = useRouter();
   const { accessToken } = useSelector((state) => state.auth);
 
-  // Ensure component only runs on client side
   useEffect(() => {
     if (typeof window !== "undefined") {
       setIsMounted(true);
+      const savedToken = localStorage.getItem("accessToken");
+      if (savedToken) {
+        dispatch(setToken(savedToken));
+      }
     }
-  }, []);
+  }, [dispatch]);
 
-  // Redirect to /login if no accessToken and on the client side
   useEffect(() => {
     if (isMounted && !accessToken) {
       dispatch(refreshToken())
         .unwrap()
         .catch(() => {
-          router.push("/login"); // Redirect to login if refresh token fails
+          router.push("/login");
         });
     }
   }, [accessToken, dispatch, isMounted, router]);
 
-  // Show loading state while determining if mounted or if accessToken is unavailable
   if (!isMounted || !accessToken) {
     return <div>Loading...</div>;
   }

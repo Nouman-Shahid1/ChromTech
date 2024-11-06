@@ -1,6 +1,9 @@
+"use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+
+
 
 import Logo from "../../assets/images/logo.png";
 

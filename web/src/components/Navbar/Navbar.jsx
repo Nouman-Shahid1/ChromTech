@@ -39,7 +39,7 @@ const Navbar = ({ hasHeadline }) => {
   };
 
   return (
-    <nav>
+    <nav className="fixed bg-white w-full z-10">
       <div className="fixed top-0 w-full bg-red-600 text-white text-center py-2 z-20 text-sm font-light">
         <p>
           Safety First, Coffee Second: Score a FREE coffee tumbler with the
@@ -111,11 +111,11 @@ const Navbar = ({ hasHeadline }) => {
       {/* Sub-nav with conditional rendering */}
       {(showSubNav || isHamburgerOpen) && (
         <div className={`sub-nav ${isHamburgerOpen ? "active" : ""}`}>
-          <div className="cross" onClick={closeSubNav}>
+          <div className="block absolute top-5 right-5 cursor pointer md:hidden" onClick={closeSubNav}>
             <RxCrossCircled style={{ fontSize: "25px", color: "wheat" }} />
           </div>
           <div className="sub-nav-menu">
-            <div className="sub-nav-sign">
+            <div className=" flex border-b border-gray-700 py-4 m-5 mt-0  md:hidden">
               <div className="sub-nav-icon">
                 <FaRegUser
                   style={{
@@ -129,14 +129,14 @@ const Navbar = ({ hasHeadline }) => {
                 <span>| Sign in or Register |</span>
               </div>
             </div>
-            <ul>
+            <ul className="flex justify-around">
               <li>
                 <Link href="/" onClick={handleLinkClick}>
                   VIALS & 96 WELL Plates
                 </Link>
               </li>
               <li>
-                <Link href="/" onClick={handleLinkClick}>
+                <Link href="/lc" onClick={handleLinkClick}>
                   LC
                 </Link>
               </li>
@@ -160,10 +160,17 @@ const Navbar = ({ hasHeadline }) => {
                   SAMPLE PREPARATIONS
                 </Link>
               </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
+              <li className="relative group">
+                <Link href={'/'}>
                   SUPPORT
+                  <ul className="absolute top-0 mt-12 w-[200px] shadow-lg rounded-lg bg-gray-100 hidden group-hover:block">
+                    <li className="border-b border-gray-500 "><Link href={'/contact-us'}>CONTACT US</Link></li>
+                    <li className="border-b border-gray-500 "><Link href={'/about-us'}>ABOUT US</Link></li>
+                    <li><Link href={'/resourses'}>RESOURCES</Link></li>
+
+                  </ul>
                 </Link>
+
               </li>
             </ul>
           </div>
