@@ -6,6 +6,7 @@ import logo from "../../assets/images/logo.png";
 const Register = () => {
   const [step, setStep] = useState(1); 
   const [accountType, setAccountType] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleClose = () => {
     console.log("Close button clicked");
@@ -19,8 +20,43 @@ const Register = () => {
     setStep((prevStep) => prevStep - 1); 
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Form submitted");
+    setIsSubmitted(true); 
+  };
+
+  if (isSubmitted) {
+    return (
+      <div className="flex flex-col items-center min-h-screen bg-gray-200 pt-5 px-4 sm:px-8">
+        <button
+        className="absolute top-4 right-4 text-gray-700 text-2xl focus:outline-none"
+        onClick={() => console.log("Close button clicked")}
+      >
+        &times;
+      </button>
+        <div className="flex items-center justify-center py-8">
+          <img src={logo.src} alt="Logo" className="h-10 sm:h-12 mr-2" />
+        </div>
+        <div className="bg-white w-full max-w-lg p-6 sm:p-8 md:p-10 rounded-lg shadow-lg text-center">
+          <h2 className="text-2xl font-semibold text-red-600 mb-4">Application submitted</h2>
+          <p className="text-gray-700 text-lg mb-6">
+            Thank you for creating your account at Chrom Tech, Inc. Your company account application has been approved.
+          </p>
+          <button
+            onClick={() => setIsSubmitted(false)}
+            className="bg-red-600 text-white py-2 px-6 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400"
+          >
+            Finish
+          </button>
+        </div>
+      </div>
+    );
+  }
+  
+
   return (
-    <div className="relative flex flex-col items-center min-h-screen bg-gray-100 pt-5 px-4 sm:px-8">
+    <div className="relative flex flex-col items-center min-h-screen bg-gray-200 pt-5 px-4 sm:px-8">
       <button
         className="absolute top-4 right-4 text-gray-700 text-2xl focus:outline-none"
         onClick={handleClose}
@@ -28,7 +64,7 @@ const Register = () => {
         &times;
       </button>
 
-      <div className="flex items-center justify-center mb-8">
+      <div className="flex items-center justify-center py-8">
         <img src={logo.src} alt="Logo" className="h-10 sm:h-12 mr-2" />
       </div>
 
@@ -93,7 +129,6 @@ const Register = () => {
           </div>
         </div>
 
-       
         {step === 1 && (
           <div>
             <h2 className="text-lg sm:text-xl font-semibold mb-4">
@@ -157,7 +192,6 @@ const Register = () => {
           </div>
         )}
 
-       
         {step === 2 && (
           <div>
             <h2 className="text-lg sm:text-xl font-semibold mb-4">
@@ -214,16 +248,33 @@ const Register = () => {
           </div>
         )}
 
-       
         {step === 3 && (
           <div>
             <h2 className="text-lg sm:text-xl font-semibold mb-4">
               Finish Registration
             </h2>
             <p className="text-gray-600 text-sm sm:text-base mb-6">
-              Thank you for completing your registration!
+              Create a password for username315@gmail.com
             </p>
-            <div className="flex justify-between">
+
+            <div className="mb-6">
+              <input
+                type="password"
+                placeholder="Password *"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600 mb-4"
+              />
+              {/* <input
+                type="password"
+                placeholder="Confirm Password *"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600 mb-4"
+              /> */}
+              <span className="text-gray-500 text-xs sm:text-sm mt-1 block">
+                By clicking Continue, you agree to our Terms of Service and
+                Privacy Policy
+              </span>
+            </div>
+
+            <div className="flex justify-between mt-6">
               <button
                 onClick={handleBack}
                 className="bg-gray-300 text-gray-700 py-2 px-6 rounded hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400"
@@ -231,10 +282,10 @@ const Register = () => {
                 BACK
               </button>
               <button
-                onClick={handleClose}
-                className="bg-green-600 text-white py-2 px-6 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400"
+                onClick={handleSubmit}
+                className="bg-red-600 text-white py-2 px-6 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400"
               >
-                DONE
+                SUBMIT
               </button>
             </div>
           </div>
