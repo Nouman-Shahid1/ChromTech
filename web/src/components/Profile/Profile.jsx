@@ -1,15 +1,18 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { logout } from "../../reducers/Auth/authSlice"; // import the logout action
+import { logout } from "../../reducers/Auth/authSlice";
 import ProfileImage from "../../assets/images/blank.png";
 
 const Profile = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
+
+  // Access the user's name from Redux state
+  const user = useSelector((state) => state.auth.user);
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -28,7 +31,7 @@ const Profile = () => {
       <div className="flex items-center gap-4">
         <Image
           src={ProfileImage}
-          alt=""
+          alt="Profile"
           height={60}
           width={60}
           className="rounded-2xl"
@@ -41,7 +44,7 @@ const Profile = () => {
               type="button"
               className="font-poppinsmedium flex items-center text-base font-medium text-[#151D48]"
             >
-              Nouman
+              {user?.firstName || "User"}
               <svg
                 className={`w-2.5 h-2.5 ms-3 transform ${
                   isDropdownOpen ? "rotate-180" : "rotate-0"
@@ -70,9 +73,8 @@ const Profile = () => {
               <ul className="py-2 text-sm text-gray-700">
                 <li>
                   <span
-                    href="#"
                     onClick={handleLogout}
-                    className="block px-2 py-2 hover:bg-gray-100"
+                    className="block px-2 py-2 hover:bg-gray-100 cursor-pointer"
                   >
                     Logout
                   </span>
@@ -81,7 +83,7 @@ const Profile = () => {
             </div>
           </div>
           <p className="text-sm font-poppinsregular font-normal text-[#737791]">
-            Admin
+            Business Account
           </p>
         </div>
       </div>

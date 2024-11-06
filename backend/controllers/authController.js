@@ -7,20 +7,53 @@ const { REFRESH_TOKEN_SECRET, ACCESS_TOKEN_SECRET } = process.env;
 
 exports.registerUser = async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body; // Check if user already exists
+    const {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      accountType,
+      password,
+      companyName,
+      companyEmail,
+      companyNumber,
+      country,
+      address,
+      city,
+    } = req.body;
 
+    // Check if user already exists
     let user = await User.findOne({ email });
-    if (user) return res.status(400).json({ message: "User already exists" }); // Hash the password before saving
+    if (user) return res.status(400).json({ message: "User already exists" });
 
+    // Hash the password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
-    user = new User({ firstName, lastName, email, password: hashedPassword });
-    await user.save(); // Ensure access token secret is defined
 
+    // Create new user with all required fields
+    user = new User({
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      accountType,
+      password: hashedPassword,
+      companyName,
+      companyEmail,
+      companyNumber,
+      country,
+      address,
+      city,
+    });
+
+    await user.save();
+
+    // Ensure access token secret is defined
     if (!ACCESS_TOKEN_SECRET) {
       console.error("ACCESS_TOKEN_SECRET is not defined");
       return res.status(500).json({ message: "Server configuration error" });
-    } // Generate access token
+    }
 
+    // Generate access token
     const access_token = jwt.sign({ id: user._id }, ACCESS_TOKEN_SECRET, {
       expiresIn: "1h",
     });

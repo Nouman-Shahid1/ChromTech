@@ -1,5 +1,5 @@
 "use client";
-import Authentication from "@/components/Authentication";
+// import Authentication from "@/components/Authentication";
 import Sidebar from "@/components/Sidebar/Sidebar";
 
 
@@ -9,12 +9,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       
       <body>
-        <Authentication>
+        {/* <Authentication> */}
           <Sidebar />
           <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md sm:ml-[370px]">
             {children}
           </div>
-        </Authentication>
+        {/* </Authentication> */}
       </body>
     </html>
   );

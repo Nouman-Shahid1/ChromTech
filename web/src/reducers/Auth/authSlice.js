@@ -29,6 +29,28 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+export const registerUser = createAsyncThunk(
+  "auth/register",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post("/api/auth/register", userData);
+      const { access_token, user } = response.data;
+
+      setCookie("access_token", access_token, 7 * 24 * 60 * 60);
+
+      return { access_token, user };
+    } catch (err) {
+      if (!err.response) {
+        console.error("Network error or server is not reachable.");
+      } else {
+        console.error("Error in registerUser thunk:", err.response);
+      }
+      return rejectWithValue(
+        err.response?.data || { message: "Registration failed" }
+      );
+    }
+  }
+);
 
 export const refreshToken = createAsyncThunk(
   "auth/refresh",
@@ -104,6 +126,20 @@ const authSlice = createSlice({
         state.loggedOut = false; // Reset logged-out state on login
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.accessToken = action.payload.access_token;
+        state.loggedOut = false; // Reset logged-out state on registration
+      })
+      .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

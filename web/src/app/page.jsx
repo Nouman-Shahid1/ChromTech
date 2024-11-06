@@ -37,32 +37,31 @@ export default function Home() {
   ];
   const FeaturedCategory = [
     {
-      "title": "HPLC Vials",
-      "img": "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/lcvials.jpg?t=1708544951",
-      "subTitle": "Screw Thread, Snap Max Recovery"
+      title: "HPLC Vials",
+      img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/lcvials.jpg?t=1708544951",
+      subTitle: "Screw Thread, Snap Max Recovery",
     },
     {
-      "title": "GC Vials",
-      "img": "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/gcvials.jpg?t=1708544974",
-      "subTitle": "Crimp Top, Headspace, GC Vials"
+      title: "GC Vials",
+      img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/gcvials.jpg?t=1708544974",
+      subTitle: "Crimp Top, Headspace, GC Vials",
     },
     {
-      "title": "Accessories",
-      "img": "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/lcaccess.jpg?t=1708457525",
-      "subTitle": "Fittings, Tubing & Accessories"
+      title: "Accessories",
+      img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/lcaccess.jpg?t=1708457525",
+      subTitle: "Fittings, Tubing & Accessories",
     },
     {
-      "title": "HPLC Pumps",
-      "img": "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/lst.jpg?t=1707154979",
-      "subTitle": "Chrom Tech HPLC Pumps"
+      title: "HPLC Pumps",
+      img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/lst.jpg?t=1707154979",
+      subTitle: "Chrom Tech HPLC Pumps",
     },
     {
-      "title": "Safety Kit",
-      "img": "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/safety-container.jpg?t=1708632733",
-      "subTitle": "Solvent Containment for HPLC Waste"
-    }
-  ]
-
+      title: "Safety Kit",
+      img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/safety-container.jpg?t=1708632733",
+      subTitle: "Solvent Containment for HPLC Waste",
+    },
+  ];
 
   return (
     <>
@@ -139,7 +138,9 @@ export default function Home() {
                 alt=""
               />
               <div>
-                <p className="px-2 sm:px-4"><strong>PRODUCT SELECTION GUIDANCE</strong></p>
+                <p className="px-2 sm:px-4">
+                  <strong>PRODUCT SELECTION GUIDANCE</strong>
+                </p>
                 <Link href="/" className="px-2 sm:px-4 underline">
                   Start here
                 </Link>
@@ -152,7 +153,9 @@ export default function Home() {
                 alt=""
               />
               <div>
-                <p className="px-2 sm:px-4"><strong>ELEVATED CUSTOMER EXPERIENCE</strong></p>
+                <p className="px-2 sm:px-4">
+                  <strong>ELEVATED CUSTOMER EXPERIENCE</strong>
+                </p>
                 <Link href="/" className="px-2 sm:px-4 underline">
                   Contact us
                 </Link>
@@ -165,7 +168,9 @@ export default function Home() {
                 alt=""
               />
               <div>
-                <p className="px-2 sm:px-4"><strong>CONVENIENT ONLINE ORDERING</strong></p>
+                <p className="px-2 sm:px-4">
+                  <strong>CONVENIENT ONLINE ORDERING</strong>
+                </p>
                 <Link href="/" className="px-2 sm:px-4 underline">
                   Register Now
                 </Link>

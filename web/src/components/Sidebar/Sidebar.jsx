@@ -2,11 +2,16 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import { logout } from "../../reducers/Auth/authSlice";
 
 import Logo from "../../assets/images/logo.png";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -15,6 +20,10 @@ const Sidebar = () => {
     setIsSidebarOpen(false);
   };
 
+  const handleLogout = () => {
+    dispatch(logout()); // Dispatch the logout action
+    router.push("/login"); // Redirect to login page after logout
+  };
   const isActive = (path) => {
     return window.location.pathname === path;
   };
@@ -210,7 +219,10 @@ const Sidebar = () => {
                   />
                 </svg>
 
-                <span className="flex-1 text-lg font-poppins font-bold ">
+                <span
+                  onClick={handleLogout}
+                  className="flex-1 text-lg font-poppins font-bold "
+                >
                   Sign Out
                 </span>
               </li>
