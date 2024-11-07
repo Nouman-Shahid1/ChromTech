@@ -7,7 +7,7 @@ const RelatedProducts = () => {
         <div className="bg-gray-100">
             <div className='flex flex-col md:flex-row w-[75%] m-auto  py-8'>
                 {/* lc subcategories / leftside*/}
-                <div className="min-w-[300px] my-8">
+                <div className="min-w-[200px] sm:w-[300px] mx-auto my-8">
                     <div className="bg-white p-6 rounded-2xl shadow-lg">
                         <p className='border-b border-gray-800 py-3 '><strong>LC</strong></p>
                         <p className='pt-3 hover:text-gray-300'>HCPL COLUMNS</p>
@@ -18,9 +18,9 @@ const RelatedProducts = () => {
                 </div>
 
                 {/* right side */}
-                <div className="flex-1  md:m-8 ">
+                <div className="flex-1 mx-auto md:m-8 ">
                     <div className="flex justify-between">
-                        <div>
+                        <div className='mx-auto'>
                             <select name="" id="" className='p-2 rounded-xl text-sm'>
                                 <option value="">Sort By:Featured Items</option>
                                 <option value="">Sort By:Newest Items</option>
@@ -38,7 +38,7 @@ const RelatedProducts = () => {
 
 
                     </div>
-                    <div className='grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4 gap-y-6'>
+                    <div className='grid  grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 gap-y-6'>
                         <ProductCard />
                         <ProductCard />
                         <ProductCard />
@@ -51,7 +51,7 @@ const RelatedProducts = () => {
                         <ProductCard />
                         <ProductCard />
                     </div>
-                    <div className="flex w-full justify-end py-4">
+                    <div className="flex w-full sm:justify-end py-4 -ml-4 md:ml-0">
                     <Pagination/>
                     </div>
                 </div>

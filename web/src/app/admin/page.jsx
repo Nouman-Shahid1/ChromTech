@@ -7,6 +7,7 @@ import Services from "../../assets/images/services.png";
 import Amenities from "../../assets/images/amenities.png";
 
 export default function Dashboard() {
+  
   return (
     <>
       <div className="bg-[#fafbff] h-screen overflow-auto sm:p-0 px-1 md:px-8 lg:px-6 xl:px-8 2xl:px-12 py-4 md:py-5 lg:py-7 xl:py-10 2xl:py-12">
