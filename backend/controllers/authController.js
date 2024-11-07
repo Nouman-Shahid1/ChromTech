@@ -23,9 +23,7 @@ exports.registerUser = async (req, res) => {
     } = req.body;
 
     let user = await User.findOne({ email });
-    if (user) return res.status(400).json({ message: "User already exists" });
-
-    const hashedPassword = await bcrypt.hash(password, 10);
+    if (user) return res.status(400).json({ message: "User already exists" }); // Create a new user with password as plain text, schema will hash it
 
     user = new User({
       firstName,
@@ -33,7 +31,7 @@ exports.registerUser = async (req, res) => {
       email,
       phoneNumber,
       accountType,
-      password: hashedPassword,
+      password,
       companyName,
       companyEmail,
       companyNumber,
