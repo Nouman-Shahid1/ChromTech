@@ -1,4 +1,3 @@
-// authRoutes.js
 const express = require("express");
 const {
   registerUser,
@@ -9,7 +8,7 @@ const {
 const router = express.Router();
 
 router.post("/register", registerUser);
-router.post("/login", loginUser); // Add the login route
+router.post("/login", loginUser);
 router.post("/logout", logout);
 router.post("/refresh", refreshToken);
 module.exports = router;
