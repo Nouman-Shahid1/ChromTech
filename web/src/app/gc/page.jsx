@@ -4,7 +4,7 @@ import RelatedProducts from '@/components/relatedProducts/RelatedProducts';
 import React from 'react';
 import MenuPage from '@/components/MenuPage/MenuPage';
 
-const LC = () => {
+const GC = () => {
   let lc = [
     {
       title: "LC COLUMNS",
@@ -33,4 +33,4 @@ const LC = () => {
   );
 };
 
-export default LC;
+export default GC;
