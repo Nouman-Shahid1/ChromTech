@@ -1,4 +1,4 @@
-import { createSlice, asyncThunkCreator, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 
 export const createCategory= createAsyncThunk(
