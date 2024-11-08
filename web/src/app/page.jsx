@@ -4,6 +4,7 @@ import Link from "next/link";
 import Title from "@/components/Title/Title.jsx";
 import TestimonialCard from "@/components/TestimonialCard/Testimonialcard.jsx";
 import CategoryCard from "@/components/CategoryCard/CategoryCard.jsx";
+import Chatbot from "@/components/Chatbot/Chatbot.jsx";
 
 export default function Home() {
   const testimonials = [
@@ -244,6 +245,10 @@ export default function Home() {
             />
           </div>
         </div>
+      </div>
+      {/* Chatbot Integration */}
+      <div className="fixed bottom-10 right-10">
+        <Chatbot />
       </div>
       <Footer />
     </>

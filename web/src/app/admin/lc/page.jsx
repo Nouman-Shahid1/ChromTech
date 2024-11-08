@@ -5,7 +5,7 @@ import { CiSearch } from "react-icons/ci";
 import CreateProducts from "@/components/CreateProducts/CreateProducts";
 import Table from "@/components/Table/Table";
 
-const page = () => {
+const LC = () => {
   const [openAddProduct, setOpenAddProduct] = useState(false);
 
   const handleCreate = () => {
@@ -58,5 +58,4 @@ const page = () => {
     </>
   );
 };
-
-export default page;
+export default LC;

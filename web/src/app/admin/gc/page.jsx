@@ -1,12 +1,14 @@
-// // pages/orders.js
-// import Profile from "@/components/Profile/Profile";
+import ProductTable from '@/components/ProductTable/ProductTable'
+import React from 'react'
 
-// function Orders() {
-//   return (
-//     <div className="min-h-screen bg-gray-100 p-6">
-//       <Profile />
-//       <div className=" mt-7">
-//         <h1 className="text-4xl font-semibold text-gray-800">My orders</h1>
+const page = () => {
+  return (
+    <>
+    <ProductTable/>
+    </>
+  )
+}
+
 
 //         <form className="max-w-80 mt-10">
 //           <label
@@ -80,3 +82,6 @@
 //   );
 // }
 // export default Orders;
+=======
+export default page
+>>>>>>> 138c78672cd768dfe5cc187c87a1d0f87bbe3412

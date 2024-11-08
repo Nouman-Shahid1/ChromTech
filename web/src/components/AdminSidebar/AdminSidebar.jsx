@@ -66,7 +66,7 @@ const AdminSidebar  = () => {
         aria-label="Sidebar"
       >
         <Image src={Logo} height={56} width={200} alt="" />
-        <Link href="/myaccount" passHref>
+        <Link href="/admin" passHref>
           <div className="rounded-xl text-lg items-center font-poppins font-semibold mt-11 leading-[27px] py-4 px-6 pr-1 flex gap-6 text-white bg-red-600 shadow-[0px 20px 50px 0px #3745571A]">
             <span>Dashboard</span>
           </div>
@@ -89,7 +89,7 @@ const AdminSidebar  = () => {
               </li>
             </Link>
             <Link
-              href="/myaccount/quick-orders"
+              href="/admin/gc"
               className={`${
                 isActive("/myaccount/quick-orders") ? "active" : ""
               }  `}
@@ -106,7 +106,7 @@ const AdminSidebar  = () => {
             </Link>
 
             <Link
-              href="/myaccount/users"
+              href="/admin/instruction"
               className={`${isActive("/myaccount/users") ? "active" : ""}  `}
             >
               <li
@@ -119,7 +119,7 @@ const AdminSidebar  = () => {
                 </span>
               </li>
             </Link>
-            <Link href="#">
+            <Link href="/admin/sryingers">
               <li
                 onClick={handleLinkClick}
                 className="flex mt-1 items-center gap-6 p-2 text-red-500 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -130,7 +130,7 @@ const AdminSidebar  = () => {
                 </span>
               </li>
             </Link>
-            <Link href="#">
+            <Link href="/admin/sample-preparation">
               <li
                 onClick={handleLinkClick}
                 className="flex mt-1 items-center gap-6 p-2 text-red-500 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"

@@ -39,7 +39,7 @@ const Navbar = ({ hasHeadline }) => {
   };
 
   return (
-    <nav className="fixed bg-white w-full z-10">
+    <nav className="fixed bg-white w-full ">
       <div className="fixed top-0 w-full bg-red-600 text-white text-center py-2 z-20 text-sm font-light">
         <p>
           Safety First, Coffee Second: Score a FREE coffee tumbler with the
@@ -55,7 +55,7 @@ const Navbar = ({ hasHeadline }) => {
       </div>
       <div
         className={`navbar ${hasHeadline ? "with-headline" : "no-headline"}`}
-        style={{ top: hasHeadline ? "40px" : "0px" }}
+        style={{ top: hasHeadline ? "40px" : "0px", zIndex: -100 }}
       >
         <div className="main-nav">
           <div
@@ -112,7 +112,7 @@ const Navbar = ({ hasHeadline }) => {
       {(showSubNav || isHamburgerOpen) && (
         <div className={`sub-nav ${isHamburgerOpen ? "active" : ""}`}>
           <div
-            className="block absolute top-5 right-5 cursor pointer md:hidden"
+            className="block absolute top-5 right-5 cursor pointer md:hidden "
             onClick={closeSubNav}
           >
             <RxCrossCircled style={{ fontSize: "25px", color: "wheat" }} />
@@ -133,52 +133,7 @@ const Navbar = ({ hasHeadline }) => {
               </div>
             </div>
             <ul className="flex justify-around">
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  VIALS & 96 WELL Plates
-                </Link>
-              </li>
-              <li>
-                <Link href="/lc" onClick={handleLinkClick}>
-                  LC
-                </Link>
-              </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  GC
-                </Link>
-              </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  INSTRUMENTATION
-                </Link>
-              </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  SYRINGERS
-                </Link>
-              </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  SAMPLE PREPARATIONS
-                </Link>
-              </li>
-              <li className="relative group">
-                <Link href={"/"}>
-                  SUPPORT
-                  <ul className="absolute top-0 mt-12 w-[200px] shadow-lg rounded-lg bg-gray-100 hidden group-hover:block">
-                    <li className="border-b border-gray-500 ">
-                      <Link href={"/contact-us"}>CONTACT US</Link>
-                    </li>
-                    <li className="border-b border-gray-500 ">
-                      <Link href={"/about-us"}>ABOUT US</Link>
-                    </li>
-                    <li>
-                      <Link href={"/resourses"}>RESOURCES</Link>
-                    </li>
-                  </ul>
-                </Link>
-              </li>
+              
             </ul>
           </div>
         </div>
