@@ -12,7 +12,7 @@ const Authentication = ({ children }) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       setIsMounted(true);
-      const savedToken = localStorage.getItem("accessToken");
+      const savedToken = localStorage.getItem("access_token");
       if (savedToken) {
         dispatch(setToken(savedToken));
       }
@@ -24,16 +24,16 @@ const Authentication = ({ children }) => {
       dispatch(refreshToken())
         .unwrap()
         .catch(() => {
-          router.push("/login");
+          router.push("/login"); // Redirect to login if refresh fails
         });
     }
   }, [accessToken, dispatch, isMounted, router]);
 
   if (!isMounted || !accessToken) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>; // Show loading until the token is confirmed
   }
 
-  return children;
+  return children; // Render children only if authenticated
 };
 
 export default Authentication;

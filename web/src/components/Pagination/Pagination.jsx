@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 
 const Pagination = () => {
-  const [activePage, setActivePage] = useState(1); // Track the active page
+  const [activePage, setActivePage] = useState(1); 
 
   const pages = [1, 2, 3, 4, 5];
 
@@ -14,7 +14,7 @@ const Pagination = () => {
         <Link
           href="/lc"
           onClick={() => setActivePage('previous')}
-          className='flex items-center justify-center px-3 h-8 text-black   hover:cursor-pointer '
+          className='flex items-center justify-center border px-3 h-8 text-black rounded-lg border-black  hover:cursor-pointer '
         >
           Previous
         </Link>
@@ -24,8 +24,8 @@ const Pagination = () => {
         <li key={page}>
           <Link
             href={`/lc?page=${page}`}
-            onClick={() => setActivePage(page)} // Set the active page on click
-            className={`flex items-center justify-center px-3 h-8 text-gray-600   border-b border-gray-200 hover:cursor-pointer ${activePage === page ? 'text-xl text-gray-800 border-gray-800' : ''}`}
+            onClick={() => setActivePage(page)}
+            className={`flex items-center justify-center px-3 h-8 border text-gray-600 rounded-lg mx-1  border-gray-300 hover:cursor-pointer ${activePage === page ? 'text-xl text-gray-800 border-gray-800' : ''}`}
           >
             {page}
           </Link>
@@ -35,7 +35,7 @@ const Pagination = () => {
         <Link
           href="/lc"
           onClick={() => setActivePage('next')}
-          className='flex items-center justify-center px-3 h-8 text-black  hover:cursor-pointer '
+          className='flex items-center justify-center px-3 h-8 text-black border border-black rounded-lg hover:cursor-pointer '
         >
           Next
         </Link>

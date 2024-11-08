@@ -1,26 +1,23 @@
-// backend/app.js
 const express = require("express");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const productRoutes = require("./routes/productRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
 const errorHandler = require("./middleware/errorHandler");
 const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
 
-// Apply CORS middleware
 app.use(cors());
 
-// Connect to the database
 connectDB();
 
-// Middleware
 app.use(express.json());
 
-// Routes
 app.use("/api/auth", authRoutes);
-
-// Error handling middleware
+app.use("/api/products", productRoutes);
+app.use("/api/categories", categoryRoutes);
 app.use(errorHandler);
 
 module.exports = app;

@@ -17,13 +17,13 @@ function Footer() {
           team of product specialists. Each month, we’ll send updates about the
           latest chromatography trends, our best deals, and product spotlights.
         </p>
-        <div className="bg-white flex max-w-[500px]  mx-3 border border-black md:m-auto px-8 mb-8 rounded-full justify-between">
+        <div className="bg-white flex w-[300px] sm:min-w-[400px]  mx-auto border border-black sm:mx-auto px-8 mb-8 rounded-full justify-between">
           <input
             className="border-none outline-none py-3"
             type="email"
             placeholder="Enter Your Email Address"
           />
-          <button className="outline-none cursor-pointer py-3 pl-4 border-l border-black">
+          <button className="outline-none text-xs sm:text-sm cursor-pointer py-3 pl-1 md:pl-4 border-l border-black">
             Subscribe
           </button>
         </div>

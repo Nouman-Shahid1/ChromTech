@@ -111,7 +111,10 @@ const Navbar = ({ hasHeadline }) => {
       {/* Sub-nav with conditional rendering */}
       {(showSubNav || isHamburgerOpen) && (
         <div className={`sub-nav ${isHamburgerOpen ? "active" : ""}`}>
-          <div className="block absolute top-5 right-5 cursor pointer md:hidden" onClick={closeSubNav}>
+          <div
+            className="block absolute top-5 right-5 cursor pointer md:hidden "
+            onClick={closeSubNav}
+          >
             <RxCrossCircled style={{ fontSize: "25px", color: "wheat" }} />
           </div>
           <div className="sub-nav-menu">
@@ -130,48 +133,7 @@ const Navbar = ({ hasHeadline }) => {
               </div>
             </div>
             <ul className="flex justify-around">
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  VIALS & 96 WELL Plates
-                </Link>
-              </li>
-              <li>
-                <Link href="/lc" onClick={handleLinkClick}>
-                  LC
-                </Link>
-              </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  GC
-                </Link>
-              </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  INSTRUMENTATION
-                </Link>
-              </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  SYRINGERS
-                </Link>
-              </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  SAMPLE PREPARATIONS
-                </Link>
-              </li>
-              <li className="relative group">
-                <Link href={'/'}>
-                  SUPPORT
-                  <ul className="absolute top-0 mt-12 w-[200px] shadow-lg rounded-lg bg-gray-100 hidden group-hover:block">
-                    <li className="border-b border-gray-500 "><Link href={'/contact-us'}>CONTACT US</Link></li>
-                    <li className="border-b border-gray-500 "><Link href={'/about-us'}>ABOUT US</Link></li>
-                    <li><Link href={'/resourses'}>RESOURCES</Link></li>
-
-                  </ul>
-                </Link>
-
-              </li>
+              
             </ul>
           </div>
         </div>
