@@ -12,18 +12,18 @@ function Footer() {
         style={{ background: "linear-gradient(to right, #FAF8F6, #C7B299)" }}
       >
         <Title text1={"Stay Connected And Stay Ahead"} />
-        <p className="py-8 flex flex-wrap m-auto text-sm w-full max-w-[700px]">
+        <p className="py-8 px-2 flex flex-wrap m-auto text-xs w-full max-w-[700px] md:text-sm">
           Subscribe to Chromatography Connections for a monthly update from our
           team of product specialists. Each month, we’ll send updates about the
           latest chromatography trends, our best deals, and product spotlights.
         </p>
-        <div className="bg-white flex max-w-[500px] border border-black m-auto px-8 mb-8 rounded-full justify-between">
+        <div className="bg-white flex w-[300px] sm:min-w-[400px]  mx-auto border border-black sm:mx-auto px-8 mb-8 rounded-full justify-between">
           <input
             className="border-none outline-none py-3"
             type="email"
             placeholder="Enter Your Email Address"
           />
-          <button className="outline-none cursor-pointer py-3 pl-4 border-l border-black">
+          <button className="outline-none text-xs sm:text-sm cursor-pointer py-3 pl-1 md:pl-4 border-l border-black">
             Subscribe
           </button>
         </div>

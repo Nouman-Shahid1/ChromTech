@@ -1,303 +1,160 @@
-/* eslint-disable no-useless-catch */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { instance, secureInstance } from "../../axios/config";
-import { setCookie } from "../../utilities/utils";
+import axios from "../../axios/config";
+import { setCookie, getCookie, deleteCookie } from "../../utilities/utils";
+
+let refreshRequestPending = false;
 
 const initialState = {
-  user: {
-    accessToken: null,
-    email: "",
-    name: "",
-    isVerified: false,
-    role: "",
-    userImage: null,
-  },
-  isRegistered: false,
-  isLoggedInState: false,
-  isEmailSent: false,
+  user: null,
+  accessToken: getCookie("access_token") || null,
   loading: false,
-  message: {
-    type: "Error",
-    title: null,
-  },
+  error: null,
+  loggedOut: false,
 };
 
-export const handleRegister = createAsyncThunk(
-  "auth/register",
-  async (data, { rejectWithValue }) => {
+export const loginUser = createAsyncThunk(
+  "auth/login",
+  async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await instance.request({
-        url: "/api/users/",
-        method: "POST",
-        data,
-      });
+      const response = await axios.post("/api/auth/login", { email, password });
+      const { access_token, refresh_token, expires_in, user } = response.data;
 
-      return response.data;
+      setCookie("access_token", access_token, expires_in);
+      setCookie("refresh_token", refresh_token, expires_in);
+      localStorage.setItem("access_token", access_token);
+
+      return { access_token, user };
     } catch (err) {
-      return rejectWithValue(err.response.data);
+      return rejectWithValue(err.response?.data || { message: "Login failed" });
     }
   }
 );
-
-export const handleLogin = createAsyncThunk(
-  "auth/login",
-  async ({ data, router }, { rejectWithValue }) => {
+export const registerUser = createAsyncThunk(
+  "auth/register",
+  async (userData, { rejectWithValue }) => {
     try {
-      const response = await instance.request({
-        url: "/api/auth/token",
-        method: "POST",
-        data,
-      });
+      const response = await axios.post("/api/auth/register", userData);
+      const { access_token, user } = response.data;
 
-      setCookie(
-        "refresh_token",
-        response.data.refresh_token,
-        response.data.expires_in
-      );
+      setCookie("access_token", access_token, 7 * 24 * 60 * 60);
 
-      return { ...response.data, router };
+      return { access_token, user };
     } catch (err) {
-      return rejectWithValue(err.response.data);
+      if (!err.response) {
+        console.error("Network error or server is not reachable.");
+      } else {
+        console.error("Error in registerUser thunk:", err.response);
+      }
+      return rejectWithValue(
+        err.response?.data || { message: "Registration failed" }
+      );
     }
   }
 );
 
 export const refreshToken = createAsyncThunk(
   "auth/refresh",
-  async (data, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
+    const { auth } = getState();
+    if (
+      !getCookie("refresh_token") ||
+      auth.loggedOut ||
+      refreshRequestPending
+    ) {
+      return rejectWithValue({ message: "No valid refresh token available" });
+    }
     try {
-      const response = await instance.request({
-        url: "/api/auth/token",
-        method: "POST",
-        data,
-      });
+      refreshRequestPending = true;
+      const refresh_token = getCookie("refresh_token");
+      const response = await axios.post("/api/auth/refresh", { refresh_token });
+      const { access_token, expires_in } = response.data;
 
-      setCookie(
-        "refresh_token",
-        response.data.refresh_token,
-        response.data.expires_in
+      setCookie("access_token", access_token, expires_in);
+      localStorage.setItem("access_token", access_token);
+
+      refreshRequestPending = false;
+      return { access_token };
+    } catch (err) {
+      refreshRequestPending = false;
+      return rejectWithValue(
+        err.response?.data || { message: "Token refresh failed" }
       );
-
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.response.data);
     }
   }
 );
 
-export const getAuthenticatedUser = createAsyncThunk(
-  "auth/authenticatedUser",
-  async () => {
-    const response = await secureInstance.request({
-      url: "/api/users/me/",
-      method: "GET",
-    });
-
-    return response.data;
-  }
-);
-
-export const handleLogout = createAsyncThunk(
+export const logout = createAsyncThunk(
   "auth/logout",
-  async (_, { rejectWithValue }) => {
-    try {
-      setCookie("refresh_token", "", -1);
-      window.location.pathname = "/login";
-      return true;
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
+  async (_, { dispatch }) => {
+    deleteCookie("access_token");
+    deleteCookie("refresh_token");
+    localStorage.removeItem("access_token");
+
+    dispatch(authSlice.actions.setLoggedOut(true));
+    dispatch(authSlice.actions.clearState());
   }
 );
 
-export const forgetPassword = createAsyncThunk(
-  "auth/forgetPassword",
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await instance.request({
-        url: "/api/password-reset/",
-        method: "POST",
-        data,
-      });
-
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  }
-);
-
-export const recoverPassword = createAsyncThunk(
-  "auth/recoverPassword",
-  async ({ data, router }, { rejectWithValue }) => {
-    try {
-      const response = await instance.request({
-        url: "/api/password-reset/confirm/",
-        method: "POST",
-        data,
-      });
-
-      router.push("/login");
-
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  }
-);
-
-export const authSlice = createSlice({
+const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    handleResgisterationStatus: (state) => {
-      state.isRegistered = false;
+    setToken: (state, action) => {
+      state.accessToken = action.payload;
     },
-    handleLoginStatus: (state, action) => {
-      state.isLoggedInState = action.payload;
+    clearState: (state) => {
+      state.user = null;
+      state.accessToken = null;
+      state.loading = false;
+      state.error = null;
     },
-    handleWelcomeUserAlert: (state, action) => {
-      state.isWelcomeUserAlert = action.payload;
-    },
-    resetAuthMessage: (state) => {
-      state.message = {
-        type: "Error",
-        title: null,
-      };
-    },
-    setAuthMessage: (state, action) => {
-      state.message.title = action.payload.title;
-      state.message.type = action.payload.type;
-    },
-    setIsEmailSent: (state, action) => {
-      state.isEmailSent = action.payload;
+    setLoggedOut: (state, action) => {
+      state.loggedOut = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(handleLogin.pending, (state) => {
+      .addCase(loginUser.pending, (state) => {
         state.loading = true;
-        state.message.title = null;
+        state.error = null;
       })
-      .addCase(handleLogin.fulfilled, (state, action) => {
+      .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        const { router } = action.payload;
-        state.user.accessToken = action.payload.access_token;
-        state.isLoggedInState = true;
-        state.message.title = "Logged In Successfully";
-        state.message.type = "Success";
-        router.push("/admin");
+        state.user = action.payload.user;
+        state.accessToken = action.payload.access_token;
+        state.loggedOut = false;
       })
-      .addCase(handleLogin.rejected, (state, action) => {
+      .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.message.title = action.payload;
-        state.message.type = "Error";
+        state.error = action.payload;
       })
-      .addCase(handleRegister.pending, (state) => {
+      .addCase(registerUser.pending, (state) => {
         state.loading = true;
-        state.message.title = null;
+        state.error = null;
       })
-      .addCase(handleRegister.fulfilled, (state) => {
+      .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.isRegistered = true;
-        state.isWelcomeUserAlert = true;
-        state.message.title = "Account is created successfully";
-        state.message.type = "Success";
+        state.user = action.payload.user;
+        state.accessToken = action.payload.access_token;
+        state.loggedOut = false;
       })
-      .addCase(handleRegister.rejected, (state, action) => {
+      .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.message.title = action.payload;
-        state.message.type = "Error";
+        state.error = action.payload;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.user = null;
+        state.accessToken = null;
+        state.loggedOut = true;
       })
       .addCase(refreshToken.fulfilled, (state, action) => {
-        state.user.accessToken = action.payload.access_token;
-        state.isLoggedInState = true;
+        state.accessToken = action.payload.access_token;
       })
-      .addCase(refreshToken.rejected, (state, action) => {
-        state.loading = false;
-        state.user.accessToken = null;
-        state.isLoggedInState = false;
-        state.message.title = action.payload;
-        state.message.type = "Error";
-        setCookie("refresh_token", "", -1);
-
-        if (window.location.pathname !== "/login") {
-          window.location.href = "/login";
-        }
-      })
-      .addCase(getAuthenticatedUser.pending, (state) => {
-        state.loading = true;
-        state.message.title = null;
-      })
-      .addCase(getAuthenticatedUser.fulfilled, (state, action) => {
-        state.loading = false;
-        const { data } = action.payload;
-        state.user.email = data.email;
-        state.user.name = data.user_name;
-        state.user.isVerified = data.is_verified;
-        state.user.role = data.role_type;
-        state.user.userImage = data.picture;
-      })
-      .addCase(getAuthenticatedUser.rejected, (state, action) => {
-        state.loading = false;
-        state.message.title = action.payload;
-        state.message.type = "Error";
-      })
-      .addCase(handleLogout.pending, (state) => {
-        state.loading = true;
-        state.message.title = null;
-      })
-      .addCase(handleLogout.fulfilled, (state) => {
-        state.loading = false;
-        state.user.accessToken = null;
-        state.isLoggedInState = false;
-        state.message.title = "Logged Out Successfully";
-        state.message.type = "Success";
-      })
-      .addCase(handleLogout.rejected, (state, action) => {
-        state.loading = false;
-        state.message.title = action.payload;
-        state.message.type = "Error";
-      })
-      .addCase(forgetPassword.pending, (state) => {
-        state.loading = true;
-        state.message.title = null;
-      })
-      .addCase(forgetPassword.fulfilled, (state, action) => {
-        state.loading = false;
-        state.isEmailSent = true;
-        state.message.title = "Email is sent successfully. Check your mailbox.";
-        state.message.type = "Success";
-      })
-      .addCase(forgetPassword.rejected, (state, action) => {
-        state.loading = false;
-        state.message.title = action.payload.email[0];
-        state.message.type = "Error";
-      })
-      .addCase(recoverPassword.pending, (state) => {
-        state.loading = true;
-        state.message.title = null;
-      })
-      .addCase(recoverPassword.fulfilled, (state, action) => {
-        state.loading = false;
-        state.message.title = "Your password is updated successfully.";
-        state.message.type = "Success";
-      })
-      .addCase(recoverPassword.rejected, (state, action) => {
-        state.loading = false;
-        state.message.title = action.payload;
-        state.message.type = "Error";
+      .addCase(refreshToken.rejected, (state) => {
+        state.accessToken = null;
       });
   },
 });
 
-export const {
-  handleResgisterationStatus,
-  handleLoginStatus,
-  handleWelcomeUserAlert,
-  resetAuthMessage,
-  setIsEmailSent,
-  setAuthMessage,
-} = authSlice.actions;
-
+export const { setToken, clearState, setLoggedOut } = authSlice.actions;
 export default authSlice.reducer;

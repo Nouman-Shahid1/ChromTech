@@ -39,7 +39,7 @@ const Navbar = ({ hasHeadline }) => {
   };
 
   return (
-    <nav>
+    <nav className="fixed bg-white w-full ">
       <div className="fixed top-0 w-full bg-red-600 text-white text-center py-2 z-20 text-sm font-light">
         <p>
           Safety First, Coffee Second: Score a FREE coffee tumbler with the
@@ -55,7 +55,7 @@ const Navbar = ({ hasHeadline }) => {
       </div>
       <div
         className={`navbar ${hasHeadline ? "with-headline" : "no-headline"}`}
-        style={{ top: hasHeadline ? "40px" : "0px" }}
+        style={{ top: hasHeadline ? "40px" : "0px", zIndex: -100 }}
       >
         <div className="main-nav">
           <div
@@ -111,11 +111,14 @@ const Navbar = ({ hasHeadline }) => {
       {/* Sub-nav with conditional rendering */}
       {(showSubNav || isHamburgerOpen) && (
         <div className={`sub-nav ${isHamburgerOpen ? "active" : ""}`}>
-          <div className="cross" onClick={closeSubNav}>
+          <div
+            className="block absolute top-5 right-5 cursor pointer md:hidden "
+            onClick={closeSubNav}
+          >
             <RxCrossCircled style={{ fontSize: "25px", color: "wheat" }} />
           </div>
           <div className="sub-nav-menu">
-            <div className="sub-nav-sign">
+            <div className=" flex border-b border-gray-700 py-4 m-5 mt-0  md:hidden">
               <div className="sub-nav-icon">
                 <FaRegUser
                   style={{
@@ -129,42 +132,8 @@ const Navbar = ({ hasHeadline }) => {
                 <span>| Sign in or Register |</span>
               </div>
             </div>
-            <ul>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  VIALS & 96 WELL Plates
-                </Link>
-              </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  LC
-                </Link>
-              </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  GC
-                </Link>
-              </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  INSTRUMENTATION
-                </Link>
-              </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  SYRINGERS
-                </Link>
-              </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  SAMPLE PREPARATIONS
-                </Link>
-              </li>
-              <li>
-                <Link href="/" onClick={handleLinkClick}>
-                  SUPPORT
-                </Link>
-              </li>
+            <ul className="flex justify-around">
+              
             </ul>
           </div>
         </div>

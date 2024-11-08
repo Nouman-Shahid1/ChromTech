@@ -1,39 +1,43 @@
 import store from "../store/store";
-import { refreshToken } from "../reducers/Auth/authSlice";
+import { refreshToken, logout } from "../reducers/Auth/authSlice";
 import { getCookie } from "../utilities/utils";
 
 export const addAccessToken = async (config) => {
-  const state = store.getState();
-  const { user } = state.auth;
-  const { accessToken } = user;
+  const accessToken =
+    store.getState().auth.accessToken || getCookie("access_token");
 
-  if (!accessToken) {
-    await store.dispatch(
-      refreshToken({
-        grant_type: "refresh_token",
-        refresh_token: getCookie("refresh_token"),
-        client_secret: process.env.NEXT_PUBLIC_CLIENT_SECRET,
-        client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
-      })
-    );
-  } else {
-    return {
-      ...config,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Accept: "application/json",
-      },
-    };
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
   }
+  return config;
 };
 
-export const handleRequestError = (error) => Promise.reject(error);
+export const handleRequestError = (error) => {
+  return Promise.reject(error);
+};
 
-export const handleResponseOK = (response) => response;
+export const handleResponseOK = (response) => {
+  return response;
+};
 
-export const handleResponseError = (error) => Promise.reject(error);
+export const handleResponseError = async (error) => {
+  const originalRequest = error.config;
 
-export const addInterceptors = (instance) => {
-  instance.interceptors.request.use(addAccessToken, handleRequestError);
-  instance.interceptors.response.use(handleResponseOK, handleResponseError);
+  if (error.response?.status === 401 && !originalRequest._retry) {
+    originalRequest._retry = true;
+
+    try {
+      const result = await store.dispatch(refreshToken()).unwrap();
+      const newAccessToken = result.access_token;
+
+      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+
+      return axios(originalRequest);
+    } catch (refreshError) {
+      store.dispatch(logout());
+      return Promise.reject(refreshError);
+    }
+  }
+
+  return Promise.reject(error);
 };
