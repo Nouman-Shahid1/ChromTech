@@ -29,7 +29,7 @@ const LC = () => {
           <div className="px-6">
             <p className="text-2xl text-gray-800">
               {" "}
-              <strong>Categories</strong>
+              <strong>LC</strong>
             </p>
           </div>
           <div className="absolute flex flex-col sm:flex-row bottom-5 sm:bottom-5 sm:right-5  ">

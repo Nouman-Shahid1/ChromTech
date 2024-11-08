@@ -1,11 +1,11 @@
-  "use client";
+"use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 import Logo from "../../assets/images/logo.png";
 
-const AdminSidebar  = () => {
+const AdminSidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -65,14 +65,29 @@ const AdminSidebar  = () => {
         } md:translate-x-0 w-[270px] md:w-[250px] md:w-[280px] lg:w-[345px] py-10 px-3 md :px-6 md:px-8 lg:px-10`}
         aria-label="Sidebar"
       >
-        <Image src={Logo} height={56} width={200} alt="" />
+        <Image src={Logo} height={65} width={260} alt="" />
         <Link href="/admin" passHref>
-          <div className="rounded-xl text-lg items-center font-poppins font-semibold mt-11 leading-[27px] py-4 px-6 pr-1 flex gap-6 text-white bg-red-600 shadow-[0px 20px 50px 0px #3745571A]">
+          <div className="rounded-xl text-lg items-center font-poppins font-semibold mt-14 leading-[27px] py-4 px-6 pr-1 flex gap-6 text-white bg-red-600 shadow-[0px 20px 50px 0px #3745571A]">
             <span>Dashboard</span>
           </div>
         </Link>
-        <div id="separator-sidebar" className="mt-8">
+        <div id="separator-sidebar" className="mt-14">
           <ul className="space-y-2 font-medium  pb-8  overflow-y-auto">
+            <Link
+              href="/admin/vials-and-plates"
+              className={`${
+                isActive("/myaccount/company-orders") ? "active" : ""
+              }  `}
+            >
+              <li
+                className="flex gap-6 mt-1 p-2 text-red-500 category rounded-lg dark:text-white group transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                onClick={handleLinkClick}
+              >
+                <span className="flex-1 text-lg font-poppins font-bold ">
+                  VIALS AND PLATES
+                </span>
+              </li>
+            </Link>
             <Link
               href="/admin/lc"
               className={`${
@@ -98,7 +113,6 @@ const AdminSidebar  = () => {
                 className="flex gap-6 mt-1 p-2 text-red-500 category rounded-lg dark:text-white group transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                 onClick={handleLinkClick}
               >
-
                 <span className="flex-1 text-lg font-poppins font-bold ">
                   GC
                 </span>
@@ -106,16 +120,15 @@ const AdminSidebar  = () => {
             </Link>
 
             <Link
-              href="/admin/instruction"
+              href="/admin/instrumentation"
               className={`${isActive("/myaccount/users") ? "active" : ""}  `}
             >
               <li
                 className="flex gap-6 mt-1 p-2 text-red-500 category rounded-lg dark:text-white group transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                 onClick={handleLinkClick}
               >
- 
                 <span className="flex-1 text-lg font-poppins font-bold ">
-                  INSTRUCTION
+                  INSTRUMENTATION
                 </span>
               </li>
             </Link>
@@ -124,7 +137,6 @@ const AdminSidebar  = () => {
                 onClick={handleLinkClick}
                 className="flex mt-1 items-center gap-6 p-2 text-red-500 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-            
                 <span className="flex-1 text-lg font-poppins font-bold ">
                   SRYINGERS
                 </span>
@@ -135,7 +147,6 @@ const AdminSidebar  = () => {
                 onClick={handleLinkClick}
                 className="flex mt-1 items-center gap-6 p-2 text-red-500 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-            
                 <span className="flex-1 text-lg font-poppins font-bold ">
                   SAMPLE PREPARATION
                 </span>
@@ -146,7 +157,6 @@ const AdminSidebar  = () => {
                 onClick={handleLinkClick}
                 className="flex mt-1 items-center gap-6 p-2 text-red-500 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-            
                 <span className="flex-1 text-lg font-poppins font-bold ">
                   SIGN OUT
                 </span>
@@ -155,9 +165,8 @@ const AdminSidebar  = () => {
           </ul>
         </div>
       </aside>
-    
     </>
-  )
-}
+  );
+};
 
-export default AdminSidebar
+export default AdminSidebar;

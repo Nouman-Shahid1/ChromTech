@@ -5,7 +5,7 @@ import { CiSearch } from "react-icons/ci";
 import CreateProducts from "@/components/CreateProducts/CreateProducts";
 import Table from "@/components/Table/Table";
 
-const SRYINGERS = () => {
+const Instrumentation= () => {
   const [openAddProduct, setOpenAddProduct] = useState(false);
 
   const handleCreate = () => {
@@ -23,13 +23,13 @@ const SRYINGERS = () => {
           ""
         )}
         <div className="py-8 px-6">
-          <p className="text-lg">HOME / SRYINGERS</p>
+          <p className="text-lg">HOME / Instrumentation</p>
         </div>
         <div className="relative bg-white rounded-xl  h-[250px] sm:h-[150px] py-8 w-full mx-auto">
           <div className="px-6">
             <p className="text-2xl text-gray-800">
               {" "}
-              <strong>SRYINGERS</strong>
+              <strong>Instrumentation</strong>
             </p>
           </div>
           <div className="absolute flex flex-col sm:flex-row bottom-5 sm:bottom-5 sm:right-5  ">
@@ -58,4 +58,4 @@ const SRYINGERS = () => {
     </>
   );
 };
-export default SRYINGERS;
+export default Instrumentation;

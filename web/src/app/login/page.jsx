@@ -99,9 +99,9 @@ const Login = () => {
             <li>View accurate, account-level pricing at your convenience</li>
           </ul>
           <Link href="/register" passHref>
-          <button className="bg-red-600 text-white py-2 px-6 mt-4 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400">
-            CREATE ACCOUNT
-          </button>
+            <button className="bg-red-600 text-white py-2 px-6 mt-4 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400">
+              CREATE ACCOUNT
+            </button>
           </Link>
         </div>
       </div>
