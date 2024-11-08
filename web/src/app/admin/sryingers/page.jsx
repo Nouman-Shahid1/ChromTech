@@ -14,7 +14,7 @@ const SRYINGERS = () => {
 
   return (
     <>
-      <div className="bg-gray-100 p-8">
+      <div className="bg-gray-100 p-8 min-h-[100vh]">
         <Profile />
         {openAddProduct ? (
           <CreateProducts setOpenAddProduct={setOpenAddProduct} />
@@ -45,7 +45,7 @@ const SRYINGERS = () => {
             </div>
             <div>
               <button
-                className="py-2 px-2 m-3 sm:m-0 rounded-lg bg-red-500 text-white"
+                className="py-2 px-2 m-3 sm:m-0 rounded-lg bg-red-600 text-white"
                 onClick={handleCreate}
               >
                 Create Product

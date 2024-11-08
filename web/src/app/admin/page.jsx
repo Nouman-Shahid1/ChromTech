@@ -18,29 +18,51 @@ export default function Dashboard() {
           <div className="flex flex-wrap  md:w-full mt-8 px-6">
             <DashboardCard
               details={{
-                name: "Orders",
+                name: "Vials and Plates",
                 src: Icon,
+                url:"/admin/",
               }}
             />
             <DashboardCard
               details={{
-                name: "Company Orders",
+                name: "LC",
                 src: Amenities,
+                url:"/admin/",
               }}
             />
-            <div className="flex flex-wrap md:w-full md:mt-8">
+            <div className="flex flex-wrap w-full md:mt-8">
               <DashboardCard
                 details={{
-                  name: "Quick Order",
+                  name: "GC",
                   src: Services,
+                  url:"/admin/",
                 }}
               />
               <DashboardCard
                 details={{
-                  name: "Users",
+                  name: "INSTRUMENTATION",
                   src: Services,
+                  url:"/admin/",
                 }}
+                
               />
+              </div>
+            <div className="flex flex-wrap w-full md:mt-8">
+              <DashboardCard
+                details={{
+                  name: "Sryingers",
+                  src: Services,
+                  url:"/admin/",
+                }}
+                />
+                
+              <DashboardCard
+                details={{
+                  name: "Sample Preparation",
+                  src: Services,
+                  url:"/admin/",
+                }}
+                />
             </div>
           </div>
         </div>

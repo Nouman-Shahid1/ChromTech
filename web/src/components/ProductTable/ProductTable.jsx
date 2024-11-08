@@ -5,20 +5,36 @@ import { CiSearch } from "react-icons/ci";
 import { FaTrash } from "react-icons/fa6";
 import { CiEdit } from "react-icons/ci";
 import CreateProducts from '../CreateProducts/CreateProducts';
+import DeleteProduct from '../DeleteProduct/DeleteProduct';
+
 const ProductTable = () => {
     const [openAddProduct, setOpenAddProduct] = useState(false)
+    const [openDelProduct, setOpenDelProduct] = useState(false)
+    const [openEditProduct, setOpenEditProduct] = useState(false)
 
     const handleCreate = () => {
         setOpenAddProduct(true);
     }
-
+    const handleEdit=()=>{
+        setOpenEditProduct(true)
+    }
+    const handleDelete=()=>{
+        setOpenDelProduct(true)
+    }
     return (
         <>
             <div className="bg-gray-100 p-8">
                 <Profile />
-                {openAddProduct
+                
+                {openEditProduct
                     ?
-                    <CreateProducts setOpenAddProduct={setOpenAddProduct} />
+                    <CreateProducts setOpenAddProduct={setOpenEditProduct} />
+                    :
+                    ''
+                }
+                {openDelProduct
+                    ?
+                    <DeleteProduct setOpenDelProduct={setOpenDelProduct} />
                     :
                     ''
                 }
@@ -63,8 +79,9 @@ const ProductTable = () => {
                                         <img src="/blank.png" width="30" alt="icon" />
                                     </td>
                                     <td className="py-4 px-2 flex justify-center gap-2">
-                                        <CiEdit className="bg-blue-200 p-2 rounded-3xl" size={30} color="blue" />
-                                        <FaTrash className="bg-red-200 p-2 rounded-3xl" size={30} color="red" />
+                                        <CiEdit className="bg-blue-200 p-2 rounded-3xl" size={30} color="blue" onClick={handleEdit} />
+
+                                        <FaTrash className="bg-red-200 p-2 rounded-3xl" size={30} color="red" onClick={handleDelete}/>
                                     </td>
                                 </tr>
                             ))}

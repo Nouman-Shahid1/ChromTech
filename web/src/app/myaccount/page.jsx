@@ -19,25 +19,30 @@ export default function Dashboard() {
               details={{
                 name: "Orders",
                 src: Icon,
+                url:"/myaccount/",
               }}
             />
             <DashboardCard
               details={{
                 name: "Company Orders",
                 src: Amenities,
+                
+                url:"/myaccount/",
               }}
             />
-            <div className="flex flex-wrap md:w-full md:mt-8">
+            <div className="flex flex-wrap w-full md:mt-8">
               <DashboardCard
                 details={{
-                  name: "Quick Order",
+                  name: "Quick Orders",
                   src: Services,
+                  url:"/myaccount/",
                 }}
               />
               <DashboardCard
                 details={{
                   name: "Users",
                   src: Services,
+                  url:"/myaccount/",
                 }}
               />
             </div>

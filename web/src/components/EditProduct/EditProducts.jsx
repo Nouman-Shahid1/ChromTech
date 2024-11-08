@@ -1,10 +1,10 @@
 import React from 'react'
 import { RxCrossCircled } from "react-icons/rx";
 // import upload from '../../../assets/images/upload.png'
-const CreateProducts = ({ setOpenAddProduct }) => {
+const EditProducts = ({ setOpenEditProduct }) => {
 
-  const onHandleCreate = () => {
-    setOpenAddProduct(false)
+  const onHandleEdit = () => {
+    setOpenEditProduct(false)
   }
   return (
 
@@ -13,10 +13,10 @@ const CreateProducts = ({ setOpenAddProduct }) => {
       <div className='w-[300px] sm:w-[500px] rounded-xl md:w-[700px] m-auto  p-10 bg-white sm:h-[700px] overflow-hidden'>
         <div className="flex justify-between pb-6 border-b border-gray-400">
           <div>
-            <p className='text-xl'><strong>Add Product</strong></p>
+            <p className='text-xl'><strong> Product</strong></p>
           </div>
           <div>
-            <RxCrossCircled className='cursor-pointer' style={{ fontSize: "25px", color: "red" }} onClick={onHandleCreate} />
+            <RxCrossCircled className='cursor-pointer' style={{ fontSize: "25px", color: "red" }} onClick={onHandleEdit} />
           </div>
         </div>
         <form className='flex flex-col py-8 w-full gap-3 items-start' >
