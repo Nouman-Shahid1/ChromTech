@@ -116,15 +116,11 @@ nav {
   font-weight: 600;
 }
 
-
-
 .sub-nav ul li {
   padding: 15px 10px;
   list-style-type: none;
   font-size: 16px;
 }
-
-
 
 @media screen and (max-width: 1300px) {
   .navbar,
@@ -138,7 +134,6 @@ nav {
   .sub-nav {
     width: 90%;
   }
-
 }
 
 @media screen and (max-width: 1150px) {
@@ -146,15 +141,12 @@ nav {
   .sub-nav {
     width: 95%;
   }
-
 }
 
 @media screen and (max-width: 950px) {
   .navbar .header-btn {
     display: none;
   }
-
-
 }
 
 @media screen and (max-width: 800px) {
@@ -168,8 +160,6 @@ nav {
     display: block;
     flex-direction: column;
   }
-
-
 }
 
 @media (max-width: 768px) {
@@ -207,7 +197,6 @@ nav {
     display: none;
   }
 
-
   .sub-nav.active {
     background: rgba(0, 0, 0, 0.6);
     position: fixed;
@@ -226,14 +215,37 @@ nav {
     padding: 0;
     height: 100%;
   }
-
-  
 }
-<<<<<<< HEAD
+
 .background {
-  background-image: url("../assets/images/contact.jpeg");
+  background: linear-gradient(rgba(7, 7, 7, 0.5), rgba(11, 11, 11, 0.5)),
+    url("../assets/images/contact.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
-=======
 
-
->>>>>>> 138c78672cd768dfe5cc187c87a1d0f87bbe3412
+.bgAboutus {
+  background: linear-gradient(rgba(15, 15, 15, 0.5), rgba(18, 18, 18, 0.5)),
+    url("../assets/images/about.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 4px 4px 4px 4px;
+}
+.bgBlog {
+  background: linear-gradient(rgba(15, 15, 15, 0.5), rgba(18, 18, 18, 0.5)),
+    url("../assets/images/blog.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 4px 4px 4px 4px;
+}
+.bgResources {
+  background: linear-gradient(rgba(15, 15, 15, 0.5), rgba(18, 18, 18, 0.5)),
+    url("../assets/images/resource.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 4px 4px 4px 4px;
+}
