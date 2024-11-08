@@ -344,3 +344,6 @@ nav {
     display: block;
   }
 }
+.background {
+  background-image: url("../assets/images/contact.jpeg");
+}
