@@ -82,6 +82,4 @@ const page = () => {
 //   );
 // }
 // export default Orders;
-=======
 export default page
->>>>>>> 138c78672cd768dfe5cc187c87a1d0f87bbe3412
