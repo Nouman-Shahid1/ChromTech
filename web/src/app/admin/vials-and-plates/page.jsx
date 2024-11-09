@@ -14,7 +14,7 @@ const VIALSPLATES = () => {
 
   return (
     <>
-      <div className="bg-gray-100 p-8">
+      <div className="bg-gray-100 p-8 min-h-[100vh]">
         <Profile />
         {openAddProduct ? (
           <CreateProducts setOpenAddProduct={setOpenAddProduct} />

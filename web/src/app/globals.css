@@ -116,15 +116,11 @@ nav {
   font-weight: 600;
 }
 
-
-
 .sub-nav ul li {
   padding: 15px 10px;
   list-style-type: none;
   font-size: 16px;
 }
-
-
 
 @media screen and (max-width: 1300px) {
   .navbar,
@@ -138,7 +134,6 @@ nav {
   .sub-nav {
     width: 90%;
   }
-
 }
 
 @media screen and (max-width: 1150px) {
@@ -146,15 +141,12 @@ nav {
   .sub-nav {
     width: 95%;
   }
-
 }
 
 @media screen and (max-width: 950px) {
   .navbar .header-btn {
     display: none;
   }
-
-
 }
 
 @media screen and (max-width: 800px) {
@@ -168,8 +160,6 @@ nav {
     display: block;
     flex-direction: column;
   }
-
-
 }
 
 @media (max-width: 768px) {
@@ -207,7 +197,6 @@ nav {
     display: none;
   }
 
-
   .sub-nav.active {
     background: rgba(0, 0, 0, 0.6);
     position: fixed;
@@ -226,8 +215,6 @@ nav {
     padding: 0;
     height: 100%;
   }
-
-  
 }
 .background {
   background-image: url("../assets/images/contact.jpeg");

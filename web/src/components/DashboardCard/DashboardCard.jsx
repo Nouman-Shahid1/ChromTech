@@ -2,15 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 
 const DashboardCard = ({ details }) => {
-  const { name, src } = details;
+  const { name, src,url } = details;
   const dynamicLink = name
-    ? `/myaccount/${name.toLowerCase().replace(/\s+/g, "-")}`
-    : "/myaccount";
+    ? `${url}${name.toLowerCase().replace(/\s+/g, "-")}`
+    : "url";
   return (
     <>
-      <Link href={dynamicLink} passHref className="w-full md:w-1/2 ">
-        <div className="md:mt-0 mt-8 me-4 transition ml-0 duration-300 ease-in-out transform shadow hover:ring-4 hover:ring-teal-600 bg-white rounded-[32px] px-4 md:px-8 py-4 md:py-6">
-          <div className="justify-between items-center">
+      <Link href={dynamicLink} passHref className="w-full  md:w-1/2 ">
+        <div className="md:mt-0 mt-8 me-4 transition ml-0 duration-300  ease-in-out transform shadow hover:ring-4 hover:ring-teal-600 bg-white rounded-[32px] px-4 md:px-8 py-4 md:py-6">
+          <div className="justify-between items-center w-full h-auto md:h-[200px]">
             <div className="md:pr-4 flex items-center justify-between">
               <h2 className="font-poppinsmedium font-normal text-lg text-[#1E1E1E] md:text-2xl">
                 Total {name}
