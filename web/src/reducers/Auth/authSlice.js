@@ -6,12 +6,14 @@ let refreshRequestPending = false;
 
 const initialState = {
   user: null,
+  userRole: null,
   accessToken: getCookie("access_token") || null,
   loading: false,
   error: null,
   loggedOut: false,
 };
 
+// Async Thunk for User Login
 export const loginUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
@@ -19,16 +21,19 @@ export const loginUser = createAsyncThunk(
       const response = await axios.post("/api/auth/login", { email, password });
       const { access_token, refresh_token, expires_in, user } = response.data;
 
+      // Store tokens and user data
       setCookie("access_token", access_token, expires_in);
       setCookie("refresh_token", refresh_token, expires_in);
       localStorage.setItem("access_token", access_token);
 
-      return { access_token, user };
+      return { access_token, user, userRole: user.role };
     } catch (err) {
       return rejectWithValue(err.response?.data || { message: "Login failed" });
     }
   }
 );
+
+// Async Thunk for User Registration
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (userData, { rejectWithValue }) => {
@@ -36,9 +41,10 @@ export const registerUser = createAsyncThunk(
       const response = await axios.post("/api/auth/register", userData);
       const { access_token, user } = response.data;
 
+      // Store access token
       setCookie("access_token", access_token, 7 * 24 * 60 * 60);
 
-      return { access_token, user };
+      return { access_token, user, userRole: user.role };
     } catch (err) {
       if (!err.response) {
         console.error("Network error or server is not reachable.");
@@ -52,6 +58,7 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+// Async Thunk for Refreshing Token
 export const refreshToken = createAsyncThunk(
   "auth/refresh",
   async (_, { rejectWithValue, getState }) => {
@@ -69,6 +76,7 @@ export const refreshToken = createAsyncThunk(
       const response = await axios.post("/api/auth/refresh", { refresh_token });
       const { access_token, expires_in } = response.data;
 
+      // Update access token
       setCookie("access_token", access_token, expires_in);
       localStorage.setItem("access_token", access_token);
 
@@ -83,6 +91,7 @@ export const refreshToken = createAsyncThunk(
   }
 );
 
+// Async Thunk for Logging Out
 export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { dispatch }) => {
@@ -95,6 +104,7 @@ export const logout = createAsyncThunk(
   }
 );
 
+// Redux Slice for Authentication
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -102,8 +112,13 @@ const authSlice = createSlice({
     setToken: (state, action) => {
       state.accessToken = action.payload;
     },
+    setUser: (state, action) => {
+      state.user = action.payload.user;
+      state.userRole = action.payload.userRole;
+    },
     clearState: (state) => {
       state.user = null;
+      state.userRole = null;
       state.accessToken = null;
       state.loading = false;
       state.error = null;
@@ -121,6 +136,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
+        state.userRole = action.payload.userRole;
         state.accessToken = action.payload.access_token;
         state.loggedOut = false;
       })
@@ -135,6 +151,7 @@ const authSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
+        state.userRole = action.payload.userRole;
         state.accessToken = action.payload.access_token;
         state.loggedOut = false;
       })
@@ -144,6 +161,7 @@ const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+        state.userRole = null;
         state.accessToken = null;
         state.loggedOut = true;
       })
@@ -156,5 +174,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setToken, clearState, setLoggedOut } = authSlice.actions;
+export const { setToken, setUser, clearState, setLoggedOut } =
+  authSlice.actions;
 export default authSlice.reducer;

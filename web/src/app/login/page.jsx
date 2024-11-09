@@ -6,23 +6,32 @@ import { loginUser } from "../../reducers/Auth/authSlice";
 import { useRouter } from "next/navigation";
 import logo from "../../assets/images/logo.png";
 import Link from "next/link";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const router = useRouter();
-  const { accessToken, loading, error } = useSelector((state) => state.auth);
+  const { accessToken, loading, error, user } = useSelector(
+    (state) => state.auth
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginUser({ email, password }));
   };
 
+  // Role-based redirection
   useEffect(() => {
-    if (accessToken) {
-      router.push("/myaccount");
+    if (accessToken && user) {
+      if (user.role === "business") {
+        router.push("/myaccount");
+      } else if (user.role === "superadmin") {
+        router.push("/admin");
+      }
     }
-  }, [accessToken, router]);
+  }, [accessToken, user, router]);
+
   return (
     <div className="relative flex flex-col items-center min-h-screen bg-gray-200 pt-5">
       <button
@@ -60,17 +69,12 @@ const Login = () => {
                 required
               />
             </label>
-            <div className="flex items-center space-x-4 mt-4">
-              <button
-                type="submit"
-                className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
-              >
-                {loading ? "Signing in..." : "SIGN IN"}
-              </button>
-              <a href="#" className="text-black underline">
-                Forgot your password?
-              </a>
-            </div>
+            <button
+              type="submit"
+              className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
+            >
+              {loading ? "Signing in..." : "SIGN IN"}
+            </button>
           </form>
           {error && (
             <div className="mt-4 text-red-600 text-center">
