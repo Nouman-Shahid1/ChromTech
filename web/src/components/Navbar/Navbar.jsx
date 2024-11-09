@@ -39,7 +39,7 @@ const Navbar = ({ hasHeadline }) => {
   };
 
   return (
-    <nav className="fixed bg-white w-full ">
+    <nav className="fixed bg-white w-full z-10">
       <div className="fixed top-0 w-full bg-red-600 text-white text-center py-2 z-20 text-sm font-light">
         <p>
           Safety First, Coffee Second: Score a FREE coffee tumbler with the
@@ -133,7 +133,13 @@ const Navbar = ({ hasHeadline }) => {
               </div>
             </div>
             <ul className="flex justify-around">
-              
+              <li><Link href="/" onClick={handleLinkClick}>VIALS & 96 WELL Plates</Link></li>
+              <li><Link href="/lc" onClick={handleLinkClick}>LC</Link></li>
+              <li><Link href="/gc" onClick={handleLinkClick}>GC</Link></li>
+              <li><Link href="/" onClick={handleLinkClick}>INSTRUMENTATION</Link></li>
+              <li><Link href="/sryingers" onClick={handleLinkClick}>SYRINGERS</Link></li>
+              <li><Link href="/sample-preparation" onClick={handleLinkClick}>SAMPLE PREPARATIONS</Link></li>
+              <li><Link href="/support" onClick={handleLinkClick}>SUPPORT</Link></li>
             </ul>
           </div>
         </div>
