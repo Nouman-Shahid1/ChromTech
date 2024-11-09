@@ -7,7 +7,6 @@ import Services from "../../assets/images/services.png";
 import Amenities from "../../assets/images/amenities.png";
 
 export default function Dashboard() {
-  
   return (
     <>
       <div className="bg-[#fafbff] h-screen overflow-auto sm:p-0 px-1 md:px-8 lg:px-6 xl:px-8 2xl:px-12 py-4 md:py-5 lg:py-7 xl:py-10 2xl:py-12">
@@ -20,14 +19,14 @@ export default function Dashboard() {
               details={{
                 name: "Vials and Plates",
                 src: Icon,
-                url:"/admin/",
+                url: "/admin/",
               }}
             />
             <DashboardCard
               details={{
                 name: "LC",
                 src: Amenities,
-                url:"/admin/",
+                url: "/admin/",
               }}
             />
             <div className="flex flex-wrap w-full md:mt-8">
@@ -35,34 +34,50 @@ export default function Dashboard() {
                 details={{
                   name: "GC",
                   src: Services,
-                  url:"/admin/",
+                  url: "/admin/",
                 }}
               />
               <DashboardCard
                 details={{
                   name: "INSTRUMENTATION",
                   src: Services,
-                  url:"/admin/",
+                  url: "/admin/",
                 }}
-                
               />
-              </div>
+            </div>
             <div className="flex flex-wrap w-full md:mt-8">
               <DashboardCard
                 details={{
                   name: "Sryingers",
                   src: Services,
-                  url:"/admin/",
+                  url: "/admin/",
                 }}
-                />
-                
+              />
+
               <DashboardCard
+                details={{
+                  name: "Sample Preparation",
+                  src: Services,
+                  url: "/admin/",
+                }}
+              />
+            </div>
+            <div className="flex flex-wrap w-full md:mt-8">
+              <DashboardCard
+                details={{
+                  name: "Users",
+                  src: Services,
+                  url: "/admin/",
+                }}
+              />
+
+              {/* <DashboardCard
                 details={{
                   name: "Sample Preparation",
                   src: Services,
                   url:"/admin/",
                 }}
-                />
+                /> */}
             </div>
           </div>
         </div>

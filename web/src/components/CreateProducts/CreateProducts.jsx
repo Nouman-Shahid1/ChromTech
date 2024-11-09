@@ -1,79 +1,114 @@
-import React from 'react'
+import React, { useState } from "react";
 import { RxCrossCircled } from "react-icons/rx";
-// import upload from '../../../assets/images/upload.png'
+import { useDispatch, useSelector } from "react-redux";
+import { createProduct } from "../../reducers/Product/productSlice";
+
 const CreateProducts = ({ setOpenAddProduct }) => {
+  const dispatch = useDispatch();
+  const [productData, setProductData] = useState({
+    name: "",
+    sku: "",
+    price: "",
+    description: "",
+    category: "HCPL COLUMNS",
+    imageUrl: "",
+    imageFile: null,
+  });
+
+  const { loading, error } = useSelector((state) => state.product);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProductData({ ...productData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setProductData({ ...productData, imageFile: file });
+  };
 
   const onHandleCreate = () => {
-    setOpenAddProduct(false)
-  }
+    setOpenAddProduct(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createProduct(productData))
+      .unwrap()
+      .then(() => {
+        alert("Product created successfully");
+        setOpenAddProduct(false);
+      })
+      .catch((err) => {
+        console.error("Error creating product:", err);
+        alert(`Failed to create product: ${err}`);
+      });
+  };
+
   return (
-
-    <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-40 py-[200px]  w-full z-50">
-
-      <div className='w-[300px] sm:w-[500px] rounded-xl md:w-[700px] m-auto  p-10 bg-white sm:h-[700px] overflow-hidden'>
-        <div className="flex justify-between pb-6 border-b border-gray-400">
-          <div>
-            <p className='text-xl'><strong>Add Product</strong></p>
-          </div>
-          <div>
-            <RxCrossCircled className='cursor-pointer' style={{ fontSize: "25px", color: "red" }} onClick={onHandleCreate} />
-          </div>
+    <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-40 py-[200px] w-full z-50">
+      <div className="w-[300px] sm:w-[500px] rounded-xl md:w-[700px] m-auto p-10 bg-white">
+        <div className="flex justify-between pb-6 border-b">
+          <p className="text-xl">
+            <strong>Add Product</strong>
+          </p>
+          <RxCrossCircled
+            onClick={onHandleCreate}
+            className="cursor-pointer text-red-600 text-2xl"
+          />
         </div>
-        <form className='flex flex-col py-8 w-full gap-3 items-start' >
-          <div>
-            <p className='mb-2'>Upload Image</p>
-            <div className='flex gap-2'>
-              <label htmlFor="image1">
-                <img className='w-20' src="/upload.png" alt="" />
-                <input type="file" id="" hidden />
-              </label>
-              <label htmlFor="image1">
-                <img className='w-20' src="/upload.png" alt="" />
-                <input type="file" id="" hidden />
-              </label>
-              <label htmlFor="image1">
-                <img className='w-20' src="/upload.png" alt="" />
-                <input type="file" id="" hidden />
-              </label>
-            </div>
-          </div>
-          
-          <div className='flex flex-col sm:flex-row gap-2 w-full sm:gap-8'>
-          <div className='sm:w-1/2'>
-            <p className='mb-2'>Product Name</p>
-            <input type="text" className='w-[85%] border border-black rounded-lg max-w-[500px] px-2 py-1 ' placeholder='Type Here' required id="" />
-          </div>
-          <div className='sm:w-1/2'>
-            <p className='mb-2 '>Product Number</p>
-            <input type="text" className='w-[85%] max-w-[500px] border border-black rounded-lg px-2 py-1 ' placeholder='Type Here' required id="" />
-          </div>
-          </div>
-          <div className='flex flex-col sm:flex-row gap-2 w-full sm:gap-8'>
-            <div className='sm:w-1/2'>
-              <p className='mb-2 '>Product Category</p>
-              <select className='w-[85%] px-2 py-1 border border-black rounded-lg'>
-                <option >HCPL COLUMNS</option>
-                <option >ACCESSORIES</option>
-                <option >SAFETY SYSTEM</option>
-              </select>
-            </div>
 
-            <div className='sm:w-1/2'>
-              <p className='mb-2'>Product Price</p>
-              <input className='w-[85%] px-2 py-1 border border-black rounded-lg ' type="Number" placeholder='25' />
-            </div>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <input type="file" onChange={handleFileChange} />
           </div>
-          <div className='sm:w-full'>
-            <p className='mb-2'>Product Description</p>
-            <textarea className='w-[95%] min-h-[100px]  border border-black rounded-lg px-3 py-2' type="text" placeholder='Write Description'></textarea>
-          </div>
-          
 
-          <button className='w-28 py-3 mt-4 bg-red-600 rounded-lg text-white ' type='submit'>ADD</button>
+          <input
+            type="text"
+            name="name"
+            value={productData.name}
+            onChange={handleInputChange}
+            placeholder="Product Name"
+            required
+          />
+          <input
+            type="text"
+            name="sku"
+            value={productData.sku}
+            onChange={handleInputChange}
+            placeholder="SKU"
+            required
+          />
+          <input
+            type="number"
+            name="price"
+            value={productData.price}
+            onChange={handleInputChange}
+            placeholder="Price"
+            required
+          />
+          <input
+            type="text"
+            name="category"
+            value={productData.category}
+            onChange={handleInputChange}
+            placeholder="Category"
+          />
+          <textarea
+            name="description"
+            value={productData.description}
+            onChange={handleInputChange}
+            placeholder="Description"
+          ></textarea>
+
+          <button type="submit" disabled={loading}>
+            {loading ? "Adding..." : "Add Product"}
+          </button>
+          {error && <p className="text-red-600">{error}</p>}
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CreateProducts
+export default CreateProducts;

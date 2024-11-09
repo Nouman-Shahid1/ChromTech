@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
-const Category = require("./Category"); // Import the Category model
+const Category = require("./Category");
 
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
   sku: { type: String, required: true },
   price: { type: Number, required: true },
   description: { type: String },
-  category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" }, // Reference to Category
+  category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
   quantity: { type: Number, default: 1 },
-  imageUrl: { type: String },
+  imageUrl: { type: String }, // Image URL field
 });
 
 module.exports = mongoose.model("Product", productSchema);

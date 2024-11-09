@@ -1,21 +1,25 @@
 const Product = require("../models/Product");
 const Category = require("../models/Category");
 
-// Create a new product
 exports.createProduct = async (req, res) => {
   try {
-    const product = new Product(req.body);
+    const productData = req.body;
+    if (req.file) {
+      productData.imageUrl = req.file.path.replace(/\\/g, "/"); // Use forward slashes for consistency
+    }
+
+    const product = new Product(productData);
     await product.save();
     res.status(201).json(product);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 
 // Get all products with their categories
 exports.getProducts = async (req, res) => {
   try {
-    const products = await Product.find().populate("category"); // Populate category info
+    const products = await Product.find().populate("category");
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -36,9 +40,17 @@ exports.getProductById = async (req, res) => {
 // Update a product by ID
 exports.updateProduct = async (req, res) => {
   try {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const productData = req.body;
+    if (req.file) {
+      productData.imageUrl = req.file.path; // Update image URL if a new file is uploaded
+    }
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      productData,
+      {
+        new: true,
+      }
+    );
     if (!product) return res.status(404).json({ error: "Product not found" });
     res.json(product);
   } catch (error) {
