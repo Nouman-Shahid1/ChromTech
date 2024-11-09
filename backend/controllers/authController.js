@@ -129,3 +129,25 @@ exports.refreshToken = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+exports.updateUser = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const updateData = req.body; // Exclude sensitive fields from being updated directly
+
+    delete updateData.password;
+    delete updateData.email;
+    delete updateData.role; // Find the user by ID and update with provided data
+
+    const user = await User.findByIdAndUpdate(userId, updateData, {
+      new: true,
+    });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User updated successfully", user });
+  } catch (error) {
+    console.error("Update User Error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
