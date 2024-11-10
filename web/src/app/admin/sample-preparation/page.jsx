@@ -53,7 +53,7 @@ const SAMPLEPREPRATION = () => {
             </div>
           </div>
         </div>
-        <Table />
+        <Table categoryFilter="Sample Preparation" />
       </div>
     </>
   );

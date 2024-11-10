@@ -5,9 +5,10 @@ import { CiSearch } from "react-icons/ci";
 import CreateProducts from "@/components/CreateProducts/CreateProducts";
 import Table from "@/components/Table/Table";
 
-const Instrumentation= () => {
+const Instrumentation = () => {
   const [openAddProduct, setOpenAddProduct] = useState(false);
 
+  // Handle opening the Create Product modal
   const handleCreate = () => {
     setOpenAddProduct(true);
   };
@@ -16,30 +17,26 @@ const Instrumentation= () => {
     <>
       <div className="bg-gray-100 p-8 min-h-[100vh]">
         <Profile />
-        {openAddProduct ? (
+        {openAddProduct && (
           <CreateProducts setOpenAddProduct={setOpenAddProduct} />
-        ) : (
-          // <CreateProducts />
-          ""
         )}
         <div className="py-8 px-6">
           <p className="text-lg">HOME / Instrumentation</p>
         </div>
-        <div className="relative bg-white rounded-xl  h-[250px] sm:h-[150px] py-8 w-full mx-auto">
+        <div className="relative bg-white rounded-xl h-[250px] sm:h-[150px] py-8 w-full mx-auto">
           <div className="px-6">
             <p className="text-2xl text-gray-800">
-              {" "}
               <strong>Instrumentation</strong>
             </p>
           </div>
-          <div className="absolute flex flex-col sm:flex-row bottom-5 sm:bottom-5 sm:right-5  ">
+          <div className="absolute flex flex-col sm:flex-row bottom-5 sm:bottom-5 sm:right-5">
             <div className="mx-3 bg-gray-100 p-2">
               <button className="pt-1 px-2">
                 <CiSearch />
               </button>
               <input
                 type="text"
-                className="border-none outline-none bg-gray-100 "
+                className="border-none outline-none bg-gray-100"
                 placeholder="Search..."
               />
             </div>
@@ -53,9 +50,11 @@ const Instrumentation= () => {
             </div>
           </div>
         </div>
-        <Table />
+        {/* Pass the "Instrumentation" category filter to the Table component */}
+        <Table categoryFilter="Instrumentation" />
       </div>
     </>
   );
 };
+
 export default Instrumentation;

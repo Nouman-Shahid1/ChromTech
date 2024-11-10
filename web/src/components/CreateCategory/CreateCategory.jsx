@@ -1,14 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { createCategory } from "../../reducers/Category/categorySlice";
+import {
+  createCategory,
+  updateCategory,
+} from "../../reducers/Category/categorySlice";
 
-const CreateCategory = ({ setOpenAddProduct }) => {
-  const [name, setName] = useState("");
-  const [subcategories, setSubcategories] = useState([{ name: "" }]);
+const CreateCategory = ({ setOpenAddProduct, category }) => {
   const dispatch = useDispatch();
+  const isEditMode = !!category;
 
+  // Initialize state with existing category data if in edit mode
+  const [name, setName] = useState(category?.name || "");
+  const [subcategories, setSubcategories] = useState(
+    category?.subcategories?.map((sub) => ({ name: sub.name })) || [
+      { name: "" },
+    ]
+  );
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!name) {
       alert("Please enter a category name.");
       return;
@@ -24,25 +36,41 @@ const CreateCategory = ({ setOpenAddProduct }) => {
     };
 
     try {
-      await dispatch(createCategory(categoryData));
-      alert("Category created successfully!");
+      if (isEditMode) {
+        // Update existing category
+        await dispatch(
+          updateCategory({
+            id: category._id,
+            updatedCategoryData: categoryData,
+          })
+        );
+        alert("Category updated successfully!");
+      } else {
+        // Create new category
+        await dispatch(createCategory(categoryData));
+        alert("Category created successfully!");
+      }
+
       setOpenAddProduct(false);
     } catch (error) {
-      console.error("Error creating category:", error);
-      alert("Failed to create category.");
+      console.error("Error saving category:", error);
+      alert("Failed to save category.");
     }
   };
 
+  // Handle subcategory input change
   const handleSubcategoryChange = (index, value) => {
     const updatedSubcategories = [...subcategories];
     updatedSubcategories[index].name = value;
     setSubcategories(updatedSubcategories);
   };
 
+  // Add new subcategory input field
   const addSubcategoryField = () => {
     setSubcategories([...subcategories, { name: "" }]);
   };
 
+  // Remove a subcategory input field
   const removeSubcategoryField = (index) => {
     const updatedSubcategories = subcategories.filter((_, i) => i !== index);
     setSubcategories(updatedSubcategories);
@@ -51,10 +79,9 @@ const CreateCategory = ({ setOpenAddProduct }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg p-8 transition-transform transform hover:scale-105">
-        {/* Modal Header */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-            Create New Category
+            {isEditMode ? "Edit Category" : "Create New Category"}
           </h2>
           <button
             type="button"
@@ -66,7 +93,6 @@ const CreateCategory = ({ setOpenAddProduct }) => {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 strokeLinecap="round"
@@ -78,20 +104,15 @@ const CreateCategory = ({ setOpenAddProduct }) => {
           </button>
         </div>
 
-        {/* Modal Body */}
         <form onSubmit={handleSubmit}>
-          {/* Category Name Input */}
           <div className="mb-6">
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-            >
+            <label htmlFor="name" className="block text-sm font-medium mb-2">
               Category Name
             </label>
             <input
               type="text"
               id="name"
-              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-blue-500 focus:border-blue-500 transition-all"
+              className="w-full p-3 rounded-lg border"
               placeholder="Enter Category Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -99,22 +120,21 @@ const CreateCategory = ({ setOpenAddProduct }) => {
             />
           </div>
 
-          {/* Subcategory Inputs */}
-          <h3 className="text-lg font-semibold mb-4 dark:text-white">
+          <h3 className="text-lg font-semibold mb-4">
             Add Subcategories (Optional)
           </h3>
           {subcategories.map((sub, index) => (
             <div key={index} className="flex items-center mb-4">
               <input
                 type="text"
-                className="flex-1 p-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="flex-1 p-3 rounded-lg border"
                 placeholder={`Subcategory ${index + 1} Name`}
                 value={sub.name}
                 onChange={(e) => handleSubcategoryChange(index, e.target.value)}
               />
               <button
                 type="button"
-                className="ml-3 p-2 rounded-full bg-red-500 hover:bg-red-600 text-white transition-all"
+                className="ml-3 p-2 rounded-full bg-red-500 hover:bg-red-600 text-white"
                 onClick={() => removeSubcategoryField(index)}
               >
                 <svg
@@ -122,7 +142,6 @@ const CreateCategory = ({ setOpenAddProduct }) => {
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     strokeLinecap="round"
@@ -135,29 +154,27 @@ const CreateCategory = ({ setOpenAddProduct }) => {
             </div>
           ))}
 
-          {/* Add Subcategory Button */}
           <button
             type="button"
-            className="w-full py-3 mb-6 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-all"
+            className="w-full py-3 mb-6 rounded-lg bg-blue-600 hover:bg-blue-700 text-white"
             onClick={addSubcategoryField}
           >
             Add Subcategory
           </button>
 
-          {/* Form Actions */}
           <div className="flex justify-end space-x-4">
             <button
               type="button"
-              className="py-3 px-6 rounded-lg bg-gray-400 hover:bg-gray-500 text-white transition-all"
+              className="py-3 px-6 rounded-lg bg-gray-400 hover:bg-gray-500 text-white"
               onClick={() => setOpenAddProduct(false)}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="py-3 px-6 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-all"
+              className="py-3 px-6 rounded-lg bg-blue-600 hover:bg-blue-700 text-white"
             >
-              Create Category
+              {isEditMode ? "Update Category" : "Create Category"}
             </button>
           </div>
         </form>

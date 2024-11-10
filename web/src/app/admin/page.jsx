@@ -71,13 +71,13 @@ export default function Dashboard() {
                 }}
               />
 
-              {/* <DashboardCard
+              <DashboardCard
                 details={{
-                  name: "Sample Preparation",
+                  name: "Categories",
                   src: Services,
-                  url:"/admin/",
+                  url: "/admin/",
                 }}
-                /> */}
+              />
             </div>
           </div>
         </div>

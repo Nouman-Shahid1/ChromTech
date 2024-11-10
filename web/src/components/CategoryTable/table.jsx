@@ -5,28 +5,46 @@ import { CiEdit } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../../reducers/Category/categorySlice";
 import DeleteCategory from "../DeleteCategory/DeleteCategory";
+import CreateCategory from "../CreateCategory/CreateCategory";
 
-export default function Table() {
+const CategoryTable = () => {
   const dispatch = useDispatch();
   const { categories, loading, error } = useSelector((state) => state.category);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
+  // Fetch categories when the component mounts
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
 
+  // Open delete modal
   const openDeleteModal = (categoryId) => {
     setSelectedCategoryId(categoryId);
     setIsDeleteModalOpen(true);
   };
 
+  // Open edit modal
+  const openEditModal = (category) => {
+    setSelectedCategory(category);
+    setIsEditModalOpen(true);
+  };
+
+  // Close modals
   const closeDeleteModal = () => {
     setIsDeleteModalOpen(false);
     setSelectedCategoryId(null);
   };
 
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedCategory(null);
+  };
+
+  // Display loading or error states
   if (loading) {
     return <p className="text-center">Loading categories...</p>;
   }
@@ -77,7 +95,10 @@ export default function Table() {
                     )}
                   </td>
                   <td className="px-4 py-2 border-b flex justify-center space-x-2">
-                    <button className="bg-blue-200 p-2 rounded-full">
+                    <button
+                      className="bg-blue-200 p-2 rounded-full"
+                      onClick={() => openEditModal(category)}
+                    >
                       <CiEdit size={20} color="blue" />
                     </button>
                     <button
@@ -101,6 +122,16 @@ export default function Table() {
           categoryId={selectedCategoryId}
         />
       )}
+
+      {/* Edit Modal */}
+      {isEditModalOpen && (
+        <CreateCategory
+          setOpenAddProduct={closeEditModal}
+          category={selectedCategory}
+        />
+      )}
     </>
   );
-}
+};
+
+export default CategoryTable;

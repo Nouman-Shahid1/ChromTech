@@ -30,23 +30,23 @@ export const updateProduct = createAsyncThunk(
   "product/updateProduct",
   async ({ id, productData }, { rejectWithValue, dispatch }) => {
     try {
-      const formData = new FormData();
-      Object.keys(productData).forEach((key) => {
-        if (key !== "imageFiles") {
-          formData.append(key, productData[key]);
-        }
-      });
+      console.log("Received id:", id);
+      console.log("Received productData:", productData);
 
-      if (productData.imageFiles) {
-        productData.imageFiles.forEach((file) => {
-          formData.append("image", file);
-        });
+      if (!productData || !(productData instanceof FormData)) {
+        throw new Error("Invalid product data provided.");
       }
 
-      const response = await axios.put(`/api/products/${id}`, formData);
+      const response = await axios.put(`/api/products/${id}`, productData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
       dispatch(getProducts());
       return response.data;
     } catch (error) {
+      console.error("Error in updateProduct thunk:", error);
       return rejectWithValue(error.response?.data || error.message);
     }
   }

@@ -1,6 +1,6 @@
 "use client";
+import React, { useState } from "react";
 import Profile from "@/components/Profile/Profile";
-import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import CreateProducts from "@/components/CreateProducts/CreateProducts";
 import Table from "@/components/Table/Table";
@@ -11,16 +11,14 @@ const LC = () => {
   const [openAddProduct, setOpenAddProduct] = useState(false);
   const dispatch = useDispatch();
 
-  // Handle opening the Create Product modal
   const handleCreate = () => {
     setOpenAddProduct(true);
   };
 
-  // API call function to be passed as a prop
   const handleCreateProduct = async (productData) => {
     try {
       await dispatch(createProduct(productData));
-      setOpenAddProduct(false); // Close the modal after successful API call
+      setOpenAddProduct(false);
     } catch (error) {
       console.error("Error creating product:", error);
     }
@@ -66,7 +64,8 @@ const LC = () => {
             </div>
           </div>
         </div>
-        <Table />
+        {/* Pass the category filter as a prop */}
+        <Table categoryFilter="LC" />
       </div>
     </>
   );

@@ -4,12 +4,15 @@ import { CiEdit } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../reducers/Product/productSlice";
 import DeleteProduct from "../DeleteProduct/DeleteProduct";
+import CreateProducts from "../CreateProducts/CreateProducts";
 
-export default function Table() {
+export default function Table({ categoryFilter }) {
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector((state) => state.product);
   const [openDelProduct, setOpenDelProduct] = useState(false);
+  const [openEditProduct, setOpenEditProduct] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     dispatch(getProducts());
@@ -19,6 +22,16 @@ export default function Table() {
     setSelectedProductId(productId);
     setOpenDelProduct(true);
   };
+
+  const handleEditProduct = (product) => {
+    setSelectedProduct(product);
+    setOpenEditProduct(true);
+  };
+
+  // Filter products based on the categoryFilter prop
+  const filteredProducts = categoryFilter
+    ? products.filter((product) => product.category?.name === categoryFilter)
+    : products;
 
   if (loading) {
     return <p className="text-center">Loading products...</p>;
@@ -48,7 +61,7 @@ export default function Table() {
             </tr>
           </thead>
           <tbody>
-            {products.map((product, index) => (
+            {filteredProducts.map((product, index) => (
               <tr key={product._id || index} className="text-gray-700">
                 <td className="px-4 py-2 border-b">{index + 1}</td>
                 <td className="px-4 py-2 border-b">{product.name}</td>
@@ -77,7 +90,10 @@ export default function Table() {
                   />
                 </td>
                 <td className="px-4 py-2 border-b flex justify-center space-x-2">
-                  <button className="bg-blue-200 p-2 rounded-full">
+                  <button
+                    className="bg-blue-200 p-2 rounded-full"
+                    onClick={() => handleEditProduct(product)}
+                  >
                     <CiEdit size={20} color="blue" />
                   </button>
                   <button
@@ -97,6 +113,13 @@ export default function Table() {
         <DeleteProduct
           setOpenDelProduct={setOpenDelProduct}
           productId={selectedProductId}
+        />
+      )}
+
+      {openEditProduct && (
+        <CreateProducts
+          setOpenAddProduct={setOpenEditProduct}
+          product={selectedProduct}
         />
       )}
     </div>

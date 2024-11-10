@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
       <body>
         {/* <Authentication> */}
 
-          <AdminSidebar text={'Create Product'} text1={'LC'} text2={'GC'} text3={'INSTRUCTION'} text4={'SIGN OUT'} img={false} />
+          <AdminSidebar text={'Create Product'} text1={'LC'} text2={'GC'} text3={'INSTRUCTION'} text4={'INSTRUCTION'} text5={'SIGN OUT'} img={false} />
           
           <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md sm:ml-[370px]">
             {children}

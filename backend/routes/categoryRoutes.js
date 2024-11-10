@@ -7,5 +7,6 @@ router.get("/", categoryController.getCategories); // Read all categories with n
 router.get("/:id", categoryController.getCategoryById); // Read single category with all nested subcategories
 router.post("/add-subcategory", categoryController.addSubcategory); // Add subcategory to a category
 router.delete("/:id", categoryController.deleteCategory); // Delete category
+router.put("/:id", categoryController.updateCategory);
 
 module.exports = router;

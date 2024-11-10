@@ -53,7 +53,7 @@ const VIALSPLATES = () => {
             </div>
           </div>
         </div>
-        <Table />
+        <Table categoryFilter="Vials & 96-Well Plates" />
       </div>
     </>
   );

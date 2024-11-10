@@ -152,6 +152,16 @@ const AdminSidebar = () => {
                 </span>
               </li>
             </Link>
+            <Link href="/admin/categories">
+              <li
+                onClick={handleLinkClick}
+                className="flex mt-1 items-center gap-6 p-2 text-red-500 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <span className="flex-1 text-lg font-poppins font-bold ">
+                  Categories
+                </span>
+              </li>
+            </Link>
             <Link href="#">
               <li
                 onClick={handleLinkClick}

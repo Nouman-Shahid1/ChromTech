@@ -1,29 +1,51 @@
 import React, { useState, useEffect } from "react";
 import { RxCrossCircled } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
-import { createProduct } from "../../reducers/Product/productSlice";
+import {
+  createProduct,
+  updateProduct,
+} from "../../reducers/Product/productSlice";
 import { getCategories } from "../../reducers/Category/categorySlice";
 
-const CreateProducts = ({ setOpenAddProduct }) => {
+const CreateProducts = ({ setOpenAddProduct, product }) => {
   const dispatch = useDispatch();
+  const isEditMode = !!product;
+
+  // Initialize product data with preselected category and subcategory if in edit mode
   const [productData, setProductData] = useState({
-    name: "",
-    sku: "",
-    price: "",
-    description: "",
-    category: "",
-    subcategory: "",
+    name: product?.name || "",
+    sku: product?.sku || "",
+    price: product?.price || "",
+    description: product?.description || "",
+    category: product?.category || "",
+    subcategory: product?.subcategory || "",
     image: null,
+    imageUrl: product?.imageUrl || "",
   });
 
-  const { categories, loading: categoryLoading } = useSelector(
-    (state) => state.category
-  );
+  const {
+    categories,
+    loading: categoryLoading,
+    error: categoryError,
+  } = useSelector((state) => state.category);
   const { loading, error } = useSelector((state) => state.product);
 
   useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
+    if (!categories || categories.length === 0) {
+      dispatch(getCategories());
+    }
+  }, [dispatch, categories]);
+
+  // Set category and subcategory if editing a product and categories are fetched
+  useEffect(() => {
+    if (isEditMode && categories.length > 0) {
+      setProductData((prevData) => ({
+        ...prevData,
+        category: product.category || "",
+        subcategory: product.subcategory || "",
+      }));
+    }
+  }, [categories, isEditMode, product]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,35 +54,68 @@ const CreateProducts = ({ setOpenAddProduct }) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setProductData({ ...productData, image: file });
+    setProductData({
+      ...productData,
+      image: file,
+      imageUrl: URL.createObjectURL(file),
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("name", productData.name);
-    formData.append("sku", productData.sku);
-    formData.append("price", productData.price);
-    formData.append("description", productData.description);
-    formData.append("category", productData.category);
-    formData.append("subcategory", productData.subcategory);
-    formData.append("image", productData.image);
+    // Debugging: Log productData before creating FormData
+    console.log("Product Data before submission:", productData);
 
+    const formData = new FormData();
+    formData.append("id", product?._id || ""); // Add product ID to FormData
+    formData.append("name", productData.name || "");
+    formData.append("sku", productData.sku || "");
+    formData.append("price", productData.price || "");
+    formData.append("description", productData.description || "");
+    formData.append("category", productData.category || "");
+
+    // Handle subcategory
+    const subcategoryId =
+      productData.subcategory?._id || productData.subcategory || "";
+    formData.append("subcategory", subcategoryId);
+
+    // Append image if present
+    if (productData.image) {
+      formData.append("image", productData.image);
+    }
+
+    // Debugging: Log FormData entries
     for (let [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
     }
 
-    dispatch(createProduct(formData))
-      .unwrap()
-      .then(() => {
-        alert("Product created successfully");
-        setOpenAddProduct(false);
-      })
-      .catch((err) => {
-        console.error("Error creating product:", err);
-        alert(`Failed to create product: ${err}`);
-      });
+    if (isEditMode) {
+      console.log("Dispatching updateProduct with FormData...");
+      // Pass both id and formData as an object
+      dispatch(updateProduct({ id: product._id, productData: formData }))
+        .unwrap()
+        .then(() => {
+          alert("Product updated successfully");
+          setOpenAddProduct(false);
+        })
+        .catch((err) => {
+          console.error("Error updating product:", err);
+          alert(`Failed to update product: ${err}`);
+        });
+    } else {
+      console.log("Dispatching createProduct with FormData...");
+      dispatch(createProduct(formData))
+        .unwrap()
+        .then(() => {
+          alert("Product created successfully");
+          setOpenAddProduct(false);
+        })
+        .catch((err) => {
+          console.error("Error creating product:", err);
+          alert(`Failed to create product: ${err}`);
+        });
+    }
   };
 
   const selectedCategory = categories.find(
@@ -68,11 +123,25 @@ const CreateProducts = ({ setOpenAddProduct }) => {
   );
   const subcategories = selectedCategory ? selectedCategory.subcategories : [];
 
+  if (categoryLoading) {
+    return <p className="text-center">Loading categories...</p>;
+  }
+
+  if (categoryError) {
+    return (
+      <p className="text-red-600 text-center">
+        Error loading categories: {categoryError}
+      </p>
+    );
+  }
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="w-full max-w-3xl p-8 bg-white rounded-lg shadow-lg">
         <div className="flex justify-between items-center pb-4 mb-6 border-b">
-          <h2 className="text-2xl font-semibold">Add New Product</h2>
+          <h2 className="text-2xl font-semibold">
+            {isEditMode ? "Update Product" : "Add New Product"}
+          </h2>
           <RxCrossCircled
             onClick={() => setOpenAddProduct(false)}
             className="cursor-pointer text-red-600 text-3xl"
@@ -88,8 +157,17 @@ const CreateProducts = ({ setOpenAddProduct }) => {
               type="file"
               name="image"
               onChange={handleFileChange}
-              required
+              className="w-full"
             />
+            {productData.imageUrl && (
+              <div className="mt-2">
+                <img
+                  src={productData.imageUrl}
+                  alt="Product Preview"
+                  className="w-32 h-32 object-cover rounded-lg"
+                />
+              </div>
+            )}
           </div>
 
           <input
@@ -163,7 +241,6 @@ const CreateProducts = ({ setOpenAddProduct }) => {
           ></textarea>
 
           <div className="flex justify-end">
-             {" "}
             <button
               type="submit"
               disabled={loading || categoryLoading}
@@ -171,7 +248,13 @@ const CreateProducts = ({ setOpenAddProduct }) => {
                 loading || categoryLoading ? "bg-gray-400" : "bg-blue-600"
               }`}
             >
-                  {loading ? "Adding..." : "Add Product"} {" "}
+              {loading
+                ? isEditMode
+                  ? "Updating..."
+                  : "Adding..."
+                : isEditMode
+                ? "Update Product"
+                : "Add Product"}
             </button>
           </div>
 

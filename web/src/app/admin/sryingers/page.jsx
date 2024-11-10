@@ -53,7 +53,7 @@ const SRYINGERS = () => {
             </div>
           </div>
         </div>
-        <Table />
+        <Table categoryFilter="Syringes" />
       </div>
     </>
   );
