@@ -1,33 +1,46 @@
 const Category = require("../models/Category");
 
-// Create a new category
 exports.createCategory = async (req, res) => {
   try {
-    const category = new Category(req.body);
+    const { name, subcategories } = req.body;
+
+    const subcategoryIds = await Promise.all(
+      subcategories.map(async (subName) => {
+        const subcategory = new Category({ name: subName });
+        await subcategory.save();
+        return subcategory._id;
+      })
+    );
+
+    const category = new Category({ name, subcategories: subcategoryIds });
     await category.save();
+
     res.status(201).json(category);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-// Get all categories with nested subcategories
 exports.getCategories = async (req, res) => {
   try {
     const categories = await Category.find().populate({
       path: "subcategories",
+      model: "Category",
+      select: "name subcategories",
+      options: { lean: true },
       populate: {
         path: "subcategories",
-        populate: { path: "subcategories" }, // Recursive population for deeper levels
+        model: "Category",
+        select: "name subcategories",
       },
     });
+
     res.json(categories);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Add a subcategory to an existing category
 exports.addSubcategory = async (req, res) => {
   try {
     const { parentCategoryId, subcategoryId } = req.body;
@@ -43,12 +56,11 @@ exports.addSubcategory = async (req, res) => {
   }
 };
 
-// Get a single category by ID with its nested subcategories
 exports.getCategoryById = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id).populate({
       path: "subcategories",
-      populate: { path: "subcategories" }, // Recursive population
+      populate: { path: "subcategories" },
     });
     if (!category) return res.status(404).json({ error: "Category not found" });
     res.json(category);
@@ -57,7 +69,6 @@ exports.getCategoryById = async (req, res) => {
   }
 };
 
-// Delete a category
 exports.deleteCategory = async (req, res) => {
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
