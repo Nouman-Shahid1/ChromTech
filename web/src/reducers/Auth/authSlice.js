@@ -5,8 +5,8 @@ import { setCookie, getCookie, deleteCookie } from "../../utilities/utils";
 let refreshRequestPending = false;
 
 const initialState = {
-  user: null,
-  userRole: null,
+  user: JSON.parse(localStorage.getItem("user")) || null,
+  userRole: localStorage.getItem("userRole") || null,
   accessToken: getCookie("access_token") || null,
   loading: false,
   error: null,
@@ -122,7 +122,12 @@ const authSlice = createSlice({
       state.accessToken = null;
       state.loading = false;
       state.error = null;
+
+      // Clear local storage
+      localStorage.removeItem("user");
+      localStorage.removeItem("userRole");
     },
+
     setLoggedOut: (state, action) => {
       state.loggedOut = action.payload;
     },
@@ -139,6 +144,10 @@ const authSlice = createSlice({
         state.userRole = action.payload.userRole;
         state.accessToken = action.payload.access_token;
         state.loggedOut = false;
+
+        // Store user information in local storage
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
+        localStorage.setItem("userRole", action.payload.userRole);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;

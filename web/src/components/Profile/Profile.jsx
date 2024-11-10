@@ -11,12 +11,15 @@ const Profile = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  // Access the user from Redux state
   const user = useSelector((state) => state.auth.user);
 
+  // Toggle the dropdown visibility
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
+  // Handle user logout
   const handleLogout = () => {
     dispatch(logout());
     router.push("/login");
@@ -81,8 +84,15 @@ const Profile = () => {
               </ul>
             </div>
           </div>
+
           <p className="text-sm font-poppinsregular font-normal text-[#737791]">
-            Business Account
+            {user?.role === "admin"
+              ? "Admin"
+              : user?.role === "superadmin"
+              ? "Super Admin"
+              : user?.role === "business"
+              ? "Business"
+              : "User"}
           </p>
         </div>
       </div>

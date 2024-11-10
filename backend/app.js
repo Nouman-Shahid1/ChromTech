@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
-const userRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/usersRoutes");
 const productRoutes = require("./routes/productRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const errorHandler = require("./middleware/errorHandler");
@@ -12,7 +12,7 @@ require("dotenv").config();
 const app = express();
 
 // Enable CORS
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors());
 
 // Connect to the database
 connectDB();
@@ -26,10 +26,9 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // API Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
-
+app.use("/api/users", userRoutes);
 // Error handler middleware
 app.use(errorHandler);
 
