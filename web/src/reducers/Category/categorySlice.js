@@ -87,76 +87,77 @@ export const deleteCategory = createAsyncThunk(
 );
 
 const categorySlice = createSlice({
-  name: "category",
-  initialState: {
-    categories: [],
-    loading: false,
-    error: null,
-  },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(getCategories.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getCategories.fulfilled, (state, action) => {
-        state.loading = false;
-        state.categories = action.payload;
-      })
-      .addCase(getCategories.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-      .addCase(createCategory.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(createCategory.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(createCategory.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-      .addCase(addSubCategory.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(addSubCategory.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(addSubCategory.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-      .addCase(updateCategory.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(updateCategory.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(updateCategory.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-      .addCase(deleteCategory.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(deleteCategory.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(deleteCategory.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
-  },
-});
-
-export default categorySlice.reducer;
+    name:"category",
+    initialState:{
+        categories:[],
+        loading:false,
+        error,
+    },
+    reducers:{},
+    extraReducers:(builder)=>{
+        builder
+        .addCase(createCategory.pending,(state)=>{
+            state.loading=true;
+            state.error=false;
+        })
+        .addCase(createCategory.fulfilled,(state,action)=>{
+            state.loading=false;
+            state.categories.push(action.payload);
+        })
+        .addCase(createCategory.rejected,(state,action)=>{
+            state.loading=fasle;
+            state.error=action.payload;
+        })
+        .addCase(getCategories.pending,(state)=>{
+            state.loading=true;
+            state.error=false;
+        })
+        .addCase(getCategories.fulfilled,(state,action)=>{
+            state.loading=false;
+            state.categories.push(action.payload);
+        })
+        .addCase(getCategories.rejected,(state,action)=>{
+            state.loading=fasle;
+            state.error=action.payload;
+        })
+        .addCase(getCategoryById.pending,(state)=>{
+            state.loading=true;
+            state.error=false;
+        })
+        .addCase(getCategoryById.fulfilled,(state,action)=>{
+            state.loading=false;
+            state.categories.push(action.payload);
+        })
+        .addCase(getCategoryById.rejected,(state,action)=>{
+            state.loading=fasle;
+            state.error=action.payload;
+        })
+        .addCase(addSubCategory.pending,(state)=>{
+            state.loading=true;
+            state.error=false;
+        })
+        .addCase(addSubCategory.fulfilled,(state,action)=>{
+            state.loading=false;
+            state.categories.push(action.payload);
+        })
+        .addCase(addSubCategory.rejected,(state,action)=>{
+            state.loading=fasle;
+            state.error=action.payload;
+        })
+        .addCase(deleteCategory.pending,(state)=>{
+            state.loading=true;
+            state.error=false;
+        })
+        .addCase(deleteCategory.fulfilled,(state,action)=>{
+            state.loading=false;
+            state.categories.push(action.payload);
+        })
+        .addCase(deleteCategory.rejected,(state,action)=>{
+            state.loading=fasle;
+            state.error=action.payload;
+        })
+       
+        
+    }
+})
+export default categorySlice.reducer
