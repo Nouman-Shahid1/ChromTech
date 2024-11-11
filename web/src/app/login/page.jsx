@@ -45,8 +45,8 @@ const Login = () => {
         <img src={logo.src} alt="Chrom Tech Logo" className="h-12" />
       </div>
 
-      <div className="flex bg-white rounded-lg shadow-lg max-w-6xl w-full mt-5 p-5">
-        <div className="flex-1 pr-5 border-r border-gray-200">
+      <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg max-w-6xl w-full mt-5 p-5">
+        <div className="flex-1 md:pr-5 md:border-r border-gray-200 mb-5 md:mb-0">
           <h2 className="text-3xl font-semibold mb-4 text-center">Sign in</h2>
           <form className="flex flex-col" onSubmit={handleSubmit}>
             <label className="mb-2">
@@ -83,17 +83,17 @@ const Login = () => {
           )}
         </div>
 
-        <div className="flex-1 pl-5">
+        <div className="flex-1 pl-5 max-w-md mx-auto">
           <h2 className="text-3xl font-semibold mb-4 text-center">
             New Customer?
           </h2>
-          <p className="mb-4">
+          <p className="mb-4  md:text-left">
             At Chrom Tech, we know how frustrating it can be to spend so much of
             your time ordering supplies. That’s why we’ve created a convenient
             online ordering system where you can{" "}
             <strong>buy from more than 30 suppliers in one place</strong>.
           </p>
-          <p className="mb-4">
+          <p className="mb-4 md:text-left">
             Create an account with us and you'll be able to:
           </p>
           <ul className="list-disc pl-5 mb-4">
@@ -103,14 +103,14 @@ const Login = () => {
             <li>View accurate, account-level pricing at your convenience</li>
           </ul>
           <Link href="/register" passHref>
-            <button className="bg-red-600 text-white py-2 px-6 mt-4 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400">
+            <button className="bg-red-600 text-white py-2 px-6 w-full md:w-auto mt-4 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400">
               CREATE ACCOUNT
             </button>
           </Link>
         </div>
       </div>
 
-      <div className="mt-5 py-5 bg-gray-200 w-full text-left text-black text-lg px-4">
+      <div className="mt-5 py-5 bg-gray-200 w-full text-left text-black text-base px-4 mb-8">
         <p>
           <strong>Please note:</strong> Due to the sensitive nature of selling
           analytical consumables, all accounts are vetted through our customer
