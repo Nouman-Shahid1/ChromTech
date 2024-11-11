@@ -86,24 +86,24 @@ const Navbar = ({ hasHeadline }) => {
           {/* <div className="header-btn">
             <Link href="">REQUEST A QUOTE</Link>
           </div> */}
-          <div className="nav-sign">
-            <FaRegUser
-              style={{
-                fontSize: "20px",
-                paddingLeft: "5px",
-                paddingTop: "5px",
-              }}
-            />
-            <span>| Sign in or Register |</span>
-            <CiShoppingCart
-              style={{
-                fontSize: "20px",
-                paddingLeft: "5px",
-                paddingTop: "5px",
-              }}
-            />{" "}
-            (0)
-          </div>
+            <div className="nav-sign">
+              <FaRegUser
+                style={{
+                  fontSize: "20px",
+                  paddingLeft: "5px",
+                  paddingTop: "5px",
+                }}
+              />
+              <span>| Sign in or Register |</span>
+              <CiShoppingCart
+                style={{
+                  fontSize: "20px",
+                  paddingLeft: "5px",
+                  paddingTop: "5px",
+                }}
+              />{" "}
+              (0)
+            </div>
         </div>
       </div>
       <hr style={{ border: "1px solid lightgray" }} />
@@ -133,13 +133,41 @@ const Navbar = ({ hasHeadline }) => {
               </div>
             </div>
             <ul className="flex justify-around">
-              <li><Link href="/" onClick={handleLinkClick}>VIALS & 96 WELL Plates</Link></li>
-              <li><Link href="/lc" onClick={handleLinkClick}>LC</Link></li>
-              <li><Link href="/gc" onClick={handleLinkClick}>GC</Link></li>
-              <li><Link href="/" onClick={handleLinkClick}>INSTRUMENTATION</Link></li>
-              <li><Link href="/sryingers" onClick={handleLinkClick}>SYRINGERS</Link></li>
-              <li><Link href="/sample-preparation" onClick={handleLinkClick}>SAMPLE PREPARATIONS</Link></li>
-              <li><Link href="/support" onClick={handleLinkClick}>SUPPORT</Link></li>
+              <li>
+                <Link href="/vials-and-plates" onClick={handleLinkClick}>
+                  VIALS & 96 WELL Plates
+                </Link>
+              </li>
+              <li>
+                <Link href="/lc" onClick={handleLinkClick}>
+                  LC
+                </Link>
+              </li>
+              <li>
+                <Link href="/gc" onClick={handleLinkClick}>
+                  GC
+                </Link>
+              </li>
+              <li>
+                <Link href="/instrumentation" onClick={handleLinkClick}>
+                  INSTRUMENTATION
+                </Link>
+              </li>
+              <li>
+                <Link href="/sryingers" onClick={handleLinkClick}>
+                  SYRINGERS
+                </Link>
+              </li>
+              <li>
+                <Link href="/sample-preparation" onClick={handleLinkClick}>
+                  SAMPLE PREPARATIONS
+                </Link>
+              </li>
+              <li>
+                <Link href="/support" onClick={handleLinkClick}>
+                  SUPPORT
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

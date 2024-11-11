@@ -8,23 +8,23 @@ import { getCategories } from "@/reducers/Category/categorySlice";
 import { getProducts } from "@/reducers/Product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-// Initial data for Sample Preparation
+// Initial data for Plates
 const initialData = [
   {
     title: "{subcategory.name}",
-    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/sample-preparation.jpg",
-    subTitle: "Sample Preparation Tools",
+    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/plates.jpg",
+    subTitle: "Plates",
   },
   {
     title: "{subcategory.name}",
-    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/sample-preparation-accessories.jpg",
-    subTitle: "Sample Preparation Accessories",
+    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/plate-accessories.jpg",
+    subTitle: "Plate Accessories",
   },
 ];
 
-const SamplePreparation = () => {
-  const [samplePrepData, setSamplePrepData] = useState(initialData);
-  const [samplePrepCategory, setSamplePrepCategory] = useState(null);
+const Plates = () => {
+  const [platesData, setPlatesData] = useState(initialData);
+  const [platesCategory, setPlatesCategory] = useState(null);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.categories);
@@ -33,15 +33,14 @@ const SamplePreparation = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch categories first
-        await dispatch(getCategories()); // Find the "Sample Preparation" category
+        await dispatch(getCategories()); // Find the "Plates" category
 
         const category = categories.find(
-          (cat) => cat.name === "Sample Preparation"
+          (cat) => cat.name === "Vials & 96-Well Plates"
         );
 
         if (category) {
-          setSamplePrepCategory(category); // Update samplePrepData with subcategory names
+          setPlatesCategory(category);
 
           const updatedData = initialData.map((item, index) => {
             const subcategory = category.subcategories?.[index];
@@ -51,14 +50,14 @@ const SamplePreparation = () => {
             };
           });
 
-          setSamplePrepData(updatedData); // Fetch products and filter by "Sample Preparation" category
+          setPlatesData(updatedData);
 
           await dispatch(getProducts());
-          const samplePrepProducts = products.filter(
-            (product) => product.category?.name === "Sample Preparation"
+          const platesProducts = products.filter(
+            (product) => product.category?.name === "Vials & 96-Well Plates"
           );
 
-          setFilteredProducts(samplePrepProducts);
+          setFilteredProducts(platesProducts);
         }
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -72,20 +71,17 @@ const SamplePreparation = () => {
     <>
             <Navbar hasHeadline={true} />     {" "}
       <MenuPage
-        data={samplePrepData}
-        titleText="Sample Preparation"
-        breadcrumbText="Home / Sample Preparation Products"
-        descriptionTitle="Sample Preparation Tools & Accessories"
-        descriptionText="Explore our range of sample preparation tools and accessories, designed for efficient and accurate laboratory sample processing."
+        data={platesData}
+        titleText="Vials & 96-Well Plates"
+        breadcrumbText="Home / Plates Products"
+        descriptionTitle="Plates & Accessories"
+        descriptionText="Discover our selection of plates and plate accessories designed for laboratory efficiency and accuracy."
       />
            {" "}
-      <RelatedProducts
-        category={samplePrepCategory}
-        products={filteredProducts}
-      />
+      <RelatedProducts category={platesCategory} products={filteredProducts} />
             <Footer />   {" "}
     </>
   );
 };
 
-export default SamplePreparation;
+export default Plates;
