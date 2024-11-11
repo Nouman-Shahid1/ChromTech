@@ -86,7 +86,6 @@ const Navbar = ({ hasHeadline }) => {
           {/* <div className="header-btn">
             <Link href="">REQUEST A QUOTE</Link>
           </div> */}
-          <Link href="/login" passHref>
             <div className="nav-sign">
               <FaRegUser
                 style={{
@@ -105,7 +104,6 @@ const Navbar = ({ hasHeadline }) => {
               />{" "}
               (0)
             </div>
-          </Link>
         </div>
       </div>
       <hr style={{ border: "1px solid lightgray" }} />
@@ -136,7 +134,7 @@ const Navbar = ({ hasHeadline }) => {
             </div>
             <ul className="flex justify-around">
               <li>
-                <Link href="/" onClick={handleLinkClick}>
+                <Link href="/vials-and-plates" onClick={handleLinkClick}>
                   VIALS & 96 WELL Plates
                 </Link>
               </li>
@@ -151,7 +149,7 @@ const Navbar = ({ hasHeadline }) => {
                 </Link>
               </li>
               <li>
-                <Link href="/" onClick={handleLinkClick}>
+                <Link href="/instrumentation" onClick={handleLinkClick}>
                   INSTRUMENTATION
                 </Link>
               </li>
