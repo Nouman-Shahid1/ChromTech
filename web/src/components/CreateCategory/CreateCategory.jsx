@@ -78,7 +78,7 @@ const CreateCategory = ({ setOpenAddProduct, category }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg p-8 transition-transform transform hover:scale-105">
+      <div className="bg-white h-[580px] overflow-auto dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg p-8 transition-transform transform hover:scale-105">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
             {isEditMode ? "Edit Category" : "Create New Category"}

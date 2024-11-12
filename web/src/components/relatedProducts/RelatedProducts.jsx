@@ -1,11 +1,19 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 import ProductCard from "../ProductCard/ProductCard";
 import Pagination from "../Pagination/Pagination";
 
 const RelatedProducts = ({ category, products }) => {
+  const router = useRouter();
+
   if (!category) return <p>Loading...</p>;
 
   const { name: categoryName, subcategories = [] } = category;
+
+  // Navigate to the subcategory page when clicked
+  const handleSubcategoryClick = (subcategoryName) => {
+    router.push(`/subcategory/${encodeURIComponent(subcategoryName)}`);
+  };
 
   return (
     <div className="bg-gray-100">
@@ -18,7 +26,11 @@ const RelatedProducts = ({ category, products }) => {
             </p>
             {subcategories.length > 0 ? (
               subcategories.map((subcategory, index) => (
-                <p key={index} className="pt-1 hover:text-gray-300">
+                <p
+                  key={index}
+                  className="pt-1 hover:text-gray-300 cursor-pointer"
+                  onClick={() => handleSubcategoryClick(subcategory.name)}
+                >
                   {subcategory.name}
                 </p>
               ))

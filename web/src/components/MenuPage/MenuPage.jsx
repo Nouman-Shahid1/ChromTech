@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 import Title from "../Title/Title";
 import CategoryCard from "../CategoryCard/CategoryCard";
 
@@ -7,8 +8,15 @@ const MenuPage = ({
   breadcrumbText,
   descriptionTitle,
   descriptionText,
-  titleText
+  titleText,
 }) => {
+  const router = useRouter();
+
+  // Navigate to the category page when clicked
+  const handleCategoryClick = (categoryName) => {
+    router.push(`/category/${encodeURIComponent(categoryName)}`);
+  };
+
   return (
     <div className="pt-[220px] w-[75%] m-auto">
       {/* Breadcrumb Text */}
@@ -20,12 +28,17 @@ const MenuPage = ({
       {/* Category Cards */}
       <div className="flex gap-5 py-3 flex-col sm:flex-row">
         {data.map((item, index) => (
-          <CategoryCard
+          <div
             key={index}
-            title={item.title}
-            img={item.img}
-            subTitle={item.subTitle}
-          />
+            className="cursor-pointer"
+            onClick={() => handleCategoryClick(item.title)}
+          >
+            <CategoryCard
+              title={item.title}
+              img={item.img}
+              subTitle={item.subTitle}
+            />
+          </div>
         ))}
       </div>
 
