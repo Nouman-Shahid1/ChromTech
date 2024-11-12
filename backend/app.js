@@ -8,8 +8,9 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const errorHandler = require("./middleware/errorHandler");
 const cors = require("cors");
 require("dotenv").config();
-
+const upload = require("./middleware/multer");
 const app = express();
+const bodyParser = require("body-parser");
 
 // Enable CORS
 app.use(cors());
@@ -18,12 +19,12 @@ app.use(cors());
 connectDB();
 
 // Parse JSON requests
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve static files from the 'uploads' folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
+// app.use("/api/categories", categoryRoutes,upload.single("image"));
 // API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);

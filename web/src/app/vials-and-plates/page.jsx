@@ -8,22 +8,8 @@ import { getCategories } from "@/reducers/Category/categorySlice";
 import { getProducts } from "@/reducers/Product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-// Initial data for Plates
-const initialData = [
-  {
-    title: "{subcategory.name}",
-    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/plates.jpg",
-    subTitle: "Plates",
-  },
-  {
-    title: "{subcategory.name}",
-    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/plate-accessories.jpg",
-    subTitle: "Plate Accessories",
-  },
-];
-
 const Plates = () => {
-  const [platesData, setPlatesData] = useState(initialData);
+  const [platesData, setPlatesData] = useState([]);
   const [platesCategory, setPlatesCategory] = useState(null);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const dispatch = useDispatch();
@@ -33,31 +19,51 @@ const Plates = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await dispatch(getCategories()); // Find the "Plates" category
+        // Fetch categories and products
+        await dispatch(getCategories());
+        await dispatch(getProducts());
 
+        // Find the "Vials & 96-Well Plates" category
         const category = categories.find(
-          (cat) => cat.name === "Vials & 96-Well Plates"
+          (cat) => cat.name?.toUpperCase() === "VIALS & 96-WELL PLATES"
         );
 
         if (category) {
           setPlatesCategory(category);
 
-          const updatedData = initialData.map((item, index) => {
-            const subcategory = category.subcategories?.[index];
+          // Extract subcategories with image and subtitle fallback to parent category
+          const updatedData = category.subcategories?.map((subcategory) => {
+            const imgUrl = subcategory?.image
+              ? `http://localhost:5000/uploads/${subcategory.image
+                  .split("\\")
+                  .pop()}`
+              : `http://localhost:5000/uploads/${category.image
+                  .split("\\")
+                  .pop()}`;
+
+            const subTitle =
+              subcategory?.subtitle && subcategory?.subtitle.trim() !== ""
+                ? subcategory.subtitle
+                : "No subtitle provided";
+
             return {
-              ...item,
-              title: subcategory ? subcategory.name : item.title,
+              title: subcategory?.name || "Unnamed Subcategory",
+              img: imgUrl,
+              subTitle: subTitle,
             };
           });
 
-          setPlatesData(updatedData);
+          setPlatesData(updatedData || []);
 
-          await dispatch(getProducts());
+          // Filter products by "Vials & 96-Well Plates" category
           const platesProducts = products.filter(
-            (product) => product.category?.name === "Vials & 96-Well Plates"
+            (product) =>
+              product.category?.name?.toUpperCase() === "VIALS & 96-WELL PLATES"
           );
 
           setFilteredProducts(platesProducts);
+        } else {
+          console.warn("Vials & 96-Well Plates category not found");
         }
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -65,11 +71,11 @@ const Plates = () => {
     };
 
     fetchData();
-  }, [dispatch, categories.length, products]);
+  }, [dispatch, categories, products]);
 
   return (
     <>
-            <Navbar hasHeadline={true} />     {" "}
+      <Navbar hasHeadline={true} />
       <MenuPage
         data={platesData}
         titleText="Vials & 96-Well Plates"
@@ -77,9 +83,8 @@ const Plates = () => {
         descriptionTitle="Plates & Accessories"
         descriptionText="Discover our selection of plates and plate accessories designed for laboratory efficiency and accuracy."
       />
-           {" "}
       <RelatedProducts category={platesCategory} products={filteredProducts} />
-            <Footer />   {" "}
+      <Footer />
     </>
   );
 };

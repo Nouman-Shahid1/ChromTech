@@ -8,22 +8,8 @@ import { getCategories } from "@/reducers/Category/categorySlice";
 import { getProducts } from "@/reducers/Product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-// Initial data for Sample Preparation
-const initialData = [
-  {
-    title: "{subcategory.name}",
-    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/sample-preparation.jpg",
-    subTitle: "Sample Preparation Tools",
-  },
-  {
-    title: "{subcategory.name}",
-    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/sample-preparation-accessories.jpg",
-    subTitle: "Sample Preparation Accessories",
-  },
-];
-
 const SamplePreparation = () => {
-  const [samplePrepData, setSamplePrepData] = useState(initialData);
+  const [samplePrepData, setSamplePrepData] = useState([]);
   const [samplePrepCategory, setSamplePrepCategory] = useState(null);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const dispatch = useDispatch();
@@ -33,32 +19,51 @@ const SamplePreparation = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch categories first
-        await dispatch(getCategories()); // Find the "Sample Preparation" category
+        // Fetch categories and products
+        await dispatch(getCategories());
+        await dispatch(getProducts());
 
+        // Find the "Sample Preparation" category
         const category = categories.find(
-          (cat) => cat.name === "Sample Preparation"
+          (cat) => cat.name?.toUpperCase() === "SAMPLE PREPARATION"
         );
 
         if (category) {
-          setSamplePrepCategory(category); // Update samplePrepData with subcategory names
+          setSamplePrepCategory(category);
 
-          const updatedData = initialData.map((item, index) => {
-            const subcategory = category.subcategories?.[index];
+          // Extract subcategories with image and subtitle fallback to parent category
+          const updatedData = category.subcategories?.map((subcategory) => {
+            const imgUrl = subcategory?.image
+              ? `http://localhost:5000/uploads/${subcategory.image
+                  .split("\\")
+                  .pop()}`
+              : `http://localhost:5000/uploads/${category.image
+                  .split("\\")
+                  .pop()}`;
+
+            const subTitle =
+              subcategory?.subtitle && subcategory?.subtitle.trim() !== ""
+                ? subcategory.subtitle
+                : "No subtitle provided";
+
             return {
-              ...item,
-              title: subcategory ? subcategory.name : item.title,
+              title: subcategory?.name || "Unnamed Subcategory",
+              img: imgUrl,
+              subTitle: subTitle,
             };
           });
 
-          setSamplePrepData(updatedData); // Fetch products and filter by "Sample Preparation" category
+          setSamplePrepData(updatedData || []);
 
-          await dispatch(getProducts());
+          // Filter products by "Sample Preparation" category
           const samplePrepProducts = products.filter(
-            (product) => product.category?.name === "Sample Preparation"
+            (product) =>
+              product.category?.name?.toUpperCase() === "SAMPLE PREPARATION"
           );
 
           setFilteredProducts(samplePrepProducts);
+        } else {
+          console.warn("Sample Preparation category not found");
         }
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -66,11 +71,11 @@ const SamplePreparation = () => {
     };
 
     fetchData();
-  }, [dispatch, categories.length, products]);
+  }, [dispatch, categories, products]);
 
   return (
     <>
-            <Navbar hasHeadline={true} />     {" "}
+      <Navbar hasHeadline={true} />
       <MenuPage
         data={samplePrepData}
         titleText="Sample Preparation"
@@ -78,12 +83,11 @@ const SamplePreparation = () => {
         descriptionTitle="Sample Preparation Tools & Accessories"
         descriptionText="Explore our range of sample preparation tools and accessories, designed for efficient and accurate laboratory sample processing."
       />
-           {" "}
       <RelatedProducts
         category={samplePrepCategory}
         products={filteredProducts}
       />
-            <Footer />   {" "}
+      <Footer />
     </>
   );
 };

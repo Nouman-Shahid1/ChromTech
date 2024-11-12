@@ -16,41 +16,41 @@ const CreateCategory = ({ setOpenAddProduct, category }) => {
       { name: "" },
     ]
   );
+  const [subtitle, setSubtitle] = useState(category?.subtitle || "");
+  const [image, setImage] = useState(null);
 
-  // Handle form submission
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name) {
-      alert("Please enter a category name.");
+    if (!name || !subtitle) {
+      alert("Please enter a category name and subtitle.");
       return;
     }
 
-    const subcategoryNames = subcategories
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("subtitle", subtitle); // Make sure subtitle is appended
+    subcategories
       .filter((sub) => sub.name.trim() !== "")
-      .map((sub) => sub.name);
-
-    const categoryData = {
-      name,
-      subcategories: subcategoryNames,
-    };
+      .forEach((sub, index) =>
+        formData.append(`subcategories[${index}]`, sub.name)
+      );
+    if (image) formData.append("image", image);
 
     try {
       if (isEditMode) {
-        // Update existing category
         await dispatch(
-          updateCategory({
-            id: category._id,
-            updatedCategoryData: categoryData,
-          })
+          updateCategory({ id: category._id, updatedCategoryData: formData })
         );
         alert("Category updated successfully!");
       } else {
-        // Create new category
-        await dispatch(createCategory(categoryData));
+        await dispatch(createCategory(formData));
         alert("Category created successfully!");
       }
-
       setOpenAddProduct(false);
     } catch (error) {
       console.error("Error saving category:", error);
@@ -117,6 +117,36 @@ const CreateCategory = ({ setOpenAddProduct, category }) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="subtitle"
+              className="block text-sm font-medium mb-2"
+            >
+              Subtitle
+            </label>
+            <input
+              type="text"
+              id="subtitle"
+              className="w-full p-3 rounded-lg border"
+              placeholder="Enter Subtitle"
+              value={subtitle}
+              onChange={(e) => setSubtitle(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-6">
+            <label htmlFor="image" className="block text-sm font-medium mb-2">
+              Category Image
+            </label>
+            <input
+              type="file"
+              id="image"
+              className="w-full p-3 rounded-lg border"
+              accept="image/*"
+              onChange={handleImageChange}
             />
           </div>
 

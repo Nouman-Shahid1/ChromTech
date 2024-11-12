@@ -7,7 +7,10 @@ export const createCategory = createAsyncThunk(
   "category/createCategory",
   async (categoryData, { rejectWithValue, dispatch }) => {
     try {
-      const response = await axios.post("/api/categories", categoryData);
+      // Use FormData to handle file upload
+      const response = await axios.post("/api/categories", categoryData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       dispatch(getCategories());
       return response.data;
     } catch (error) {
@@ -40,29 +43,16 @@ export const getCategoryById = createAsyncThunk(
   }
 );
 
-export const addSubCategory = createAsyncThunk(
-  "category/addSubCategory",
-  async ({ categoryId, subCategoryData }, { rejectWithValue, dispatch }) => {
-    try {
-      const response = await axios.post(
-        `/api/categories/${categoryId}/subcategories`,
-        subCategoryData
-      );
-      dispatch(getCategories());
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response?.data || error.message);
-    }
-  }
-);
-
 export const updateCategory = createAsyncThunk(
   "category/updateCategory",
   async ({ id, updatedCategoryData }, { rejectWithValue, dispatch }) => {
     try {
       const response = await axios.put(
         `/api/categories/${id}`,
-        updatedCategoryData
+        updatedCategoryData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
       dispatch(getCategories());
       return response.data;
@@ -135,22 +125,6 @@ const categorySlice = createSlice({
         state.categories = [action.payload];
       })
       .addCase(getCategoryById.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-      // Add SubCategory
-      .addCase(addSubCategory.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(addSubCategory.fulfilled, (state, action) => {
-        state.loading = false;
-        state.categories = state.categories.map((category) =>
-          category._id === action.payload.categoryId ? action.payload : category
-        );
-      })
-      .addCase(addSubCategory.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

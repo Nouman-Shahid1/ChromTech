@@ -8,27 +8,8 @@ import { getCategories } from "@/reducers/Category/categorySlice";
 import { getProducts } from "@/reducers/Product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-// Initial data for Instrumentation
-const initialData = [
-  {
-    title: "{subcategory.name}",
-    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/lccolumns.jpg?t=1708457490",
-    subTitle: "Instrumentation Columns",
-  },
-  {
-    title: "{subcategory.name}",
-    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/lcaccess.jpg?t=1708457525",
-    subTitle: "Instrumentation Accessories",
-  },
-  {
-    title: "{subcategory.name}",
-    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/lcaccess.jpg?t=1708457525",
-    subTitle: "Instrumentation Accessories",
-  },
-];
-
 const Instrumentation = () => {
-  const [instrumentData, setInstrumentData] = useState(initialData);
+  const [instrumentData, setInstrumentData] = useState([]);
   const [instrumentCategory, setInstrumentCategory] = useState(null);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const dispatch = useDispatch();
@@ -38,33 +19,51 @@ const Instrumentation = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch categories first
-        await dispatch(getCategories()); // Find the "Instrumentation" category
+        // Fetch categories and products
+        await dispatch(getCategories());
+        await dispatch(getProducts());
 
+        // Find the "Instrumentation" category
         const category = categories.find(
-          (cat) => cat.name.toUpperCase() === "INSTRUMENTATION"
+          (cat) => cat.name?.toUpperCase() === "INSTRUMENTATION"
         );
 
         if (category) {
-          setInstrumentCategory(category); // Update instrumentData with subcategory names
+          setInstrumentCategory(category);
 
-          const updatedData = initialData.map((item, index) => {
-            const subcategory = category.subcategories?.[index];
+          // Extract subcategories with image and subtitle fallback to parent category
+          const updatedData = category.subcategories?.map((subcategory) => {
+            const imgUrl = subcategory?.image
+              ? `http://localhost:5000/uploads/${subcategory.image
+                  .split("\\")
+                  .pop()}`
+              : `http://localhost:5000/uploads/${category.image
+                  .split("\\")
+                  .pop()}`;
+
+            const subTitle =
+              subcategory?.subtitle && subcategory?.subtitle.trim() !== ""
+                ? subcategory.subtitle
+                : "No subtitle provided";
+
             return {
-              ...item,
-              title: subcategory ? subcategory.name : item.title,
+              title: subcategory?.name || "Unnamed Subcategory",
+              img: imgUrl,
+              subTitle: subTitle,
             };
           });
 
-          setInstrumentData(updatedData); // Fetch products and filter by "Instrumentation" category
+          setInstrumentData(updatedData || []);
 
-          await dispatch(getProducts());
+          // Filter products by "Instrumentation" category
           const instrumentProducts = products.filter(
             (product) =>
               product.category?.name?.toUpperCase() === "INSTRUMENTATION"
           );
 
           setFilteredProducts(instrumentProducts);
+        } else {
+          console.warn("Instrumentation category not found");
         }
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -72,13 +71,11 @@ const Instrumentation = () => {
     };
 
     fetchData();
-  }, [dispatch, categories.length, products]); // Debugging information (optional) // console.log("Filtered Instrumentation Products:", filteredProducts); // console.log("Category:", instrumentCategory);
-
-  console.log("Products:", products);
+  }, [dispatch, categories, products]);
 
   return (
     <>
-            <Navbar hasHeadline={true} />     {" "}
+      <Navbar hasHeadline={true} />
       <MenuPage
         data={instrumentData}
         titleText="Instrumentation"
@@ -86,12 +83,11 @@ const Instrumentation = () => {
         descriptionTitle="Instrumentation Consumables & Accessories"
         descriptionText="Explore our comprehensive selection of instrumentation consumables and accessories, including high-quality columns and safety systems for efficient operations."
       />
-            {/* Pass filtered products to RelatedProducts */}     {" "}
       <RelatedProducts
         category={instrumentCategory}
         products={filteredProducts}
       />
-            <Footer />   {" "}
+      <Footer />
     </>
   );
 };

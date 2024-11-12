@@ -8,37 +8,8 @@ import { getCategories } from "@/reducers/Category/categorySlice";
 import { getProducts } from "@/reducers/Product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-// Initial data for Syringes
-const initialData = [
-  {
-    title: "{subcategory.name}",
-    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/syringes.jpg",
-    subTitle: "Syringes",
-  },
-  {
-    title: "{subcategory.name}",
-    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/syringes.jpg",
-    subTitle: "Syringes",
-  },
-  {
-    title: "{subcategory.name}",
-    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/syringes.jpg",
-    subTitle: "Syringes",
-  },
-  {
-    title: "{subcategory.name}",
-    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/syringes.jpg",
-    subTitle: "Syringes",
-  },
-  {
-    title: "{subcategory.name}",
-    img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/syringes.jpg",
-    subTitle: "Syringes",
-  },
-];
-
 const Syringes = () => {
-  const [syringesData, setSyringesData] = useState(initialData);
+  const [syringesData, setSyringesData] = useState([]);
   const [syringesCategory, setSyringesCategory] = useState(null);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const dispatch = useDispatch();
@@ -48,32 +19,50 @@ const Syringes = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch categories first
-        await dispatch(getCategories()); // Find the "Syringes" category
+        // Fetch categories and products
+        await dispatch(getCategories());
+        await dispatch(getProducts());
 
+        // Find the "Syringes" category
         const category = categories.find(
-          (cat) => cat.name === "Syringes"
+          (cat) => cat.name?.toUpperCase() === "SYRINGES"
         );
 
         if (category) {
-          setSyringesCategory(category); // Update syringesData with subcategory names
+          setSyringesCategory(category);
 
-          const updatedData = initialData.map((item, index) => {
-            const subcategory = category.subcategories?.[index];
+          // Extract subcategories with image and subtitle fallback to parent category
+          const updatedData = category.subcategories?.map((subcategory) => {
+            const imgUrl = subcategory?.image
+              ? `http://localhost:5000/uploads/${subcategory.image
+                  .split("\\")
+                  .pop()}`
+              : `http://localhost:5000/uploads/${category.image
+                  .split("\\")
+                  .pop()}`;
+
+            const subTitle =
+              subcategory?.subtitle && subcategory?.subtitle.trim() !== ""
+                ? subcategory.subtitle
+                : "No subtitle provided";
+
             return {
-              ...item,
-              title: subcategory ? subcategory.name : item.title,
+              title: subcategory?.name || "Unnamed Subcategory",
+              img: imgUrl,
+              subTitle: subTitle,
             };
           });
 
-          setSyringesData(updatedData); // Fetch products and filter by "Syringes" category
+          setSyringesData(updatedData || []);
 
-          await dispatch(getProducts());
+          // Filter products by "Syringes" category
           const syringesProducts = products.filter(
-            (product) => product.category?.name === "Syringes"
+            (product) => product.category?.name?.toUpperCase() === "SYRINGES"
           );
 
           setFilteredProducts(syringesProducts);
+        } else {
+          console.warn("Syringes category not found");
         }
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -81,11 +70,11 @@ const Syringes = () => {
     };
 
     fetchData();
-  }, [dispatch, categories.length, products]);
+  }, [dispatch, categories, products]);
 
   return (
     <>
-            <Navbar hasHeadline={true} />     {" "}
+      <Navbar hasHeadline={true} />
       <MenuPage
         data={syringesData}
         titleText="Syringes"
@@ -93,12 +82,11 @@ const Syringes = () => {
         descriptionTitle="Syringes & Accessories"
         descriptionText="Browse our collection of high-quality syringes and accessories, designed for precise sample injection and reliable performance."
       />
-           {" "}
       <RelatedProducts
         category={syringesCategory}
         products={filteredProducts}
       />
-            <Footer />   {" "}
+      <Footer />
     </>
   );
 };

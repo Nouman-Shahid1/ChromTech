@@ -63,9 +63,11 @@ const CategoryTable = () => {
             <thead className="bg-gray-100">
               <tr>
                 <th className="px-4 py-2 border-b font-semibold">#</th>
+                <th className="px-4 py-2 border-b font-semibold">Image</th>
                 <th className="px-4 py-2 border-b font-semibold">
                   Category Name
                 </th>
+                <th className="px-4 py-2 border-b font-semibold">Subtitle</th>
                 <th className="px-4 py-2 border-b font-semibold">
                   Subcategories
                 </th>
@@ -76,16 +78,29 @@ const CategoryTable = () => {
               {categories.map((category, index) => (
                 <tr key={category._id || index} className="text-gray-700">
                   <td className="px-4 py-2 border-b">{index + 1}</td>
+                  <td className="px-4 py-2 border-b">
+                    {category.image ? (
+                      <img
+                        src={`http://localhost:5000/uploads/${category.image
+                          .split("\\")
+                          .pop()}`} // Use only the filename
+                        alt={`${category.name} Image`}
+                        className="h-12 w-12 object-cover rounded-full"
+                      />
+                    ) : (
+                      <span className="text-gray-500">No Image</span>
+                    )}
+                  </td>
                   <td className="px-4 py-2 border-b">{category.name}</td>
+                  <td className="px-4 py-2 border-b">
+                    {category.subtitle || "No Subtitle"}
+                  </td>
                   <td className="px-4 py-2 border-b">
                     {category.subcategories &&
                     category.subcategories.length > 0 ? (
                       <div className="flex flex-wrap gap-2 justify-center">
                         {category.subcategories.map((sub) => (
-                          <span
-                            key={sub._id}
-                            className="inline-block px-2 py-1 bg-gray-200 rounded m-1"
-                          >
+                          <span key={sub._id} className="inline">
                             {sub.name || "Unnamed Subcategory"}
                           </span>
                         ))}

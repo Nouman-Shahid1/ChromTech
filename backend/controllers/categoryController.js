@@ -1,26 +1,51 @@
 const Category = require("../models/Category");
+const upload = require("../middleware/multer");
 
-// Create Category
-exports.createCategory = async (req, res) => {
-  try {
-    const { name, subcategories } = req.body;
+exports.createCategory = [
+  upload.single("image"),
+  async (req, res) => {
+    try {
+      // Ensure subtitle is in the request body
+      if (!req.body.subtitle) {
+        return res.status(400).json({ error: "Subtitle is required" });
+      }
 
-    const subcategoryIds = await Promise.all(
-      subcategories.map(async (subName) => {
-        const subcategory = new Category({ name: subName });
-        await subcategory.save();
-        return subcategory._id;
-      })
-    );
+      const image = req.file ? req.file.path : "";
+      const name = req.body.name || "";
+      const subcategories = Array.isArray(req.body.subcategories)
+        ? req.body.subcategories
+        : [req.body.subcategories];
 
-    const category = new Category({ name, subcategories: subcategoryIds });
-    await category.save();
+      console.log("Parsed name:", name);
+      console.log("Parsed subtitle:", req.body.subtitle); // Log subtitle directly from req.body
+      console.log("Parsed subcategories:", subcategories);
+      console.log("Parsed image path:", image);
 
-    res.status(201).json(category);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
+      const subcategoryIds = await Promise.all(
+        subcategories.map(async (subName) => {
+          const subcategory = new Category({ name: subName });
+          await subcategory.save();
+          return subcategory._id;
+        })
+      );
+
+      const category = new Category({
+        name,
+        subtitle: req.body.subtitle, // Directly assign subtitle from req.body
+        image,
+        subcategories: subcategoryIds,
+      });
+
+      console.log("Category object before save:", category); // Log full category object
+
+      await category.save();
+      res.status(201).json(category);
+    } catch (error) {
+      console.error("Error creating category:", error);
+      res.status(400).json({ error: error.message });
+    }
+  },
+];
 
 // Get All Categories
 exports.getCategories = async (req, res) => {
@@ -28,17 +53,18 @@ exports.getCategories = async (req, res) => {
     const categories = await Category.find().populate({
       path: "subcategories",
       model: "Category",
-      select: "name subcategories",
+      select: "name subtitle image subcategories", // Include subtitle and image fields
       options: { lean: true },
       populate: {
         path: "subcategories",
         model: "Category",
-        select: "name subcategories",
+        select: "name subtitle image", // Include subtitle and image for nested subcategories
       },
     });
 
     res.json(categories);
   } catch (error) {
+    console.error("Error fetching categories:", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -84,53 +110,50 @@ exports.deleteCategory = async (req, res) => {
   }
 };
 
-// Update Category
-exports.updateCategory = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name, subcategories } = req.body;
+exports.updateCategory = [
+  upload.single("image"),
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, subtitle, subcategories } = req.body;
+      const image = req.file ? req.file.path : undefined;
 
-    // Find the category by ID
-    const category = await Category.findById(id);
-    if (!category) return res.status(404).json({ error: "Category not found" });
+      const category = await Category.findById(id);
+      if (!category)
+        return res.status(404).json({ error: "Category not found" });
 
-    // Update the category name if provided
-    if (name) {
-      category.name = name;
-    }
+      if (name) category.name = name;
+      if (subtitle) category.subtitle = subtitle;
+      if (image) category.image = image;
 
-    // Update subcategories if provided
-    if (subcategories && Array.isArray(subcategories)) {
-      // Clear existing subcategories
-      category.subcategories = [];
+      // Ensure subcategories is an array
+      const subcategoriesArray = Array.isArray(subcategories)
+        ? subcategories
+        : subcategories
+        ? [subcategories]
+        : [];
 
-      // Create or find subcategories and add them to the category
-      const subcategoryIds = await Promise.all(
-        subcategories.map(async (subName) => {
-          // Check if subcategory exists by name
-          let subcategory = await Category.findOne({ name: subName });
-          if (!subcategory) {
-            // Create new subcategory if it doesn't exist
-            subcategory = new Category({ name: subName });
-            await subcategory.save();
-          }
-          return subcategory._id;
-        })
+      if (subcategoriesArray.length > 0) {
+        category.subcategories = await Promise.all(
+          subcategoriesArray.map(async (subName) => {
+            let subcategory = await Category.findOne({ name: subName });
+            if (!subcategory) {
+              subcategory = new Category({ name: subName });
+              await subcategory.save();
+            }
+            return subcategory._id;
+          })
+        );
+      }
+
+      await category.save();
+
+      const updatedCategory = await Category.findById(id).populate(
+        "subcategories"
       );
-
-      category.subcategories = subcategoryIds;
+      res.json(updatedCategory);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
-
-    // Save the updated category
-    await category.save();
-
-    // Populate subcategories before sending the response
-    const updatedCategory = await Category.findById(id).populate(
-      "subcategories"
-    );
-
-    res.json(updatedCategory);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+  },
+];
