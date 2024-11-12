@@ -1,3 +1,4 @@
+"use client";
 import Footer from "@/components/Footer/Footer.jsx";
 import Navbar from "../components/Navbar/Navbar.jsx";
 import Link from "next/link";
@@ -5,7 +6,9 @@ import Title from "@/components/Title/Title.jsx";
 import TestimonialCard from "@/components/TestimonialCard/Testimonialcard.jsx";
 import CategoryCard from "@/components/CategoryCard/CategoryCard.jsx";
 import Chatbot from "@/components/Chatbot/Chatbot.jsx";
-
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories } from "@/reducers/Category/categorySlice";
 export default function Home() {
   const testimonials = [
     {
@@ -36,33 +39,24 @@ export default function Home() {
         "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/commas.png?t=1717530692",
     },
   ];
-  const FeaturedCategory = [
-    {
-      title: "HPLC Vials",
-      img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/lcvials.jpg?t=1708544951",
-      subTitle: "Screw Thread, Snap Max Recovery",
-    },
-    {
-      title: "GC Vials",
-      img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/gcvials.jpg?t=1708544974",
-      subTitle: "Crimp Top, Headspace, GC Vials",
-    },
-    {
-      title: "Accessories",
-      img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/lcaccess.jpg?t=1708457525",
-      subTitle: "Fittings, Tubing & Accessories",
-    },
-    {
-      title: "HPLC Pumps",
-      img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/lst.jpg?t=1707154979",
-      subTitle: "Chrom Tech HPLC Pumps",
-    },
-    {
-      title: "Safety Kit",
-      img: "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/safety-container.jpg?t=1708632733",
-      subTitle: "Solvent Containment for HPLC Waste",
-    },
-  ];
+  const dispatch = useDispatch();
+  const { categories, loading, error } = useSelector((state) => state.category);
+
+  // Fetch categories when the component loads
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
+
+  console.log("category", categories);
+
+  // Loading and error handling
+  if (loading) return <div className="text-center py-10">Loading...</div>;
+  if (error)
+    return <div className="text-center py-10 text-red-500">Error: {error}</div>;
+
+  // Check if categories exist
+  if (!categories || categories.length === 0)
+    return <div className="text-center py-10">No categories available</div>;
 
   return (
     <>
@@ -89,23 +83,30 @@ export default function Home() {
       </div>
       <div className="mt-[200px]">
         <div className="text-center pt-[50px] text-3xl">
-          <Title text1={"Features Categories"} />
+          <Title text1={"Featured Categories"} />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 w-[75%] m-auto pt-6">
-            {FeaturedCategory.map((item, index) => {
-              return (
-                <CategoryCard
-                  key={index}
-                  title={item.title}
-                  img={item.img}
-                  subTitle={item.subTitle}
-                />
-              );
-            })}
+            {categories
+              .filter(
+                (category) => category.image && category.image.trim() !== ""
+              )
+              .slice(0, 10) // Show only the first 10 categories
+              .map((category) => {
+                return (
+                  <CategoryCard
+                    key={category._id || category.name}
+                    title={category.name || "Unnamed Category"}
+                    img={`http://localhost:5000/uploads/${category.image
+                      .split("\\")
+                      .pop()}`}
+                    subTitle={category.subtitle || "No subtitle available"}
+                  />
+                );
+              })}
           </div>
           <div className="my-10 text-center">
             <Link
-              href="/"
-              className=" text-white p-2 px-2 text-xl rounded-lg"
+              href="/shop-all-category"
+              className=" text-white py-2 px-4 text-xl rounded-lg"
               style={{ backgroundColor: "#FF0000" }}
             >
               <strong> SHOW ALL CATEGORIES</strong>
@@ -113,7 +114,8 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="h-[950px] md:h-[700px] lg:h-[600px] xl:h-[500px]">
+
+      <div className="h-[950px] md:h-[700px] lg:h-[600px] xl:h-[500px] mt-20">
         <div className="h-[380px] bg-no-repeat bg-cover bg-[url('../assets/images/bannerimg2.png')] bg-right md:bg-center">
           <Link href="/">
             <div className="w-[90%] sm:w-[85%] md:w-[75%] mx-auto py-8 space-y-4 text-black pt-[400px] md:text-white md:pt-6">
