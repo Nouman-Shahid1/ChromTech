@@ -123,7 +123,7 @@ const Register = () => {
         <img src={logo.src} alt="Logo" className="h-10 sm:h-12 mr-2" />
       </div>
 
-      <div className="bg-white w-full max-w-lg p-6 sm:p-8 md:p-10 rounded-lg shadow-lg">
+      <div className="bg-white w-full max-w-lg p-6 sm:p-8 md:p-10 rounded-lg shadow-lg mb-8">
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
             {typeof error === "string"
@@ -194,7 +194,7 @@ const Register = () => {
 
         {/* Step Components */}
         {step === 1 && (
-          <div>
+          <div >
             <h2 className="text-lg sm:text-xl font-semibold mb-4">
               Account Registration
             </h2>
