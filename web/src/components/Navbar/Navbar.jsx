@@ -39,7 +39,7 @@ const Navbar = ({ hasHeadline }) => {
   };
 
   return (
-    <nav className="fixed bg-white w-full ">
+    <nav className="fixed bg-white w-full z-10">
       <div className="fixed top-0 w-full bg-red-600 text-white text-center py-2 z-20 text-sm font-light">
         <p>
           Safety First, Coffee Second: Score a FREE coffee tumbler with the
@@ -86,24 +86,29 @@ const Navbar = ({ hasHeadline }) => {
           {/* <div className="header-btn">
             <Link href="">REQUEST A QUOTE</Link>
           </div> */}
-            <div className="nav-sign">
-              <FaRegUser
+          <div className=" flex cursor-pointer">
+
+            <Link href="/login">
+
+
+              <span>   <FaRegUser
                 style={{
-                  fontSize: "20px",
+                  fontSize: "25px",
                   paddingLeft: "5px",
-                  paddingTop: "5px",
+                  paddingRight: "5px",
+                  display: "inline-block"
                 }}
-              />
-              <span>| Sign in or Register |</span>
-              <CiShoppingCart
-                style={{
-                  fontSize: "20px",
-                  paddingLeft: "5px",
-                  paddingTop: "5px",
-                }}
-              />{" "}
-              (0)
-            </div>
+              />| Sign in or Register |</span>
+            </Link>
+            <CiShoppingCart
+              style={{
+                fontSize: "25px",
+                paddingLeft: "5px",
+                paddingTop: "5px",
+              }}
+            />{" "}
+            (0)
+          </div>
         </div>
       </div>
       <hr style={{ border: "1px solid lightgray" }} />
@@ -129,46 +134,34 @@ const Navbar = ({ hasHeadline }) => {
                 />
               </div>
               <div className="sub-nav-head">
-                <span>| Sign in or Register |</span>
+                <Link href="/login">
+                  <span>| Sign in or Register |</span>
+                </Link>
               </div>
             </div>
             <ul className="flex justify-around">
               <li>
                 <Link href="/vials-and-plates" onClick={handleLinkClick}>
-                  VIALS & 96 WELL Plates
+                  <p>VIALS & 96 WELL Plates</p>
                 </Link>
               </li>
-              <li>
-                <Link href="/lc" onClick={handleLinkClick}>
-                  LC
-                </Link>
-              </li>
-              <li>
-                <Link href="/gc" onClick={handleLinkClick}>
-                  GC
-                </Link>
-              </li>
-              <li>
-                <Link href="/instrumentation" onClick={handleLinkClick}>
-                  INSTRUMENTATION
-                </Link>
-              </li>
-              <li>
-                <Link href="/sryingers" onClick={handleLinkClick}>
-                  SYRINGERS
-                </Link>
-              </li>
-              <li>
-                <Link href="/sample-preparation" onClick={handleLinkClick}>
-                  SAMPLE PREPARATIONS
-                </Link>
-              </li>
-              <li>
-                <Link href="/support" onClick={handleLinkClick}>
-                  SUPPORT
-                </Link>
+              <li><Link href="/lc" onClick={handleLinkClick}>
+              <p>LC</p>
+              </Link></li>
+              <li><Link href="/gc" onClick={handleLinkClick}><p>GC</p></Link></li>
+              <li><Link href="/instrumentation" onClick={handleLinkClick}><p>INSTRUMENTATION</p></Link></li>
+              <li><Link href="/sryingers" onClick={handleLinkClick}><p>SYRINGERS</p></Link></li>
+              <li><Link href="/sample-preparation" onClick={handleLinkClick}><p>SAMPLE PREPARATIONS</p></Link></li>
+              <li className="relative group">
+                <Link href="/support" onClick={handleLinkClick}><p>SUPPORT</p></Link>
+                <ul className="absolute left-0 w-[300px] bg-gray-100 hidden group-hover:block   shadow-md mt-2">
+                  <li><Link href="/contact-us" onClick={handleLinkClick} className="block px-4 hover:border-b hover:border-gray-800 hover:pb-2">Contact Us</Link></li>
+                  <li><Link href="/about-us" onClick={handleLinkClick} className="block px-4 hover:border-b hover:border-gray-800 hover:pb-2">About Us</Link></li>
+                  <li><Link href="/resources" onClick={handleLinkClick} className="block px-4 hover:border-b hover:border-gray-800 hover:pb-2">Resources</Link></li>
+                </ul>
               </li>
             </ul>
+
           </div>
         </div>
       )}

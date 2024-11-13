@@ -8,14 +8,6 @@
   text-decoration: none;
 }
 
-/* 
-nav {
-  background: white;
-  width: 100%;
-  position: fixed;
-  z-index: 1;
-} */
-
 .navbar {
   width: 75%;
   margin: 0 auto;
@@ -77,15 +69,6 @@ nav {
   max-width: 500px;
 }
 
-.nav-sign {
-  color: #4e4e4e;
-  display: flex;
-}
-
-.nav-sign span {
-  font-size: 18px;
-  height: 30px;
-}
 
 .search-icon {
   position: absolute;
@@ -102,13 +85,6 @@ nav {
   position: relative;
 }
 
-.main-nav a {
-  text-decoration: none;
-  border-radius: 50px;
-  color: red;
-  border: 1px solid red;
-  padding: 10px 20px;
-}
 
 .sub-nav ul li a {
   text-decoration: none;
@@ -248,3 +224,4 @@ nav {
   background-repeat: no-repeat;
   margin: 4px 4px 4px 4px;
 }
+
