@@ -3,11 +3,7 @@ const Category = require("../models/Category");
 
 exports.createProduct = async (req, res) => {
   try {
-    console.log("Headers:", req.headers);
-    console.log("Request Body:", req.body);
-    console.log("Uploaded File:", req.file);
-    console.log("Files:", req.files);
-    console.log("Content-Type:", req.get("Content-Type"));
+
     const productData = req.body;
 
     if (req.file) {

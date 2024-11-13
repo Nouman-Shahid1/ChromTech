@@ -5,7 +5,6 @@ exports.createCategory = [
   upload.single("image"),
   async (req, res) => {
     try {
-      // Ensure subtitle is in the request body
       if (!req.body.subtitle) {
         return res.status(400).json({ error: "Subtitle is required" });
       }
@@ -16,10 +15,6 @@ exports.createCategory = [
         ? req.body.subcategories
         : [req.body.subcategories];
 
-      console.log("Parsed name:", name);
-      console.log("Parsed subtitle:", req.body.subtitle); // Log subtitle directly from req.body
-      console.log("Parsed subcategories:", subcategories);
-      console.log("Parsed image path:", image);
 
       const subcategoryIds = await Promise.all(
         subcategories.map(async (subName) => {
@@ -36,7 +31,6 @@ exports.createCategory = [
         subcategories: subcategoryIds,
       });
 
-      console.log("Category object before save:", category); // Log full category object
 
       await category.save();
       res.status(201).json(category);
@@ -47,18 +41,17 @@ exports.createCategory = [
   },
 ];
 
-// Get All Categories
 exports.getCategories = async (req, res) => {
   try {
     const categories = await Category.find().populate({
       path: "subcategories",
       model: "Category",
-      select: "name subtitle image subcategories", // Include subtitle and image fields
+      select: "name subtitle image subcategories", 
       options: { lean: true },
       populate: {
         path: "subcategories",
         model: "Category",
-        select: "name subtitle image", // Include subtitle and image for nested subcategories
+        select: "name subtitle image", 
       },
     });
 
@@ -69,7 +62,6 @@ exports.getCategories = async (req, res) => {
   }
 };
 
-// Add Subcategory
 exports.addSubcategory = async (req, res) => {
   try {
     const { parentCategoryId, subcategoryId } = req.body;
@@ -85,7 +77,6 @@ exports.addSubcategory = async (req, res) => {
   }
 };
 
-// Get Category by ID
 exports.getCategoryById = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id).populate({
@@ -99,7 +90,6 @@ exports.getCategoryById = async (req, res) => {
   }
 };
 
-// Delete Category
 exports.deleteCategory = async (req, res) => {
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
@@ -126,7 +116,6 @@ exports.updateCategory = [
       if (subtitle) category.subtitle = subtitle;
       if (image) category.image = image;
 
-      // Ensure subcategories is an array
       const subcategoriesArray = Array.isArray(subcategories)
         ? subcategories
         : subcategories

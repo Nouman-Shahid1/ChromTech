@@ -30,8 +30,6 @@ export const updateProduct = createAsyncThunk(
   "product/updateProduct",
   async ({ id, productData }, { rejectWithValue, dispatch }) => {
     try {
-      console.log("Received id:", id);
-      console.log("Received productData:", productData);
 
       if (!productData || !(productData instanceof FormData)) {
         throw new Error("Invalid product data provided.");

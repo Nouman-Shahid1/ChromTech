@@ -80,7 +80,7 @@ const Syringes = () => {
         titleText="Syringes"
         breadcrumbText="Home / Syringes Products"
         descriptionTitle="Syringes & Accessories"
-        descriptionText="Browse our collection of high-quality syringes and accessories, designed for precise sample injection and reliable performance."
+        descriptionText="Explore our range of high-quality syringes and accessories designed for precision and reliability in laboratory applications."
       />
       <RelatedProducts
         category={syringesCategory}

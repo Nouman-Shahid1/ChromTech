@@ -46,9 +46,6 @@ const Users = () => {
       ? `http://localhost:5000/api/users/${editUser._id}`
       : "http://localhost:5000/api/users";
 
-    console.log("Submitting Form:", formData);
-    console.log("API URL:", url);
-    console.log("HTTP Method:", method);
 
     try {
       const response = await fetch(url, {
@@ -61,7 +58,6 @@ const Users = () => {
 
       // Log the response for debugging
       const responseData = await response.json();
-      console.log("API Response:", responseData);
 
       if (response.ok) {
         alert(

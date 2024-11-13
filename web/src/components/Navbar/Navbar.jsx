@@ -39,7 +39,7 @@ const Navbar = ({ hasHeadline }) => {
   };
 
   return (
-    <nav className="fixed bg-white w-full ">
+    <nav className="fixed bg-white w-full z-100">
       <div className="fixed top-0 w-full bg-red-600 text-white text-center py-2 z-20 text-sm font-light">
         <p>
           Safety First, Coffee Second: Score a FREE coffee tumbler with the
@@ -86,24 +86,24 @@ const Navbar = ({ hasHeadline }) => {
           {/* <div className="header-btn">
             <Link href="">REQUEST A QUOTE</Link>
           </div> */}
-            <div className="nav-sign">
-              <FaRegUser
-                style={{
-                  fontSize: "20px",
-                  paddingLeft: "5px",
-                  paddingTop: "5px",
-                }}
-              />
-              <span>| Sign in or Register |</span>
-              <CiShoppingCart
-                style={{
-                  fontSize: "20px",
-                  paddingLeft: "5px",
-                  paddingTop: "5px",
-                }}
-              />{" "}
-              (0)
-            </div>
+          <div className="nav-sign">
+            <FaRegUser
+              style={{
+                fontSize: "20px",
+                paddingLeft: "5px",
+                paddingTop: "5px",
+              }}
+            />
+            <span>| Sign in or Register |</span>
+            <CiShoppingCart
+              style={{
+                fontSize: "20px",
+                paddingLeft: "5px",
+                paddingTop: "5px",
+              }}
+            />{" "}
+            (0)
+          </div>
         </div>
       </div>
       <hr style={{ border: "1px solid lightgray" }} />
