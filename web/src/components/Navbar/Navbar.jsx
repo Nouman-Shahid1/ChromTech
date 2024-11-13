@@ -39,7 +39,7 @@ const Navbar = ({ hasHeadline }) => {
   };
 
   return (
-    <nav className="fixed bg-white w-full z-100">
+    <nav className="fixed bg-white w-full ">
       <div className="fixed top-0 w-full bg-red-600 text-white text-center py-2 z-20 text-sm font-light">
         <p>
           Safety First, Coffee Second: Score a FREE coffee tumbler with the
@@ -129,44 +129,75 @@ const Navbar = ({ hasHeadline }) => {
                 />
               </div>
               <div className="sub-nav-head">
-                <span>| Sign in or Register |</span>
+                <Link href="/login">
+                  <span>| Sign in or Register |</span>
+                </Link>
               </div>
             </div>
             <ul className="flex justify-around">
               <li>
                 <Link href="/vials-and-plates" onClick={handleLinkClick}>
-                  VIALS & 96 WELL Plates
+                  <p>VIALS & 96 WELL Plates</p>
                 </Link>
               </li>
               <li>
                 <Link href="/lc" onClick={handleLinkClick}>
-                  LC
+                  <p>LC</p>
                 </Link>
               </li>
               <li>
                 <Link href="/gc" onClick={handleLinkClick}>
-                  GC
+                  <p>GC</p>
                 </Link>
               </li>
               <li>
                 <Link href="/instrumentation" onClick={handleLinkClick}>
-                  INSTRUMENTATION
+                  <p>INSTRUMENTATION</p>
                 </Link>
               </li>
               <li>
                 <Link href="/sryingers" onClick={handleLinkClick}>
-                  SYRINGERS
+                  <p>SYRINGERS</p>
                 </Link>
               </li>
               <li>
                 <Link href="/sample-preparation" onClick={handleLinkClick}>
-                  SAMPLE PREPARATIONS
+                  <p>SAMPLE PREPARATIONS</p>
                 </Link>
               </li>
-              <li>
+              <li className="relative group">
                 <Link href="/support" onClick={handleLinkClick}>
-                  SUPPORT
+                  <p>SUPPORT</p>
                 </Link>
+                <ul className="absolute left-0 w-[300px] bg-gray-100 hidden group-hover:block   shadow-md mt-2">
+                  <li>
+                    <Link
+                      href="/contact-us"
+                      onClick={handleLinkClick}
+                      className="block px-4 hover:border-b hover:border-gray-800 hover:pb-2"
+                    >
+                      Contact Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/about-us"
+                      onClick={handleLinkClick}
+                      className="block px-4 hover:border-b hover:border-gray-800 hover:pb-2"
+                    >
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/resources"
+                      onClick={handleLinkClick}
+                      className="block px-4 hover:border-b hover:border-gray-800 hover:pb-2"
+                    >
+                      Resources
+                    </Link>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>

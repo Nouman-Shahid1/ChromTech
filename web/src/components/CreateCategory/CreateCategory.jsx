@@ -160,7 +160,7 @@ const CreateCategory = ({ setOpenAddProduct, category }) => {
                 className="flex-1 p-3 rounded-lg border"
                 placeholder={`Subcategory ${index + 1} Name`}
                 value={sub.name}
-                onChange={(e) => handleSubcategoryChange(index, e.target.value)}
+                onChange={(e) => handleSubcategoryChange(index, e.target.value.toUpperCase())}
               />
               <button
                 type="button"
