@@ -28,10 +28,14 @@ export default function Table({ categoryFilter }) {
     setOpenEditProduct(true);
   };
 
-  // Filter products based on the categoryFilter prop
-  const filteredProducts = categoryFilter
-    ? products.filter((product) => product.category?.name === categoryFilter)
-    : products;
+  // Dynamically filter products based on the main category and its subcategories
+  const filteredProducts = products.filter((product) => {
+    const isMainCategory = categoryFilter.includes(product.category?.name);
+    const isInSubcategory = Array.isArray(product.subcategory)
+      ? product.subcategory.some((sub) => categoryFilter.includes(sub.name))
+      : categoryFilter.includes(product.subcategory?.name);
+    return isMainCategory || isInSubcategory;
+  });
 
   if (loading) {
     return <p className="text-center">Loading products...</p>;
@@ -48,8 +52,8 @@ export default function Table({ categoryFilter }) {
   return (
     <div className="flex justify-center items-center py-6">
       <div className="overflow-x-auto w-full">
-        <table className="min-w-full bg-white text-center">
-          <thead className="bg-gray-100">
+        <table className="min-w-full bg-white shadow-lg rounded-lg">
+          <thead className="bg-gray-200">
             <tr>
               <th className="px-4 py-2 border-b font-semibold">#</th>
               <th className="px-4 py-2 border-b font-semibold">Title</th>
@@ -62,10 +66,15 @@ export default function Table({ categoryFilter }) {
           </thead>
           <tbody>
             {filteredProducts.map((product, index) => (
-              <tr key={product._id || index} className="text-gray-700">
+              <tr
+                key={product._id || index}
+                className="hover:bg-gray-100 transition text-center duration-200 ease-in-out"
+              >
                 <td className="px-4 py-2 border-b">{index + 1}</td>
                 <td className="px-4 py-2 border-b">{product.name}</td>
-                <td className="px-4 py-2 border-b">{product.price}</td>
+                <td className="px-4 py-2 border-b">
+                  ${product.price.toFixed(2)}
+                </td>
                 <td className="px-4 py-2 border-b">
                   {product.category?.name || "N/A"}
                 </td>
@@ -74,7 +83,7 @@ export default function Table({ categoryFilter }) {
                     ? product.subcategory.map((sub) => (
                         <span
                           key={sub._id}
-                          className="inline-block px-2 py-1 bg-gray-200 rounded m-1"
+                          className="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded m-1 text-sm"
                         >
                           {sub.name}
                         </span>
@@ -85,22 +94,23 @@ export default function Table({ categoryFilter }) {
                   <img
                     src={product.imageUrl || "/blank.png"}
                     alt="Product Icon"
-                    width="30"
-                    className="mx-auto"
+                    className="w-10 h-10 object-cover mx-auto rounded-full border"
                   />
                 </td>
                 <td className="px-4 py-2 border-b flex justify-center space-x-2">
                   <button
-                    className="bg-blue-200 p-2 rounded-full"
+                    className="bg-blue-500 p-2 rounded-full text-white hover:bg-blue-600 transition"
                     onClick={() => handleEditProduct(product)}
+                    title="Edit Product"
                   >
-                    <CiEdit size={20} color="blue" />
+                    <CiEdit size={20} />
                   </button>
                   <button
-                    className="bg-red-200 p-2 rounded-full"
+                    className="bg-red-500 p-2 rounded-full text-white hover:bg-red-600 transition"
                     onClick={() => handleOpenDeleteModal(product._id)}
+                    title="Delete Product"
                   >
-                    <FaTrash size={20} color="red" />
+                    <FaTrash size={20} />
                   </button>
                 </td>
               </tr>
@@ -109,6 +119,7 @@ export default function Table({ categoryFilter }) {
         </table>
       </div>
 
+      {/* Delete Product Modal */}
       {openDelProduct && (
         <DeleteProduct
           setOpenDelProduct={setOpenDelProduct}
@@ -116,6 +127,7 @@ export default function Table({ categoryFilter }) {
         />
       )}
 
+      {/* Edit Product Modal */}
       {openEditProduct && (
         <CreateProducts
           setOpenAddProduct={setOpenEditProduct}

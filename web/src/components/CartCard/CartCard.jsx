@@ -1,28 +1,41 @@
-import React from 'react'
+import React from 'react';
+import { useMyContext } from '../../ContextApi/store';
 
-const CartCard = () => {
+const CartCard = ({ product }) => {
+    const { addToCart, removeFromCart, currency} = useMyContext();
+    const { _id, name, quantity, price, imageUrl } = product;
+
     return (
-        <>
-            <div className="flex justify-between items-center border m-2 p-1">
-                <div>
-                    <img src="https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/m1.jpg?t=1707154932" width={'50px'} alt="" />
+        <div className="flex justify-between items-center border m-2 p-1">
+
+            <div className='p-1 flex items-center'>
+                <div className='m-6'>
+                    <img src={imageUrl} width="70px" />
                 </div>
-                <div className='p-1'>
-                    <p>M1 Class
-                        Single Piston
-                    </p>
+                <div>
+                    <p>{name}</p>
                     <div>
-                        <button className='bg-black text-white text-lg px-2 mr-2'>-</button>
-                        <span>0</span>
-                        <button className='bg-black text-white text-lg px-1.5 ml-2'>+</button>
+                        <button
+                            className='bg-black text-white text-lg px-2 mr-2'
+                            onClick={() => removeFromCart(_id)}
+                        >
+                            -
+                        </button>
+                        <span>{quantity}</span>
+                        <button
+                            className='bg-black text-white text-lg px-1.5 ml-2'
+                            onClick={() => addToCart(product)}
+                        >
+                            +
+                        </button>
                     </div>
                 </div>
-                <div>
-                    $:00.00
-                </div>
             </div>
-        </>
-    )
-}
+            <div className='pr-2'>
+                {currency}{(price * quantity).toFixed(2)}
+            </div>
+        </div>
+    );
+};
 
-export default CartCard
+export default CartCard;

@@ -43,7 +43,7 @@ const RelatedProducts = ({ category, products }) => {
         {/* Products Section */}
         <div className="flex-1 mx-auto md:m-8">
           <div className="flex justify-between">
-            <div className="mx-auto">
+            <div className="mx-auto md:mx-0">
               <select className="p-2 rounded-xl text-sm">
                 <option>Sort By: Featured Items</option>
                 <option>Sort By: Newest Items</option>

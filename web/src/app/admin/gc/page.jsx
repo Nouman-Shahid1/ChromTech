@@ -1,24 +1,80 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import Profile from "@/components/Profile/Profile";
-import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import CreateProducts from "@/components/CreateProducts/CreateProducts";
 import Table from "@/components/Table/Table";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories } from "../../../reducers/Category/categorySlice";
+import { createProduct } from "../../../reducers/Product/productSlice";
 
 const GC = () => {
   const [openAddProduct, setOpenAddProduct] = useState(false);
+  const [categoryFilter, setCategoryFilter] = useState([]);
+  const dispatch = useDispatch();
 
-  // Handle opening the Create Product modal
+  const mainCategory = "GC";
+  const { categories, loading, error } = useSelector((state) => state.category);
+
+  // Fetch categories from Redux when the component mounts
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
+
+  // Build the category filter dynamically based on the Redux state
+  useEffect(() => {
+    if (categories.length > 0) {
+      const filter = gatherAllSubcategories(mainCategory, categories);
+      setCategoryFilter(filter);
+    }
+  }, [categories]);
+
+  // Recursive function to gather all subcategories dynamically
+  const gatherAllSubcategories = (mainCategoryName, categories) => {
+    let result = [mainCategoryName];
+    const findSubcategories = (categoryName) => {
+      const category = categories.find((cat) => cat.name === categoryName);
+      if (category && category.subcategories) {
+        for (let sub of category.subcategories) {
+          result.push(sub.name);
+          findSubcategories(sub.name);
+        }
+      }
+    };
+    findSubcategories(mainCategoryName);
+    return result;
+  };
+
   const handleCreate = () => {
     setOpenAddProduct(true);
   };
+
+  const handleCreateProduct = async (productData) => {
+    try {
+      await dispatch(createProduct(productData));
+      setOpenAddProduct(false);
+    } catch (error) {
+      console.error("Error creating product:", error);
+    }
+  };
+
+  if (loading) {
+    return <p className="text-center">Loading categories...</p>;
+  }
+
+  if (error) {
+    return <p className="text-red-600 text-center">Error: {error}</p>;
+  }
 
   return (
     <>
       <div className="bg-gray-100 p-8 min-h-[100vh]">
         <Profile />
         {openAddProduct && (
-          <CreateProducts setOpenAddProduct={setOpenAddProduct} />
+          <CreateProducts
+            setOpenAddProduct={setOpenAddProduct}
+            onCreateProduct={handleCreateProduct}
+          />
         )}
         <div className="py-8 px-6">
           <p className="text-lg">HOME / GC</p>
@@ -26,7 +82,7 @@ const GC = () => {
         <div className="relative bg-white rounded-xl h-[250px] sm:h-[150px] py-8 w-full mx-auto">
           <div className="px-6">
             <p className="text-2xl text-gray-800">
-              <strong>GC</strong>
+              <strong>GC Products</strong>
             </p>
           </div>
           <div className="absolute flex flex-col sm:flex-row bottom-5 sm:bottom-5 sm:right-5">
@@ -50,8 +106,9 @@ const GC = () => {
             </div>
           </div>
         </div>
-        {/* Pass the "GC" category filter to the Table component */}
-        <Table categoryFilter="GC" />
+
+        {/* Pass the dynamically built category filter to the Table component */}
+        <Table categoryFilter={categoryFilter} />
       </div>
     </>
   );

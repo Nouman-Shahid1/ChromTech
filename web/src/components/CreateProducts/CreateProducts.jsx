@@ -65,7 +65,6 @@ const CreateProducts = ({ setOpenAddProduct, product }) => {
     e.preventDefault();
 
     // Debugging: Log productData before creating FormData
-    console.log("Product Data before submission:", productData);
 
     const formData = new FormData();
     formData.append("id", product?._id || ""); // Add product ID to FormData

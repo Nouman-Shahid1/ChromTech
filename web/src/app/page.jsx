@@ -47,8 +47,6 @@ export default function Home() {
     dispatch(getCategories());
   }, [dispatch]);
 
-  console.log("category", categories);
-
   // Loading and error handling
   if (loading) return <div className="text-center py-10">Loading...</div>;
   if (error)
@@ -61,7 +59,7 @@ export default function Home() {
   return (
     <>
       <Navbar hasHeadline={true} />
-      <div className="h-[650px] md:h-[330px] w-full">
+      <div className="h-[650px] md:h-[330px] w-full -z-50">
         <div className="relative bg-no-repeat h-[330px] top-[210px] bg-[url('../assets/images/bannerimg.png')] bg-right">
           <Link href="/">
             <div className="w-[75%] mx-auto text-black py-8 space-y-4 pt-[400px] md:text-white md:pt-8">
@@ -85,13 +83,13 @@ export default function Home() {
         <div className="text-center pt-[50px] text-3xl">
           <Title text1={"Featured Categories"} />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 w-[75%] m-auto pt-6">
-            {categories
-              .filter(
-                (category) => category.image && category.image.trim() !== ""
-              )
-              .slice(0, 10) // Show only the first 10 categories
-              .map((category) => {
-                return (
+            {Array.isArray(categories) &&
+              categories
+                .filter(
+                  (category) => category.image && category.image.trim() !== ""
+                )
+                .slice(0, 10)
+                .map((category) => (
                   <CategoryCard
                     key={category._id || category.name}
                     title={category.name || "Unnamed Category"}
@@ -100,9 +98,9 @@ export default function Home() {
                       .pop()}`}
                     subTitle={category.subtitle || "No subtitle available"}
                   />
-                );
-              })}
+                ))}
           </div>
+
           <div className="my-10 text-center">
             <Link
               href="/shop-all-category"
