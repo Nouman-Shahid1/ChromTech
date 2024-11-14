@@ -3,7 +3,6 @@ const Category = require("../models/Category");
 
 exports.createProduct = async (req, res) => {
   try {
-
     const productData = req.body;
 
     if (req.file) {
@@ -94,6 +93,36 @@ exports.deleteProduct = async (req, res) => {
 
     res.json({ message: "Product deleted successfully" });
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Search Products
+exports.searchProducts = async (req, res) => {
+  try {
+    const query = req.query.query;
+
+    // If query is empty, return all products
+    if (!query) {
+      const products = await Product.find()
+        .populate("category", "name _id")
+        .populate("subcategory", "name _id");
+      return res.json(products);
+    }
+
+    // Perform a case-insensitive search on the product name and description
+    const products = await Product.find({
+      $or: [
+        { name: { $regex: query, $options: "i" } },
+        { description: { $regex: query, $options: "i" } },
+      ],
+    })
+      .populate("category", "name _id")
+      .populate("subcategory", "name _id");
+
+    res.json(products);
+  } catch (error) {
+    console.error("Error in searchProducts:", error);
     res.status(500).json({ error: error.message });
   }
 };
