@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { RxCrossCircled } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +12,6 @@ const CreateProducts = ({ setOpenAddProduct, product }) => {
   const dispatch = useDispatch();
   const isEditMode = !!product;
 
-  // Initialize product data with preselected category and subcategory if in edit mode
   const [productData, setProductData] = useState({
     name: product?.name || "",
     sku: product?.sku || "",
@@ -29,7 +29,7 @@ const CreateProducts = ({ setOpenAddProduct, product }) => {
     error: categoryError,
   } = useSelector((state) => state.category);
   const { loading, error } = useSelector((state) => state.product);
-
+  const [isOpen, setIsOpen] = useState(true);
   useEffect(() => {
     if (!categories || categories.length === 0) {
       dispatch(getCategories());
@@ -46,7 +46,13 @@ const CreateProducts = ({ setOpenAddProduct, product }) => {
       }));
     }
   }, [categories, isEditMode, product]);
-
+  const closeModal = () => {
+    if (setOpenAddProduct) {
+      setOpenAddProduct(false);
+    } else {
+      setIsOpen(false);
+    }
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProductData({ ...productData, [name]: value });
@@ -96,7 +102,7 @@ const CreateProducts = ({ setOpenAddProduct, product }) => {
         .unwrap()
         .then(() => {
           alert("Product updated successfully");
-          setOpenAddProduct(false);
+          closeModal();
         })
         .catch((err) => {
           console.error("Error updating product:", err);
@@ -108,7 +114,7 @@ const CreateProducts = ({ setOpenAddProduct, product }) => {
         .unwrap()
         .then(() => {
           alert("Product created successfully");
-          setOpenAddProduct(false);
+          closeModal();
         })
         .catch((err) => {
           console.error("Error creating product:", err);
@@ -133,7 +139,7 @@ const CreateProducts = ({ setOpenAddProduct, product }) => {
       </p>
     );
   }
-
+  if (!isOpen) return null;
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="w-full max-w-3xl p-8 bg-white rounded-lg shadow-lg">
@@ -142,7 +148,7 @@ const CreateProducts = ({ setOpenAddProduct, product }) => {
             {isEditMode ? "Update Product" : "Add New Product"}
           </h2>
           <RxCrossCircled
-            onClick={() => setOpenAddProduct(false)}
+            onClick={closeModal}
             className="cursor-pointer text-red-600 text-3xl"
           />
         </div>

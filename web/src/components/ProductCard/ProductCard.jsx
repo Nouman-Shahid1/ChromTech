@@ -2,7 +2,12 @@ import React from "react";
 import { useMyContext } from "@/ContextApi/store";
 
 const ProductCard = ({ product }) => {
+  if (!product) {
+    return null; // Return null if the product is undefined
+  }
+
   const { name, imageUrl, price, description } = product;
+
   const { addToCart } = useMyContext();
 
   return (
@@ -16,7 +21,9 @@ const ProductCard = ({ product }) => {
           />
         </div>
         <div className="flex pt-8 px-4 justify-between hidden group-hover:block">
-          <div className="border border-black p-1 text-sm cursor-pointer text-center">Quick View</div>
+          <div className="border border-black p-1 text-sm cursor-pointer text-center">
+            Quick View
+          </div>
           <div
             className="bg-black border border-black text-white text-sm cursor-pointer mt-2 text-center p-1"
             onClick={() => addToCart(product)}
@@ -28,8 +35,12 @@ const ProductCard = ({ product }) => {
       <p className="text-sm text-red-500">
         <strong>{name || "Product Name"}</strong>
       </p>
-      <p className="text-gray-500">{price ? `$${price}` : "Price not available"}</p>
-      <p className="text-gray-500">{description || "No description available"}</p>
+      <p className="text-gray-500">
+        {price ? `$${price}` : "Price not available"}
+      </p>
+      <p className="text-gray-500">
+        {description || "No description available"}
+      </p>
     </div>
   );
 };

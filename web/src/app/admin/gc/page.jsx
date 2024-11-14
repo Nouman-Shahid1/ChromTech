@@ -6,22 +6,24 @@ import CreateProducts from "@/components/CreateProducts/CreateProducts";
 import Table from "@/components/Table/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../../../reducers/Category/categorySlice";
-import { createProduct } from "../../../reducers/Product/productSlice";
+import {
+  createProduct,
+  searchProducts,
+} from "../../../reducers/Product/productSlice";
 
 const GC = () => {
   const [openAddProduct, setOpenAddProduct] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch();
 
   const mainCategory = "GC";
   const { categories, loading, error } = useSelector((state) => state.category);
 
-  // Fetch categories from Redux when the component mounts
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
 
-  // Build the category filter dynamically based on the Redux state
   useEffect(() => {
     if (categories.length > 0) {
       const filter = gatherAllSubcategories(mainCategory, categories);
@@ -29,7 +31,6 @@ const GC = () => {
     }
   }, [categories]);
 
-  // Recursive function to gather all subcategories dynamically
   const gatherAllSubcategories = (mainCategoryName, categories) => {
     let result = [mainCategoryName];
     const findSubcategories = (categoryName) => {
@@ -58,6 +59,16 @@ const GC = () => {
     }
   };
 
+  const handleSearchChange = async (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    if (query.length > 0) {
+      await dispatch(searchProducts(query));
+    } else {
+      dispatch(getCategories());
+    }
+  };
+
   if (loading) {
     return <p className="text-center">Loading categories...</p>;
   }
@@ -71,11 +82,9 @@ const GC = () => {
       <div className="bg-gray-100 p-8 min-h-[100vh]">
         <Profile />
         {openAddProduct && (
-          <CreateProducts
-            setOpenAddProduct={setOpenAddProduct}
-            onCreateProduct={handleCreateProduct}
-          />
+          <CreateProducts setOpenAddProduct={setOpenAddProduct} />
         )}
+        <button onClick={() => setOpenAddProduct(true)}>Add Product</button>
         <div className="py-8 px-6">
           <p className="text-lg">HOME / GC</p>
         </div>
@@ -94,6 +103,8 @@ const GC = () => {
                 type="text"
                 className="border-none outline-none bg-gray-100"
                 placeholder="Search..."
+                value={searchQuery}
+                onChange={handleSearchChange}
               />
             </div>
             <div>
@@ -108,7 +119,7 @@ const GC = () => {
         </div>
 
         {/* Pass the dynamically built category filter to the Table component */}
-        <Table categoryFilter={categoryFilter} />
+        <Table categoryFilter={categoryFilter} searchQuery={searchQuery} />
       </div>
     </>
   );
