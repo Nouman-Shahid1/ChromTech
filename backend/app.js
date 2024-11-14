@@ -11,6 +11,7 @@ require("dotenv").config();
 const upload = require("./middleware/multer");
 const app = express();
 const bodyParser = require("body-parser");
+const orderRoutes = require('./routes/orderRoutes');
 
 // Enable CORS
 app.use(cors());
@@ -30,6 +31,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/users", userRoutes);
+app.use('/api/orders', orderRoutes);
+
 // Error handler middleware
 app.use(errorHandler);
 
