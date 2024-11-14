@@ -11,7 +11,7 @@ const CheckoutPage = () => {
   const countryList = Object.values(countries);  
   return (
     <>
-     <div className="w-[100%] md:w-[80%] mx-auto  h-[100%]">
+     <div className="w-[100%] lg:w-[80%] mx-auto  h-[100%]">
   <div className="w-full flex flex-col  md:flex-row mx-auto h-full bg-white px-8 py-8 rounded-lg shadow-lg">
     <Link href="/">
       <p className="text-blue-500 cursor-pointer text-sm">Go back</p>
@@ -134,7 +134,7 @@ const CheckoutPage = () => {
     </div>
 
     {/* Right side */}
-    <div className="w-full md:w-[50%] p-8 ">
+    <div className="w-full md:w-[50%] xl:p-8 ">
       <div className="ml-3">
         <p className="text-2xl">Order Summary</p>
       </div>

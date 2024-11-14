@@ -7,12 +7,13 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="w-[230px] sm:w-[280px] h-[350px] overflow-hidden flex flex-wrap flex-col m-auto">
-      <div className="rounded-3xl my-4 py-4 h-[200px] group hover:h-[280px] bg-white border border-gray-300 m-auto w-full flex justify-center flex-col">
+      <div className="rounded-3xl my-4 py-4 h-[230px] group hover:h-auto bg-white border border-gray-300 m-auto w-full flex justify-center flex-col">
         <div className="mx-auto w-[150px] h-[200px]">
           <img
             src={imageUrl || "https://via.placeholder.com/200"}
             width={"100%"}
-            alt={name || "Product Image"}
+            height={'190px'}
+            // alt={name || "Product Image"}
           />
         </div>
         <div className="flex pt-8 px-4 justify-between hidden group-hover:block">
