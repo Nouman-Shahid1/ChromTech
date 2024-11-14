@@ -61,18 +61,8 @@ const CheckoutPage = () => {
           className="border border-gray-300 mt-2 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black"
         />
         <div className="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-2">
-          <select className="border border-gray-300 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black">
-            <option>Select City</option>
-            <option>USA</option>
-            <option>Canada</option>
-            <option>Mexico</option>
-          </select>
-          <select className="border border-gray-300 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black">
-            <option>Region (Optional)</option>
-            <option>California</option>
-            <option>Texas</option>
-            <option>New York</option>
-          </select>
+         <input type="text" placeholder='City' className="border border-gray-300 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black" />
+           <input type="text" placeholder='State' className="border border-gray-300 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black"/>
         </div>
         <div className="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-2">
           <select className="border border-gray-300 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black">
@@ -83,12 +73,8 @@ const CheckoutPage = () => {
               </option>
             ))}
           </select>
-          <select className="border border-gray-300 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black">
-            <option>Select Zip Code</option>
-            <option>California</option>
-            <option>Texas</option>
-            <option>New York</option>
-          </select>
+          
+           <input type="text" placeholder='Zip Code'  className="border border-gray-300 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black" />
         </div>
 
         <input

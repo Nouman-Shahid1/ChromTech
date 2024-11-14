@@ -43,17 +43,30 @@ export const MyContextProvider = ({ children }) => {
             return updatedItems;
         });
     };
+    const decrementCart = (productId) => {
+        setCartItems((prevItems) => {
+            const updatedItems = prevItems.map(item =>
+                item._id === productId && item.quantity > 1
+                    ? { ...item, quantity: item.quantity - 1 }
+                    : item
+            );
+            
+            localStorage.setItem('cartItems', JSON.stringify(updatedItems));
+            return updatedItems;
+        });
+    }; 
     const removeFromCart = (productId) => {
         setCartItems((prevItems) => {
             const updatedItems = prevItems.map(item =>
                 item._id === productId
-                    ? { ...item, quantity: item.quantity - 1 }
+                    ? { ...item, quantity: item.quantity = 0 }
                     : item
             ).filter(item => item.quantity > 0);
             localStorage.setItem('cartItems', JSON.stringify(updatedItems));
             return updatedItems;
         });
     };
+    
     const clearCart = () => {
         setCartItems([]);
         localStorage.removeItem('cartItems');
@@ -63,7 +76,7 @@ export const MyContextProvider = ({ children }) => {
     };
 
     return (
-        <MyContext.Provider value={{totalPrice,currency,shipping_fee , showCartBar, closeCartBar, openCartBar, cartItems, addToCart, removeFromCart,clearCart,getTotalCount}}>
+        <MyContext.Provider value={{totalPrice, decrementCart ,currency,shipping_fee , showCartBar, closeCartBar, openCartBar, cartItems, addToCart, removeFromCart,clearCart,getTotalCount}}>
             {children}
         </MyContext.Provider>
     );

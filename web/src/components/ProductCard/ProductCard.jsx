@@ -18,7 +18,7 @@ const ProductCard = ({ product }) => {
             src={imageUrl || "https://via.placeholder.com/200"}
             width={"100%"}
             height={'190px'}
-            // alt={name || "Product Image"}
+            alt={name || "Product Image"}
           />
         </div>
         <div className="flex pt-8 px-4 justify-between hidden group-hover:block">
