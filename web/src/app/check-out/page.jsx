@@ -2,11 +2,12 @@
 import CartCard from "@/components/CartCard/CartCard";
 import { useMyContext } from "@/ContextApi/store";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { countries } from "countries-list";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveOrder } from "@/reducers/Order/orderSlice";
 import { useRouter } from "next/navigation";
+
 const CheckoutPage = () => {
   const {
     cartItems,
@@ -19,6 +20,9 @@ const CheckoutPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const countryList = Object.values(countries);
+
+  // Get authentication state from authSlice
+  const { accessToken } = useSelector((state) => state.auth);
 
   // State for form inputs
   const [email, setEmail] = useState("");
@@ -37,6 +41,14 @@ const CheckoutPage = () => {
   const [saveInfo, setSaveInfo] = useState(false);
   const [error, setError] = useState("");
 
+  // Check for user authentication on page load
+  useEffect(() => {
+    if (!accessToken) {
+      alert("Please log in to complete your order.");
+      router.push("/login?redirect=/checkout");
+    }
+  }, [accessToken, router]);
+
   // Handle input changes
   const handleInputChange = (e) => {
     setAddress({ ...address, [e.target.name]: e.target.value });
@@ -44,6 +56,13 @@ const CheckoutPage = () => {
 
   // Handle order submission
   const handleOrderSubmit = () => {
+    // Check if user is authenticated
+    if (!accessToken) {
+      alert("You need to log in before completing your order.");
+      router.push("/login?redirect=/checkout");
+      return;
+    }
+
     // Validate required fields
     if (
       !email ||
@@ -76,11 +95,11 @@ const CheckoutPage = () => {
       emailUpdates,
       saveInfo,
     };
+
+    // Dispatch the saveOrder action
     dispatch(saveOrder(orderData))
       .then(() => {
-        // Clear the cart
         clearCart();
-        // Redirect to the home page
         router.push("/");
         alert("Order submitted successfully!");
       })
@@ -88,16 +107,11 @@ const CheckoutPage = () => {
         setError("Failed to submit order. Please try again.");
         console.error(error);
       });
-    // Dispatch the saveOrder action
-    dispatch(saveOrder(orderData));
-    alert("Order submitted successfully!");
   };
 
   return (
     <div className="w-[100%] lg:w-[80%] mx-auto h-[100%]">
       <div className="w-full flex flex-col md:flex-row mx-auto h-full bg-white px-8 py-8 mt-8 rounded-lg shadow-lg">
-
-
         {/* Left side */}
         <div className="w-full md:w-[50%]">
           <h1 className="text-3xl font-semibold text-gray-800 mb-2">
@@ -259,25 +273,36 @@ const CheckoutPage = () => {
               <p className="font-bold"> {getTotalCount()}</p>
             </div>
             <div className="flex justify-between">
+              <p className="font-bold">Total Price:</p>
               <p className="font-bold">
-                Total Price:</p>
-              <p className="font-bold"> {currency}{totalPrice}
+                {" "}
+                {currency}
+                {totalPrice}
               </p>
             </div>
             <div className="flex justify-between">
+              <p className="font-bold">Shipping:</p>
               <p className="font-bold">
-                Shipping:</p>
-              <p className="font-bold"> {currency}
+                {" "}
+                {currency}
                 {shipping_fee}
               </p>
             </div>
-            <hr style={{ height: '1px',margin:'10px 0px', backgroundColor: 'black', border: 'none' }} />
-                        <div className="flex justify-between">
+            <hr
+              style={{
+                height: "1px",
+                margin: "10px 0px",
+                backgroundColor: "black",
+                border: "none",
+              }}
+            />
+            <div className="flex justify-between">
+              <p className="font-bold">Grand Total:</p>
               <p className="font-bold">
-                Grand Total:</p>
-                <p className="font-bold"> {currency}
-                  {(shipping_fee + totalPrice).toFixed(2)}
-                </p>
+                {" "}
+                {currency}
+                {(shipping_fee + totalPrice).toFixed(2)}
+              </p>
             </div>
           </div>
         </div>
