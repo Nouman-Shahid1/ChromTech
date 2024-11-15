@@ -95,10 +95,8 @@ const CheckoutPage = () => {
 
   return (
     <div className="w-[100%] lg:w-[80%] mx-auto h-[100%]">
-      <div className="w-full flex flex-col md:flex-row mx-auto h-full bg-white px-8 py-8 rounded-lg shadow-lg">
-        <Link href="/">
-          <p className="text-blue-500 cursor-pointer text-sm">Go back</p>
-        </Link>
+      <div className="w-full flex flex-col md:flex-row mx-auto h-full bg-white px-8 py-8 mt-8 rounded-lg shadow-lg">
+
 
         {/* Left side */}
         <div className="w-full md:w-[50%]">
@@ -169,43 +167,48 @@ const CheckoutPage = () => {
               onChange={handleInputChange}
               className="border border-gray-300 mt-2 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black"
             />
-            <input
-              type="text"
-              name="city"
-              placeholder="City"
-              value={address.city}
-              onChange={handleInputChange}
-              className="border border-gray-300 mt-2 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-            />
-            <input
-              type="text"
-              name="state"
-              placeholder="State"
-              value={address.state}
-              onChange={handleInputChange}
-              className="border border-gray-300 mt-2 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-            />
-            <select
-              name="country"
-              value={address.country}
-              onChange={handleInputChange}
-              className="border border-gray-300 p-2 mt-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
-            >
-              <option>Select Country</option>
-              {countryList.map((country) => (
-                <option key={country.alpha2} value={country.name}>
-                  {country.name}
-                </option>
-              ))}
-            </select>
-            <input
-              type="text"
-              name="zipCode"
-              placeholder="Zip Code"
-              value={address.zipCode}
-              onChange={handleInputChange}
-              className="border border-gray-300 mt-2 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-            />
+            <div className="flex gap-5">
+              <input
+                type="text"
+                name="city"
+                placeholder="City"
+                value={address.city}
+                onChange={handleInputChange}
+                className="border border-gray-300 mt-2 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+              />
+              <input
+                type="text"
+                name="state"
+                placeholder="State"
+                value={address.state}
+                onChange={handleInputChange}
+                className="border border-gray-300 mt-2 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+              />
+            </div>
+            <div className="flex gap-5">
+              <select
+                name="country"
+                value={address.country}
+                onChange={handleInputChange}
+                className="border border-gray-300 p-2 mt-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
+              >
+                <option>Select Country</option>
+                {countryList.map((country) => (
+                  <option key={country.alpha2} value={country.name}>
+                    {country.name}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                type="text"
+                name="zipCode"
+                placeholder="Zip Code"
+                value={address.zipCode}
+                onChange={handleInputChange}
+                className="border border-gray-300 mt-2 p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+              />
+            </div>
             <input
               type="number"
               name="phoneNumber"
@@ -251,19 +254,31 @@ const CheckoutPage = () => {
             ))}
           </div>
           <div className="px-2">
-            <p className="font-bold">Total Items: {getTotalCount()}</p>
-            <p className="font-bold">
-              Total Price: {currency}
-              {totalPrice}
-            </p>
-            <p className="font-bold">
-              Shipping: {currency}
-              {shipping_fee}
-            </p>
-            <p className="font-bold">
-              Grand Total: {currency}
-              {(shipping_fee + totalPrice).toFixed(2)}
-            </p>
+            <div className="flex justify-between">
+              <p className="font-bold">Total Items:</p>
+              <p className="font-bold"> {getTotalCount()}</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="font-bold">
+                Total Price:</p>
+              <p className="font-bold"> {currency}{totalPrice}
+              </p>
+            </div>
+            <div className="flex justify-between">
+              <p className="font-bold">
+                Shipping:</p>
+              <p className="font-bold"> {currency}
+                {shipping_fee}
+              </p>
+            </div>
+            <hr style={{ height: '1px',margin:'10px 0px', backgroundColor: 'black', border: 'none' }} />
+                        <div className="flex justify-between">
+              <p className="font-bold">
+                Grand Total:</p>
+                <p className="font-bold"> {currency}
+                  {(shipping_fee + totalPrice).toFixed(2)}
+                </p>
+            </div>
           </div>
         </div>
       </div>
