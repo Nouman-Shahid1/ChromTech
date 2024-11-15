@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../reducers/Auth/authSlice";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import logo from "../../assets/images/logo.png";
 import Link from "next/link";
 
@@ -12,6 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { accessToken, loading, error, user } = useSelector(
     (state) => state.auth
   );
@@ -21,16 +22,18 @@ const Login = () => {
     dispatch(loginUser({ email, password }));
   };
 
-  // Role-based redirection
   useEffect(() => {
     if (accessToken && user) {
-      if (user.role === "business") {
-        router.push("/myaccount");
-      } else if (user.role === "superadmin") {
+      // If the user is a superadmin, redirect to the admin dashboard
+      if (user.role === "superadmin") {
         router.push("/admin");
+      } else {
+        // Get the `redirect` query parameter or default to the home page
+        const redirectPath = searchParams.get("redirect") || "/";
+        router.push(redirectPath);
       }
     }
-  }, [accessToken, user, router]);
+  }, [accessToken, user, router, searchParams]);
 
   return (
     <div className="relative flex flex-col items-center min-h-screen bg-gray-200 pt-5">

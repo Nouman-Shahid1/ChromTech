@@ -42,10 +42,11 @@ const CheckoutPage = () => {
   const [error, setError] = useState("");
 
   // Check for user authentication on page load
+  // Check for user authentication on page load
   useEffect(() => {
     if (!accessToken) {
-      alert("Please log in to complete your order.");
-      router.push("/login?redirect=/checkout");
+      const currentPath = encodeURIComponent(window.location.pathname);
+      router.push(`/login?redirect=${currentPath}`);
     }
   }, [accessToken, router]);
 
