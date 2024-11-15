@@ -140,7 +140,7 @@ const CheckoutPage = () => {
                 className="mr-2"
               />
               <label htmlFor="email-updates" className="text-sm text-gray-600">
-                Email me with news and offers
+                Please make sure this email is same as per your account
               </label>
             </div>
           </div>

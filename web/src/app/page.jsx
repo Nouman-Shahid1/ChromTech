@@ -59,30 +59,30 @@ export default function Home() {
   return (
     <>
       <Navbar hasHeadline={true} />
-      <div className="h-[650px] md:h-[330px] w-full -z-50">
-        <div className="relative bg-no-repeat h-[330px] top-[210px] bg-[url('../assets/images/bannerimg.png')] bg-right">
-          <Link href="/">
-            <div className="w-[75%] mx-auto text-black py-8 space-y-4 pt-[400px] md:text-white md:pt-8">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
-                Chromatography Success Starts Here
-              </h1>
-              <div className="text-2xl font-medium leading-relaxed max-w-md">
-                <p>
-                  Buy from chromatography specialists so you can focus on
-                  breakthroughs instead of breaking away from your research
-                </p>
-              </div>
+      <div className="h-[650px] md:h-[330px] w-full -z-50 py-[200px]">
+        <div className="bg-no-repeat py-16 h-[450px]  bg-[url('../assets/images/bannerimg.png')] bg-right">
+          <div className="w-[75%] mx-auto text-black py-8 space-y-4 pt-[400px] md:text-white md:pt-8">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
+              Chromatography Success Starts Here
+            </h1>
+            <div className="text-2xl font-medium leading-relaxed max-w-md">
+              <p>
+                Buy from chromatography specialists so you can focus on
+                breakthroughs instead of breaking away from your research
+              </p>
+            </div>
+            <Link href="/login" passHref>
               <p className="inline-block border border-red-500 rounded-lg px-6 py-3 text-red-500 text-lg cursor-pointer mt-4 hover:bg-white hover:text-red-600 transition-colors md:text-white md:border-white">
                 SIGN IN / SIGN UP
               </p>
-            </div>
-          </Link>
+            </Link>
+          </div>
         </div>
       </div>
-      <div className="mt-[200px]">
+      <section className="mt-64">
         <div className="text-center pt-[50px] text-3xl">
           <Title text1={"Featured Categories"} />
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 w-[75%] m-auto pt-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 w-[75%] m-auto pt-8">
             {Array.isArray(categories) &&
               categories
                 .filter(
@@ -101,18 +101,17 @@ export default function Home() {
                 ))}
           </div>
 
-          <div className="my-10 text-center">
+          <div className="my-16 text-center">
             <Link
               href="/shop-all-category"
-              className=" text-white py-2 px-4 text-xl rounded-lg"
+              className=" text-white py-3 px-7 text-xl rounded-lg"
               style={{ backgroundColor: "#FF0000" }}
             >
               <strong> SHOW ALL CATEGORIES</strong>
             </Link>
           </div>
         </div>
-      </div>
-
+      </section>
       <div className="h-[950px] md:h-[700px] lg:h-[600px] xl:h-[500px] mt-20">
         <div className="h-[380px] bg-no-repeat bg-cover bg-[url('../assets/images/bannerimg2.png')] bg-right md:bg-center">
           <Link href="/">
@@ -181,7 +180,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="w-[90%] md:w-[80%] lg:w-[75%] m-auto ">
+      <div className="w-[90%] md:w-[80%] lg:w-[75%] m-auto mt-28">
         <div className="text-red-500 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold  my-4">
           TESTIMONIAL
         </div>
@@ -199,9 +198,9 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <div className="text-center py-8 flex flex-col justify-center md:justify-start">
+      <div className="text-center py-20 flex flex-col justify-center md:justify-start">
         <Title text1={"Manufacture"} />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-[75%] mx-auto py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 mt-4 lg:grid-cols-3 gap-4 w-[75%] mx-auto py-8">
           <div className="w-full flex justify-center">
             <img
               src="https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/agilenthplogo.png?t=1700498413"
