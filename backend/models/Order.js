@@ -18,6 +18,7 @@ const orderSchema = new mongoose.Schema({
     zipCode: String,
     phoneNumber: String,
   },
+  status: { type: String, default: "Pending" },
   createdAt: { type: Date, default: Date.now },
 });
 

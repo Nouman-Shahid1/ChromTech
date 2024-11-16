@@ -29,12 +29,41 @@ export const getUserOrders = createAsyncThunk(
   }
 );
 
+// Async Thunk for Fetching All Orders (Admin View)
+export const getAllOrders = createAsyncThunk(
+  "order/getAllOrders",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get("/api/orders/all-orders");
+      return response.data.orders;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// Async Thunk for Updating Order Status
+export const updateOrderStatus = createAsyncThunk(
+  "order/updateOrderStatus",
+  async ({ orderId, status }, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch(
+        `/api/orders/update-status/${orderId}`,
+        { status }
+      );
+      return response.data.order;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 // Async Thunk for Deleting an Order
 export const deleteOrder = createAsyncThunk(
   "order/deleteOrder",
   async (orderId, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`/api/orders/${orderId}`);
+      await axios.delete(`/api/orders/${orderId}`);
       return orderId;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -75,6 +104,38 @@ const orderSlice = createSlice({
         state.orders = action.payload;
       })
       .addCase(getUserOrders.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
+
+    builder
+      .addCase(getAllOrders.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getAllOrders.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.orders = action.payload;
+      })
+      .addCase(getAllOrders.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
+
+    // Update Order Status
+    builder
+      .addCase(updateOrderStatus.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateOrderStatus.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        const index = state.orders.findIndex(
+          (order) => order._id === action.payload._id
+        );
+        if (index !== -1) {
+          state.orders[index] = action.payload;
+        }
+      })
+      .addCase(updateOrderStatus.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });

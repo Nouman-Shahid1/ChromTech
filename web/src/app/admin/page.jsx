@@ -65,7 +65,7 @@ export default function Dashboard() {
             <div className="flex flex-wrap w-full md:mt-8">
               <DashboardCard
                 details={{
-                  name: "Users",
+                  name: "Orders",
                   src: Services,
                   url: "/admin/",
                 }}

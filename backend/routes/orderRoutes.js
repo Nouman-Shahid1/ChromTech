@@ -6,14 +6,11 @@ const Order = require("../models/Order");
 router.post("/create", async (req, res) => {
   try {
     const orderData = req.body;
-
-    // Ensure the user's email is included in the order data
     if (!orderData.userEmail) {
       return res
         .status(400)
         .json({ message: "User email is required to create an order." });
     }
-
     const newOrder = new Order(orderData);
     await newOrder.save();
     res
@@ -24,28 +21,52 @@ router.post("/create", async (req, res) => {
   }
 });
 
-// GET: Fetch orders for the logged-in user
+// GET: Fetch orders for a specific user
 router.get("/user-orders", async (req, res) => {
   try {
     const userEmail = req.query.email;
     if (!userEmail) {
       return res.status(400).json({ message: "User email is required" });
     }
-
     const userOrders = await Order.find({ userEmail });
-    if (userOrders.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No orders found for this user." });
-    }
-
-    res.status(200).json({
-      message: "User orders fetched successfully",
-      orders: userOrders,
-    });
+    res
+      .status(200)
+      .json({
+        message: "User orders fetched successfully",
+        orders: userOrders,
+      });
   } catch (error) {
-    console.error("Error fetching user orders:", error);
     res.status(500).json({ message: "Error fetching user orders", error });
+  }
+});
+
+// GET: Fetch all orders (Admin)
+router.get("/all-orders", async (req, res) => {
+  try {
+    const orders = await Order.find();
+    res
+      .status(200)
+      .json({ message: "All orders fetched successfully", orders });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching all orders", error });
+  }
+});
+
+// PATCH: Update order status
+router.patch("/update-status/:id", async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const { status } = req.body;
+    const updatedOrder = await Order.findByIdAndUpdate(
+      orderId,
+      { status },
+      { new: true }
+    );
+    res
+      .status(200)
+      .json({ message: "Order status updated", order: updatedOrder });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating order status", error });
   }
 });
 
@@ -54,14 +75,7 @@ router.delete("/:id", async (req, res) => {
   try {
     const orderId = req.params.id;
     const deletedOrder = await Order.findByIdAndDelete(orderId);
-
-    if (!deletedOrder) {
-      return res.status(404).json({ message: "Order not found" });
-    }
-
-    res
-      .status(200)
-      .json({ message: "Order deleted successfully", order: deletedOrder });
+    res.status(200).json({ message: "Order deleted", order: deletedOrder });
   } catch (error) {
     res.status(500).json({ message: "Error deleting order", error });
   }
