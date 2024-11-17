@@ -6,6 +6,7 @@ import { CiShoppingCart } from "react-icons/ci";
 import { useSelector } from "react-redux";
 import { RxCrossCircled } from "react-icons/rx";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMyContext } from "@/ContextApi/store";
 import CartSidebar from "../CartSidebar/CartSidebar";
 const Navbar = ({ hasHeadline }) => {
@@ -31,7 +32,14 @@ const Navbar = ({ hasHeadline }) => {
   const toggleHamburger = () => {
     setIsHamburgerOpen(!isHamburgerOpen);
   };
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
 
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      router.push(`/search?query=${searchQuery}`);
+    }
+  };
   const closeSubNav = () => {
     setIsHamburgerOpen(false);
     setShowSubNav(true);
@@ -79,13 +87,20 @@ const Navbar = ({ hasHeadline }) => {
               />
             </div>
             <div className="search-bar">
-              <button className="search-icon" aria-label="Search">
+              <button
+                className="search-icon"
+                aria-label="Search"
+                onClick={handleSearch}
+              >
                 <CiSearch />
               </button>
               <input
                 type="text"
                 placeholder="What are you looking for?"
                 aria-label="Search input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={(e) => e.key === "Enter" && handleSearch()}
               />
             </div>
             {/* <div className="header-btn">
