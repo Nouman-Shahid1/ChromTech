@@ -82,6 +82,7 @@ const productSlice = createSlice({
   initialState: {
     products: [],
     searchResults: [],
+    productDetails: null,
     loading: false,
     error: null,
   },

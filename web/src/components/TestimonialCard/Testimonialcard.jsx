@@ -2,7 +2,7 @@ import React from "react";
 
 const TestimonialCard = ({ testimonial, author, starImage, commaImage }) => {
   return (
-    <div className="bg-gray-200 w-full sm:w-[300px] md:w-[350px] lg:w-[400px] p-6 md:py-8 md:px-10 rounded-lg mx-auto">
+    <div className="bg-gray-200 w-[300px] md:w-[350px] lg:w-[400px] p-6 md:py-8 md:px-10 rounded-lg mx-auto">
       <img
         src={commaImage}
         className="w-8 h-8 md:w-10 md:h-10 mb-4 mx-auto"

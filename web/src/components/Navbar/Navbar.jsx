@@ -63,20 +63,24 @@ const Navbar = ({ hasHeadline }) => {
           style={{ top: hasHeadline ? "40px" : "0px", zIndex: -100 }}
         >
           <div className="main-nav">
+          
+            <div className="logo flex relative w-full md:w-auto  justify-center ">
             <div
-              className={`hamburger ${!showSubNav ? "show" : ""}`}
+              className={`absolute -left-10 top-0  hamburger  ${!showSubNav ? "show" : ""}`}
               onClick={toggleHamburger}
               aria-label="Toggle Menu"
             >
               <span></span>
               <span></span>
               <span></span>
-            </div>
-            <div className="logo">
+            </div >
+            <div >
               <img
                 src="https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/245x80/2023chromtechlogo_1675205357__83333.original.png"
                 alt="Logo"
+                
               />
+              </div>
             </div>
             <div className="search-bar">
               <button className="search-icon" aria-label="Search">

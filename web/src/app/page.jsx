@@ -147,13 +147,13 @@ export default function Home() {
   return (
     <>
       <Navbar hasHeadline={true} />
-      <div className="h-[650px] md:h-[330px] w-full -z-50 py-[200px]">
+      <div className="h-[650px] md:h-[330px] w-full -z-50 py-[190px]">
         <div className="bg-no-repeat py-16 h-[450px]  bg-[url('../assets/images/bannerimg.png')] bg-right">
-          <div className="w-[75%] mx-auto text-black py-8 space-y-4 pt-[400px] md:text-white md:pt-8">
+          <div className="w-[75%] mx-auto text-black py-8 md:space-y-4 pt-[400px] md:text-white md:pt-8">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
               Chromatography Success Starts Here
             </h1>
-            <div className="text-2xl font-medium leading-relaxed max-w-md">
+            <div className="text-lg md:text-2xl font-medium leading-relaxed max-w-md">
               <p>
                 Buy from chromatography specialists so you can focus on
                 breakthroughs instead of breaking away from your research
@@ -170,7 +170,7 @@ export default function Home() {
       <section className="mt-64">
         <div className="text-center pt-[50px] text-3xl">
           <Title text1={"Featured Categories"} />
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 w-[75%] m-auto pt-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 w-[75%] p-auto md:w-[80%] lg:w-[75%] m-auto pt-8">
             {Array.isArray(categories) &&
               categories
                 .filter(
@@ -200,7 +200,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <div className="h-[950px] md:h-[700px] lg:h-[600px] xl:h-[500px] mt-20">
+      <div className="h-[950px] md:h-[600px] lg:h-[500px] xl:h-[500px] mt-20">
         <div className="h-[380px] bg-no-repeat bg-cover bg-[url('../assets/images/bannerimg2.png')] bg-right md:bg-center">
           <Link href="/">
             <div className="w-[90%] sm:w-[85%] md:w-[75%] mx-auto py-8 space-y-4 text-black pt-[400px] md:text-white md:pt-6">
@@ -268,7 +268,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="w-[90%] md:w-[80%] lg:w-[75%] m-auto mt-28">
+      <div className="w-[90%] md:w-[80%] lg:w-[75%] m-auto mt-0 md:mt-28">
         <div className="text-red-500 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold  my-4">
           TESTIMONIAL
         </div>
