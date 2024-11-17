@@ -233,7 +233,6 @@ export default function Table({ categoryFilter, searchQuery }) {
         />
       )}
 
-      {/* Delete Product Modal */}
       {openDelProduct && (
         <DeleteProduct
           productId={selectedProductId}

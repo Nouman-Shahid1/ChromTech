@@ -1,34 +1,31 @@
 import React from "react";
 import { useMyContext } from "@/ContextApi/store";
-
+import Link from "next/link";
 const ProductCard = ({ product }) => {
   if (!product) {
     return null; // Return null if the product is undefined
   }
 
-  const {_id, name, imageUrl, price, description } = product;
+  const {name, imageUrl, price, description } = product;
 
   const { addToCart } = useMyContext();
 
   return (
     <div className="w-[230px] sm:w-[280px] h-[350px] overflow-hidden flex flex-wrap flex-col m-auto">
       <div className="rounded-3xl my-4 py-4 h-[230px] group hover:h-auto bg-white border border-gray-300 m-auto w-full flex justify-center flex-col">
-        <Link to={`/product-page/${id}`}>
-        <div className="mx-auto w-[150px] h-[200px]">
+        <div className="mx-auto w-[150px] h-[210px] overflow-hidden">
           <img
             src={imageUrl || "https://via.placeholder.com/200"}
             width={"100%"}
-            height={'190px'}
+            height={''}
             alt={name || "Product Image"}
           />
         </div>
-        </Link>
         <div className="flex pt-8 px-4 justify-between hidden group-hover:block">
-        <Link to={`/product-page/${_yyyid}`}>
+
           <div className="border border-black p-1 text-sm cursor-pointer text-center">
             Quick View
           </div>
-          </Link>
           <div
             className="bg-black border border-black text-white text-sm cursor-pointer mt-2 text-center p-1"
             onClick={() => addToCart(product)}

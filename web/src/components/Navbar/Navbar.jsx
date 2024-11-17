@@ -6,6 +6,7 @@ import { CiShoppingCart } from "react-icons/ci";
 import { useSelector } from "react-redux";
 import { RxCrossCircled } from "react-icons/rx";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMyContext } from "@/ContextApi/store";
 import CartSidebar from "../CartSidebar/CartSidebar";
 const Navbar = ({ hasHeadline }) => {
@@ -31,7 +32,14 @@ const Navbar = ({ hasHeadline }) => {
   const toggleHamburger = () => {
     setIsHamburgerOpen(!isHamburgerOpen);
   };
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
 
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      router.push(`/search?query=${searchQuery}`);
+    }
+  };
   const closeSubNav = () => {
     setIsHamburgerOpen(false);
     setShowSubNav(true);
@@ -64,9 +72,9 @@ const Navbar = ({ hasHeadline }) => {
         >
           <div className="main-nav">
           
-            <div className="logo flex relative w-full md:w-auto  justify-center ">
+            <div className="logo flex relative w-full md:w-auto  justify-center pt-3">
             <div
-              className={`absolute -left-10 top-0  hamburger  ${!showSubNav ? "show" : ""}`}
+              className={`absolute -left-1 sm:left-3 md:-left-8 mt-3  top-0  hamburger  ${!showSubNav ? "show" : ""}`}
               onClick={toggleHamburger}
               aria-label="Toggle Menu"
             >
@@ -78,18 +86,25 @@ const Navbar = ({ hasHeadline }) => {
               <img
                 src="https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/245x80/2023chromtechlogo_1675205357__83333.original.png"
                 alt="Logo"
-                
+                className="pl-3 sm:pl-0"
               />
               </div>
             </div>
             <div className="search-bar">
-              <button className="search-icon" aria-label="Search">
+              <button
+                className="search-icon"
+                aria-label="Search"
+                onClick={handleSearch}
+              >
                 <CiSearch />
               </button>
               <input
                 type="text"
                 placeholder="What are you looking for?"
                 aria-label="Search input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={(e) => e.key === "Enter" && handleSearch()}
               />
             </div>
             {/* <div className="header-btn">

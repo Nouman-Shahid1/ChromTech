@@ -26,7 +26,7 @@ const MenuPage = ({
       <Title text1={titleText} />
 
       {/* Category Cards */}
-      <div className="flex gap-5 py-3 flex-col sm:flex-row">
+      <div className="grid md:flex md:gap-5 grid-cols-1 sm:grid-cols-2 ">
         {data.map((item, index) => (
           <div
             key={index}

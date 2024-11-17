@@ -1,5 +1,6 @@
 const Product = require("../models/Product");
 const Category = require("../models/Category");
+const mongoose = require("mongoose");
 
 exports.createProduct = async (req, res) => {
   try {
@@ -31,7 +32,6 @@ exports.getProducts = async (req, res) => {
     const products = await Product.find()
       .populate("category", "name _id")
       .populate("subcategory", "name _id");
-
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -40,7 +40,14 @@ exports.getProducts = async (req, res) => {
 
 exports.getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id)
+    const id = req.params.id.trim(); // Trim any extra whitespace
+
+    // Validate the ID format
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid product ID" });
+    }
+
+    const product = await Product.findById(id)
       .populate("category", "name _id")
       .populate("subcategory", "name _id");
 
@@ -50,6 +57,7 @@ exports.getProductById = async (req, res) => {
 
     res.json(product);
   } catch (error) {
+    console.error("Error in getProductById:", error.message);
     res.status(500).json({ error: error.message });
   }
 };

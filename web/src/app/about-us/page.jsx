@@ -147,24 +147,24 @@ const AboutUs = () => {
           />
         ))}
       </div>
-      <div className="w-full h-[500px] bg-gray-100">
+      <div className="w-full h-auto pb-10 bg-gray-100">
         <div className=" flex justify-center items-center flex-col mt-16 ">
-          <h1 className="text-4xl mt-14 ">Testimonials</h1>
-          <span className="text-gray-500 text-2xl">
+          <p className="text-xl sm:text-text-2xl md:text-4xl mt-14 ">Testimonials</p>
+          <span className="text-gray-500 text-md sm:text-lg  md:text-lg  lg:text-2xl">
             Don't Just Take Our Word For It...
           </span>
         </div>
-        <div className="flex justify-center items-center ">
-          <div className=" w-[40%] h-[230px] text-red-600 border border-red-700 rounded-xl  bg-white p-8  mt-14 mr-4">
-            <i className="text-2xl">
+        <div className="flex justify-center flex-col md:flex-row items-center ">
+          <div className="w-[60%] md:w-[40%] h-[350px] text-red-600 border border-red-700 rounded-xl  bg-white p-8  mt-14 mr-4">
+            <i className="text-lg md:text-2xl">
               The sales team at Chrom Tech has a tremendous knowledge base and
               the team of sourcing specialists are critical to the success of my
               work
             </i>
             <p className=" mt-4 mb-4 text-right ">-Mark, Facility Manager</p>
           </div>
-          <div className=" w-[40%] h-[230px] text-red-600 border border-red-700 rounded-xl  bg-white p-8  mt-14 ml-4">
-            <i className="text-2xl">
+          <div className="w-[60%] md:w-[40%] h-[350px] text-red-600 border border-red-700 rounded-xl  bg-white p-8  mt-14 ml-4">
+            <i className="text-lg md:text-2xl">
               Chrom Tech always responds to us, and that is important to us. The
               decision to work with Chrom Tech was based on a relationship where
               we know you'll be there to help us
