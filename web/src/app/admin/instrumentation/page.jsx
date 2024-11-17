@@ -17,7 +17,7 @@ const Instrumentation = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch();
 
-  const mainCategory = "Instrumentation";
+  const mainCategory = "INSTRUMENTATION";
   const { categories, loading, error } = useSelector((state) => state.category);
 
   useEffect(() => {
@@ -171,7 +171,7 @@ const Instrumentation = () => {
         {openAddProduct && (
           <CreateProducts setOpenAddProduct={setOpenAddProduct} />
         )}
-        <button onClick={() => setOpenAddProduct(true)}>Add Product</button>
+
         <div className="py-8 px-6">
           <p className="text-lg">HOME / Instrumentation</p>
         </div>

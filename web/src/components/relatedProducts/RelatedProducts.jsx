@@ -14,7 +14,9 @@ const RelatedProducts = ({ category, products }) => {
   const handleSubcategoryClick = (subcategoryName) => {
     router.push(`/subcategory/${encodeURIComponent(subcategoryName)}`);
   };
-
+  const handleProductClick = (productId) => {
+    router.push(`/product/${productId}`);
+  };
   return (
     <div className="bg-gray-100">
       <div className="flex flex-col md:flex-row w-[75%] m-auto py-8">
@@ -63,7 +65,13 @@ const RelatedProducts = ({ category, products }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 gap-y-6">
             {products.length > 0 ? (
               products.map((product, index) => (
-                <ProductCard key={index} product={product} />
+                <div
+                  key={index}
+                  onClick={() => handleProductClick(product._id)}
+                  className="cursor-pointer"
+                >
+                  <ProductCard key={index} product={product} />
+                </div>
               ))
             ) : (
               <p>No products found for {categoryName} category</p>

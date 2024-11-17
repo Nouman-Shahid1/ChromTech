@@ -171,7 +171,7 @@ const VialsPlates = () => {
         {openAddProduct && (
           <CreateProducts setOpenAddProduct={setOpenAddProduct} />
         )}
-        <button onClick={() => setOpenAddProduct(true)}>Add Product</button>
+
         <div className="py-8 px-6">
           <p className="text-lg">HOME / VialsPlates</p>
         </div>

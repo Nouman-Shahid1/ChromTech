@@ -5,14 +5,14 @@ import {
   getProducts,
 } from "../../reducers/Product/productSlice";
 
-const DeleteProduct = ({ setOpenDelProduct, productId }) => {
+const DeleteProduct = ({ onClose, productId }) => {
   const dispatch = useDispatch();
 
   const handleDelete = async () => {
     try {
       await dispatch(deleteProduct(productId)).unwrap();
       dispatch(getProducts());
-      setOpenDelProduct(false);
+      onClose(); // Use onClose instead of setOpenDelProduct
     } catch (err) {
       alert("Failed to delete product.");
       console.error("Delete Error:", err);
@@ -20,7 +20,7 @@ const DeleteProduct = ({ setOpenDelProduct, productId }) => {
   };
 
   const onHandleClose = () => {
-    setOpenDelProduct(false);
+    onClose(); // Use onClose instead of setOpenDelProduct
   };
 
   return (
@@ -31,10 +31,7 @@ const DeleteProduct = ({ setOpenDelProduct, productId }) => {
         role="dialog"
         aria-modal="true"
       >
-        <div
-          className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-          aria-hidden="true"
-        ></div>
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">

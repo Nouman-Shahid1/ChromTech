@@ -63,6 +63,20 @@ export const deleteProduct = createAsyncThunk(
     }
   }
 );
+export const getProductById = createAsyncThunk(
+  "product/getProductById",
+  async (id, { rejectWithValue }) => {
+    try {
+      console.log("Fetching product with ID:", id);
+      const response = await axios.get(`/api/products/${id}`);
+      console.log("API Response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error in getProductById:", error.message);
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
 
 // Thunk to search products
 export const searchProducts = createAsyncThunk(
@@ -122,7 +136,19 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
+      .addCase(getProductById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getProductById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.selectedProduct = action.payload;
+        state.error = null;
+      })
+      .addCase(getProductById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       // Update Product
       .addCase(updateProduct.pending, (state) => {
         state.loading = true;
@@ -164,7 +190,7 @@ const productSlice = createSlice({
         state.error = null;
         console.log("Search Results:", action.payload);
       })
-      
+
       .addCase(searchProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
