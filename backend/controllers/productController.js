@@ -32,7 +32,6 @@ exports.getProducts = async (req, res) => {
     const products = await Product.find()
       .populate("category", "name _id")
       .populate("subcategory", "name _id");
-
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: error.message });

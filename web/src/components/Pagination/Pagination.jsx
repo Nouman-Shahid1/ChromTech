@@ -1,44 +1,53 @@
-'use client'
-import React, { useState } from 'react';
-import Link from 'next/link';
+"use client";
+import React, { useState } from "react";
 
-const Pagination = () => {
-  const [activePage, setActivePage] = useState(1); 
+const items = Array.from({ length: 53 }, (_, i) => `Product ${i + 1}`); // Static list of 53 items
 
-  const pages = [1, 2, 3, 4, 5];
-
+const Pagination = ({ totalPages, currentPage, onPageChange }) => {
   return (
-    <ul className="inline-flex rounded-xl ">
-        {activePage>1?
-        <li>
-        <Link
-          href="/lc"
-          onClick={() => setActivePage('previous')}
-          className='flex items-center justify-center border px-3 h-8 text-black rounded-lg border-black  hover:cursor-pointer '
+    <ul className="inline-flex rounded-xl">
+      {/* Previous Button */}
+      <li>
+        <button
+          onClick={() => onPageChange(currentPage - 1)}
+          className={`flex items-center justify-center border px-3 h-8 text-black rounded-lg border-black hover:cursor-pointer ${
+            currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          disabled={currentPage === 1}
         >
           Previous
-        </Link>
-      </li>:''
-}
-      {pages.map(page => (
-        <li key={page}>
-          <Link
-            href={`/lc?page=${page}`}
-            onClick={() => setActivePage(page)}
-            className={`flex items-center justify-center px-3 h-8 border text-gray-600 rounded-lg mx-1  border-gray-300 hover:cursor-pointer ${activePage === page ? 'text-xl text-gray-800 border-gray-800' : ''}`}
-          >
-            {page}
-          </Link>
-        </li>
-      ))}
+        </button>
+      </li>
+
+      {/* Page Numbers */}
+      {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+        (page) => (
+          <li key={page}>
+            <button
+              onClick={() => onPageChange(page)}
+              className={`flex items-center justify-center px-3 h-8 border text-gray-600 rounded-lg mx-1 border-gray-300 hover:cursor-pointer ${
+                currentPage === page
+                  ? "text-xl text-gray-800 border-gray-800"
+                  : ""
+              }`}
+            >
+              {page}
+            </button>
+          </li>
+        )
+      )}
+
+      {/* Next Button */}
       <li>
-        <Link
-          href="/lc"
-          onClick={() => setActivePage('next')}
-          className='flex items-center justify-center px-3 h-8 text-black border border-black rounded-lg hover:cursor-pointer '
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          className={`flex items-center justify-center px-3 h-8 text-black border border-black rounded-lg hover:cursor-pointer ${
+            currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          disabled={currentPage === totalPages}
         >
           Next
-        </Link>
+        </button>
       </li>
     </ul>
   );

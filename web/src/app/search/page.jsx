@@ -24,6 +24,8 @@ const SearchResults = () => {
     priceRange: [0, 1000],
     inStockOnly: false,
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9; // Number of items per page
 
   const [filteredResults, setFilteredResults] = useState([]);
 
@@ -61,10 +63,15 @@ const SearchResults = () => {
 
     setFilteredResults(results);
   }, [searchResults, filters]);
+  const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
 
   const handleProductClick = (productId) => {
     router.push(`/product/${productId}`);
   };
+  const currentItems = filteredResults.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const handleSortChange = (e) => {
     console.log("Sort by:", e.target.value);
@@ -92,6 +99,9 @@ const SearchResults = () => {
       ...prev,
       inStockOnly: !prev.inStockOnly,
     }));
+  };
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   if (loading)
@@ -183,25 +193,33 @@ const SearchResults = () => {
             </div>
 
             <div className="flex flex-wrap  gap-6">
-              {filteredResults.length > 0 ? (
-                filteredResults.map((product) => (
-                  <div
-                    key={product._id}
-                    onClick={() => handleProductClick(product._id)}
-                    className="cursor-pointer"
-                  >
-                    <ProductCard product={product} />
-                  </div>
-                ))
-              ) : (
-                <p className="text-center text-gray-600">
-                  No products found for '{searchQuery}'
-                </p>
-              )}
+              <div className="flex flex-wrap gap-6">
+                 {" "}
+                {currentItems.length > 0 ? (
+                  currentItems.map((product) => (
+                    <div
+                      key={product._id}
+                      onClick={() => handleProductClick(product._id)}
+                      className="cursor-pointer"
+                    >
+                              <ProductCard product={product} />     {" "}
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-center text-gray-600">
+                          No products found for '{searchQuery}'    {" "}
+                  </p>
+                )}
+              </div>
             </div>
 
             <div className="flex justify-end mt-6">
-              <Pagination />
+               {" "}
+              <Pagination
+                totalPages={totalPages}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+              />
             </div>
           </div>
         </div>
