@@ -115,7 +115,7 @@ const SearchResults = () => {
   return (
     <>
       <Navbar />
-      <div className="bg-gray-100 min-h-screen p-6 py-56">
+      <div className="bg-gray-100 min-h-screen p-6 py-56 mt-8 sm:mt-6">
         <div className="text-sm text-gray-600 mb-4">
           <p>
             Home / <span className="text-black font-semibold">Search</span>
@@ -126,7 +126,7 @@ const SearchResults = () => {
           {filteredResults.length} results for '{searchQuery}'
         </h1>
 
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
           <div className="min-w-[250px] bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-lg font-semibold mb-4">Filters</h2>
 
@@ -177,7 +177,7 @@ const SearchResults = () => {
           </div>
 
           <div className="flex-1 ml-6">
-            <div className="flex justify-between mb-4">
+            <div className="flex flex-col md:flex-row justify-between my-4">
               <h2 className="text-lg font-semibold">Products</h2>
               <select
                 className="p-2 rounded-md border border-gray-300"
@@ -191,10 +191,9 @@ const SearchResults = () => {
                 <option>Sort By: Pricing: Descending</option>
               </select>
             </div>
-
             <div className="flex flex-wrap  gap-6">
-              <div className="flex flex-wrap gap-6">
-                 {" "}
+              <div className="flex flex-wrap gap-6 mx-auto">
+                {" "}
                 {currentItems.length > 0 ? (
                   currentItems.map((product) => (
                     <div
@@ -202,20 +201,21 @@ const SearchResults = () => {
                       onClick={() => handleProductClick(product._id)}
                       className="cursor-pointer"
                     >
-                              <ProductCard product={product} />     {" "}
+                      <ProductCard product={product} />     {" "}
                     </div>
                   ))
                 ) : (
                   <p className="text-center text-gray-600">
-                          No products found for '{searchQuery}'    {" "}
+                    No products found for '{searchQuery}'    {" "}
                   </p>
                 )}
               </div>
             </div>
 
-            <div className="flex justify-end mt-6">
-               {" "}
+            <div className="flex flex-wrap justify-end mt-6">
+              {" "}
               <Pagination
+
                 totalPages={totalPages}
                 currentPage={currentPage}
                 onPageChange={handlePageChange}

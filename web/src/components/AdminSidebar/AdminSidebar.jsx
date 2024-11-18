@@ -62,7 +62,7 @@ const AdminSidebar = () => {
       <aside
         className={`fixed top-0 left-0 z-40 bg-white h-screen transition-transform flex flex-col ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 w-[270px] md:w-[250px] md:w-[280px] lg:w-[345px] py-10 px-3 md :px-6 md:px-8 lg:px-10`}
+        } sm:translate-x-0 w-[270px] md:w-[250px] md:w-[280px] lg:w-[345px] py-10 px-3 md :px-6 md:px-8 lg:px-10`}
         aria-label="Sidebar"
       >
         <Image src={Logo} height={65} width={260} alt="" />

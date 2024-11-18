@@ -5,7 +5,7 @@ const items = Array.from({ length: 53 }, (_, i) => `Product ${i + 1}`); // Stati
 
 const Pagination = ({ totalPages, currentPage, onPageChange }) => {
   return (
-    <ul className="inline-flex rounded-xl">
+    <ul className="inline-flex flex-wrap rounded-xl">
       {/* Previous Button */}
       <li>
         <button
