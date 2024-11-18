@@ -7,6 +7,7 @@ import MenuPage from "@/components/MenuPage/MenuPage";
 import { getCategories } from "@/reducers/Category/categorySlice";
 import { getProducts } from "@/reducers/Product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Chatbot from "@/components/Chatbot/chatbot";
 
 const SamplePreparation = () => {
   const [samplePrepCategory, setSamplePrepCategory] = useState(null);
@@ -85,6 +86,7 @@ const SamplePreparation = () => {
         products={filteredProducts}
       />
       <Footer />
+      <Chatbot/>
     </>
   );
 };

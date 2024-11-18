@@ -7,6 +7,7 @@ import MenuPage from "@/components/MenuPage/MenuPage";
 import { getCategories } from "@/reducers/Category/categorySlice";
 import { getProducts } from "@/reducers/Product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Chatbot from "@/components/Chatbot/chatbot";
 
 const Instrumentation = () => {
   const [instrumentCategory, setInstrumentCategory] = useState(null);
@@ -84,6 +85,7 @@ const Instrumentation = () => {
         products={filteredProducts}
       />
       <Footer />
+      <Chatbot/>
     </>
   );
 };

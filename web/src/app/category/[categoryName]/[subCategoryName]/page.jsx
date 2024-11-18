@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import dynamic from "next/dynamic";
+import Chatbot from "@/components/Chatbot/chatbot";
 
 // Lazy load CategoryCard component
 const CategoryCard = dynamic(
@@ -93,6 +94,7 @@ const NestedSubCategoryPage = ({ params: paramsPromise }) => {
         </div>
       </div>
       <Footer />
+      <Chatbot/>
     </>
   );
 };

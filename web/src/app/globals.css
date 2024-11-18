@@ -69,7 +69,6 @@
   max-width: 500px;
 }
 
-
 .search-icon {
   position: absolute;
   left: 14px;
@@ -84,7 +83,6 @@
   margin: 0 auto;
   position: relative;
 }
-
 
 .sub-nav ul li a {
   text-decoration: none;
@@ -183,6 +181,30 @@
     padding: 0;
     z-index: 3 !important;
   }
+  .chat-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+
+  .messages {
+    margin-bottom: 20px;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
 
   .sub-nav.active .sub-nav-menu {
     width: 80%;
@@ -224,4 +246,3 @@
   background-repeat: no-repeat;
   margin: 4px 4px 4px 4px;
 }
-

@@ -7,6 +7,7 @@ import MenuPage from "@/components/MenuPage/MenuPage";
 import { getCategories } from "@/reducers/Category/categorySlice";
 import { getProducts } from "@/reducers/Product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Chatbot from "@/components/Chatbot/chatbot";
 
 const GC = () => {
   const [gcCategory, setGcCategory] = useState(null);
@@ -79,6 +80,7 @@ const GC = () => {
       />
       <RelatedProducts category={gcCategory} products={filteredProducts} />
       <Footer />
+      <Chatbot/>
     </>
   );
 };

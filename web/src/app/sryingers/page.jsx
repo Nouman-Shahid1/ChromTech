@@ -7,6 +7,7 @@ import { getCategories } from "@/reducers/Category/categorySlice";
 import { getProducts } from "@/reducers/Product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import dynamic from "next/dynamic";
+import Chatbot from "@/components/Chatbot/chatbot";
 
 // Lazy load RelatedProducts component
 const RelatedProducts = dynamic(
@@ -92,6 +93,7 @@ const Syringes = () => {
         products={filteredProducts}
       />
       <Footer />
+      <Chatbot/>
     </>
   );
 };

@@ -8,6 +8,8 @@ import {
 } from "@/reducers/Product/productSlice";
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar/Navbar";
+import Footer from "@/components/Footer/Footer";
+import Chatbot from "@/components/Chatbot/chatbot";
 
 // Lazy load components
 const ProductCard = dynamic(
@@ -257,6 +259,8 @@ const SearchResults = () => {
           </div>
         </div>
       </div>
+      <Footer />
+      <Chatbot/>
     </>
   );
 };
