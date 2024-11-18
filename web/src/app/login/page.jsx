@@ -6,10 +6,12 @@ import { loginUser } from "../../reducers/Auth/authSlice";
 import { useRouter, useSearchParams } from "next/navigation";
 import logo from "../../assets/images/logo.png";
 import Link from "next/link";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -21,7 +23,9 @@ const Login = () => {
     e.preventDefault();
     dispatch(loginUser({ email, password }));
   };
-
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
   useEffect(() => {
     if (accessToken && user) {
       // If the user is a superadmin, redirect to the admin dashboard
@@ -62,15 +66,25 @@ const Login = () => {
                 required
               />
             </label>
-            <label className="mb-2">
+            <label className="mb-2 relative">
               Password *
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full p-2 mt-1 border border-gray-300 rounded bg-gray-50"
                 required
               />
+              <span
+                className="absolute top-10 right-3 cursor-pointer"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? (
+                  <AiFillEyeInvisible size={24} />
+                ) : (
+                  <AiFillEye size={24} />
+                )}
+              </span>
             </label>
             <button
               type="submit"

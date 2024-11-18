@@ -1,149 +1,79 @@
 "use client";
-import Footer from "@/components/Footer/Footer.jsx";
-import Navbar from "../components/Navbar/Navbar.jsx";
-import Link from "next/link";
-import Title from "@/components/Title/Title.jsx";
-import TestimonialCard from "@/components/TestimonialCard/Testimonialcard.jsx";
-import CategoryCard from "@/components/CategoryCard/CategoryCard.jsx";
-import Chatbot from "@/components/Chatbot/Chatbot.jsx";
-import { useEffect } from "react";
+import React, { useEffect, useState, useMemo } from "react";
+import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "@/reducers/Category/categorySlice";
+import Link from "next/link";
+import Title from "@/components/Title/Title.jsx";
+import CategoryCard from "@/components/CategoryCard/CategoryCard.jsx";
+
+const Navbar = dynamic(() => import("../components/Navbar/Navbar.jsx"), {
+  ssr: false,
+});
+const Footer = dynamic(() => import("../components/Footer/Footer.jsx"), {
+  ssr: false,
+});
+const Chatbot = dynamic(() => import("../components/Chatbot/Chatbot.jsx"), {
+  ssr: false,
+});
+const TestimonialCard = dynamic(
+  () => import("../components/TestimonialCard/Testimonialcard.jsx"),
+  { ssr: false }
+);
+
 export default function Home() {
-  const testimonials = [
-    {
-      testimonial:
-        "The sales team at Chrom Tech has a tremendous knowledge base and the team of sourcing specialists are critical to the success of my work.",
-      author: "Specialists that are critical to the success of my work",
-      starImage:
-        "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/fivestars.png?t=1717531061",
-      commaImage:
-        "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/commas.png?t=1717530692",
-    },
-    {
-      testimonial:
-        "Chrom Tech’s products have significantly boosted our lab’s efficiency. Their customer support is incredibly responsive and knowledgeable.",
-      author: "Increased Efficiency with Exceptional Support",
-      starImage:
-        "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/fivestars.png?t=1717531061",
-      commaImage:
-        "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/commas.png?t=1717530692",
-    },
-    {
-      testimonial:
-        "Working with Chrom Tech has been a game changer for us. Their expertise and commitment to quality make them an invaluable partner.",
-      author: "Game-Changing Partnership",
-      starImage:
-        "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/fivestars.png?t=1717531061",
-      commaImage:
-        "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/commas.png?t=1717530692",
-    },
-  ];
   const dispatch = useDispatch();
   const { categories, loading, error } = useSelector((state) => state.category);
 
-  // Fetch categories when the component loads
-  useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
+  const testimonials = useMemo(
+    () => [
+      {
+        testimonial:
+          "The sales team at Chrom Tech has a tremendous knowledge base.",
+        author: "Specialists that are critical to the success of my work",
+        starImage:
+          "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/fivestars.png",
+        commaImage:
+          "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/commas.png",
+      },
+      {
+        testimonial: "Chrom Tech’s products have boosted our lab’s efficiency.",
+        author: "Increased Efficiency with Exceptional Support",
+        starImage:
+          "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/fivestars.png",
+        commaImage:
+          "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/commas.png",
+      },
+      {
+        testimonial: "Working with Chrom Tech has been a game changer for us.",
+        author: "Game-Changing Partnership",
+        starImage:
+          "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/fivestars.png",
+        commaImage:
+          "https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/original/image-manager/commas.png",
+      },
+    ],
+    []
+  );
 
-  // Loading and error handling
-  if (loading)
+  // Fetch categories once
+  useEffect(() => {
+    if (!categories || categories.length === 0) {
+      dispatch(getCategories());
+    }
+  }, [dispatch, categories]);
+
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div
-          aria-label="Loading..."
-          role="status"
-          className="flex items-center space-x-2"
-        >
-          <svg
-            className="h-20 w-20 animate-spin stroke-gray-500"
-            viewBox="0 0 256 256"
-          >
-            <line
-              x1="128"
-              y1="32"
-              x2="128"
-              y2="64"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-            <line
-              x1="195.9"
-              y1="60.1"
-              x2="173.3"
-              y2="82.7"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-            <line
-              x1="224"
-              y1="128"
-              x2="192"
-              y2="128"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-            <line
-              x1="195.9"
-              y1="195.9"
-              x2="173.3"
-              y2="173.3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-            <line
-              x1="128"
-              y1="224"
-              x2="128"
-              y2="192"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-            <line
-              x1="60.1"
-              y1="195.9"
-              x2="82.7"
-              y2="173.3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-            <line
-              x1="32"
-              y1="128"
-              x2="64"
-              y2="128"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-            <line
-              x1="60.1"
-              y1="60.1"
-              x2="82.7"
-              y2="82.7"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></line>
-          </svg>
-          <span className="text-4xl font-medium text-gray-500">Loading...</span>
-        </div>
+        Loading...
       </div>
     );
-  if (error)
+  }
+
+  if (error) {
     return <div className="text-center py-10 text-red-500">Error: {error}</div>;
-
-  // Check if categories exist
-  if (!categories || categories.length === 0)
-    return <div className="text-center py-10">No categories available</div>;
-
+  }
   return (
     <>
       <Navbar hasHeadline={true} />

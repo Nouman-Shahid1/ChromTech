@@ -1,14 +1,27 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import {
   searchProducts,
   clearSearchResults,
 } from "@/reducers/Product/productSlice";
-import ProductCard from "../../components/ProductCard/ProductCard";
-import Pagination from "../../components/Pagination/Pagination";
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar/Navbar";
+
+// Lazy load components
+const ProductCard = dynamic(
+  () => import("../../components/ProductCard/ProductCard"),
+  {
+    loading: () => <p>Loading product...</p>,
+  }
+);
+const Pagination = dynamic(
+  () => import("../../components/Pagination/Pagination"),
+  {
+    loading: () => <p>Loading pagination...</p>,
+  }
+);
 
 const SearchResults = () => {
   const dispatch = useDispatch();
@@ -25,22 +38,25 @@ const SearchResults = () => {
     inStockOnly: false,
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9; // Number of items per page
+  const itemsPerPage = 9;
 
-  const [filteredResults, setFilteredResults] = useState([]);
-
+  // Fetch search results with debounce
   useEffect(() => {
-    if (searchQuery) {
-      dispatch(searchProducts(searchQuery));
-    }
+    const debounceFetch = setTimeout(() => {
+      if (searchQuery) {
+        dispatch(searchProducts(searchQuery));
+      }
+    }, 300);
+
     return () => {
+      clearTimeout(debounceFetch);
       dispatch(clearSearchResults());
     };
   }, [dispatch, searchQuery]);
 
-  // Apply filters to search results
-  useEffect(() => {
-    let results = searchResults;
+  // Memoize filtered and sorted results
+  const filteredResults = useMemo(() => {
+    let results = [...searchResults];
 
     // Filter by category
     if (filters.category.length > 0) {
@@ -61,57 +77,74 @@ const SearchResults = () => {
       results = results.filter((product) => product.inStock);
     }
 
-    setFilteredResults(results);
+    return results;
   }, [searchResults, filters]);
-  const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
 
-  const handleProductClick = (productId) => {
-    router.push(`/product/${productId}`);
-  };
-  const currentItems = filteredResults.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+  // Memoize pagination and current items
+  const totalPages = useMemo(
+    () => Math.ceil(filteredResults.length / itemsPerPage),
+    [filteredResults]
+  );
+  const currentItems = useMemo(
+    () =>
+      filteredResults.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+      ),
+    [filteredResults, currentPage, itemsPerPage]
   );
 
-  const handleSortChange = (e) => {
-    console.log("Sort by:", e.target.value);
-  };
+  // Handlers using useCallback
+  const handleProductClick = useCallback(
+    (productId) => {
+      router.push(`/product/${productId}`);
+    },
+    [router]
+  );
 
-  const toggleCategory = (category) => {
+  const handleSortChange = useCallback((e) => {
+    console.log("Sort by:", e.target.value);
+  }, []);
+
+  const toggleCategory = useCallback((category) => {
     setFilters((prev) => ({
       ...prev,
       category: prev.category.includes(category)
         ? prev.category.filter((c) => c !== category)
         : [...prev.category, category],
     }));
-  };
+  }, []);
 
-  const handlePriceRangeChange = (e) => {
+  const handlePriceRangeChange = useCallback((e) => {
     const [min, max] = e.target.value.split("-");
     setFilters((prev) => ({
       ...prev,
       priceRange: [Number(min), Number(max)],
     }));
-  };
+  }, []);
 
-  const toggleInStock = () => {
+  const toggleInStock = useCallback(() => {
     setFilters((prev) => ({
       ...prev,
       inStockOnly: !prev.inStockOnly,
     }));
-  };
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+  }, []);
 
-  if (loading)
+  const handlePageChange = useCallback((page) => {
+    setCurrentPage(page);
+  }, []);
+
+  if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <p className="text-gray-500">Loading...</p>
       </div>
     );
-  if (error) return <p className="text-center text-red-500">Error: {error}</p>;
+  }
 
+  if (error) {
+    return <p className="text-center text-red-500">Error: {error}</p>;
+  }
   return (
     <>
       <Navbar />

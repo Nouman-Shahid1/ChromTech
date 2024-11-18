@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { CiSearch } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { CiShoppingCart } from "react-icons/ci";
@@ -8,46 +8,65 @@ import { RxCrossCircled } from "react-icons/rx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMyContext } from "@/ContextApi/store";
-import CartSidebar from "../CartSidebar/CartSidebar";
+import dynamic from "next/dynamic";
+
+// Lazy load heavy components
+const CartSidebar = dynamic(() => import("../CartSidebar/CartSidebar"), {
+  loading: () => <p>Loading cart...</p>,
+});
+
 const Navbar = ({ hasHeadline }) => {
   const { openCartBar, getTotalCount } = useMyContext();
   const [showSubNav, setShowSubNav] = useState(true);
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const { user, accessToken } = useSelector((state) => state.auth);
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  // Handle scroll effect for hiding/showing sub-nav
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        if (!isHamburgerOpen) {
-          setShowSubNav(false);
-        }
+      if (window.scrollY > 50 && !isHamburgerOpen) {
+        setShowSubNav(false);
       } else {
         setShowSubNav(true);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHamburgerOpen]);
 
-  const toggleHamburger = () => {
-    setIsHamburgerOpen(!isHamburgerOpen);
-  };
-  const [searchQuery, setSearchQuery] = useState("");
-  const router = useRouter();
+  const toggleHamburger = useCallback(() => {
+    setIsHamburgerOpen((prev) => !prev);
+  }, []);
 
-  const handleSearch = () => {
+  // Debounced search handler
+  const handleSearch = useCallback(() => {
     if (searchQuery.trim()) {
       router.push(`/search?query=${searchQuery}`);
     }
-  };
-  const closeSubNav = () => {
-    setIsHamburgerOpen(false);
-    setShowSubNav(true);
+  }, [searchQuery, router]);
+
+  const handleSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
   };
 
-  const handleLinkClick = () => {
-    closeSubNav();
-  };
+  const closeSubNav = useCallback(() => {
+    setIsHamburgerOpen(false);
+    setShowSubNav(true);
+  }, []);
+
+  const handleLinkClick = useCallback(
+    (path) => {
+      if (typeof path === "string" && path.startsWith("/")) {
+        closeSubNav();
+        router.push(path);
+      } else {
+        console.error("Invalid path:", path);
+      }
+    },
+    [closeSubNav, router]
+  );
 
   return (
     <>
@@ -59,7 +78,7 @@ const Navbar = ({ hasHeadline }) => {
             purchase of our safety waste containment kits!
             <span>
               <strong>
-                <Link href="/" className="underline">
+                <Link href="/" prefetch className="underline">
                   <strong>SHOP NOW</strong>
                 </Link>
               </strong>
@@ -71,23 +90,24 @@ const Navbar = ({ hasHeadline }) => {
           style={{ top: hasHeadline ? "40px" : "0px", zIndex: -100 }}
         >
           <div className="main-nav">
-          
             <div className="logo flex relative w-full md:w-auto  justify-center pt-3">
-            <div
-              className={`absolute -left-1 sm:left-3 md:-left-8 mt-3  top-0  hamburger  ${!showSubNav ? "show" : ""}`}
-              onClick={toggleHamburger}
-              aria-label="Toggle Menu"
-            >
-              <span></span>
-              <span></span>
-              <span></span>
-            </div >
-            <div >
-              <img
-                src="https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/245x80/2023chromtechlogo_1675205357__83333.original.png"
-                alt="Logo"
-                className="pl-3 sm:pl-0"
-              />
+              <div
+                className={`absolute -left-1 sm:left-3 md:-left-8 mt-3  top-0  hamburger  ${
+                  !showSubNav ? "show" : ""
+                }`}
+                onClick={toggleHamburger}
+                aria-label="Toggle Menu"
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div>
+                <img
+                  src="https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/245x80/2023chromtechlogo_1675205357__83333.original.png"
+                  alt="Logo"
+                  className="pl-3 sm:pl-0"
+                />
               </div>
             </div>
             <div className="search-bar">
@@ -112,7 +132,7 @@ const Navbar = ({ hasHeadline }) => {
           </div> */}
             <div className=" flex cursor-pointer">
               {accessToken && user ? (
-                <Link href="/myaccount">
+                <Link href="/myaccount" prefetch>
                   <span className="flex justify-center content-center gap-3">
                     <FaRegUser
                       style={{
@@ -128,7 +148,7 @@ const Navbar = ({ hasHeadline }) => {
                   </span>
                 </Link>
               ) : (
-                <Link href="/login">
+                <Link href="/login" prefetch>
                   <span>
                     <FaRegUser
                       style={{
@@ -178,50 +198,79 @@ const Navbar = ({ hasHeadline }) => {
                   />
                 </div>
                 <div className="sub-nav-head">
-                  <Link href="/login">
+                  <Link href="/login" prefetch>
                     <span>| Sign in or Register |</span>
                   </Link>
                 </div>
               </div>
               <ul className="flex justify-around">
                 <li>
-                  <Link href="/vials-and-plates" onClick={handleLinkClick}>
+                  <Link
+                    href="/vials-and-plates"
+                    prefetch
+                    onClick={() => handleLinkClick("/vials-and-plates")}
+                  >
                     <p>VIALS & 96 WELL Plates</p>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/lc" onClick={handleLinkClick}>
+                  <Link
+                    href="/lc"
+                    prefetch
+                    onClick={() => handleLinkClick("/lc")}
+                  >
                     <p>LC</p>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/gc" onClick={handleLinkClick}>
+                  <Link
+                    href="/gc"
+                    prefetch
+                    onClick={() => handleLinkClick("/gc")}
+                  >
                     <p>GC</p>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/instrumentation" onClick={handleLinkClick}>
+                  <Link
+                    href="/instrumentation"
+                    prefetch
+                    onClick={() => handleLinkClick("/instrumentation")}
+                  >
                     <p>INSTRUMENTATION</p>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/sryingers" onClick={handleLinkClick}>
-                    <p>SYRINGERS</p>
+                  <Link
+                    href="/syringes"
+                    prefetch
+                    onClick={() => handleLinkClick("/syringes")}
+                  >
+                    <p>SYRINGES</p>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/sample-preparation" onClick={handleLinkClick}>
+                  <Link
+                    href="/sample-preparation"
+                    prefetch
+                    onClick={() => handleLinkClick("/sample-preparation")}
+                  >
                     <p>SAMPLE PREPARATIONS</p>
                   </Link>
                 </li>
-                <li className="relative group">
-                  <Link href="/support" onClick={handleLinkClick}>
+                <li>
+                  <Link
+                    href="/support"
+                    prefetch
+                    onClick={() => handleLinkClick("/support")}
+                  >
                     <p>SUPPORT</p>
                   </Link>
                   <ul className="absolute left-0 w-[300px] bg-gray-100 hidden group-hover:block   shadow-md mt-2">
                     <li>
                       <Link
                         href="/contact-us"
+                        prefetch
                         onClick={handleLinkClick}
                         className="block px-4 hover:border-b hover:border-gray-800 hover:pb-2"
                       >
@@ -231,6 +280,7 @@ const Navbar = ({ hasHeadline }) => {
                     <li>
                       <Link
                         href="/about-us"
+                        prefetch
                         onClick={handleLinkClick}
                         className="block px-4 hover:border-b hover:border-gray-800 hover:pb-2"
                       >
@@ -240,6 +290,7 @@ const Navbar = ({ hasHeadline }) => {
                     <li>
                       <Link
                         href="/resources"
+                        prefetch
                         onClick={handleLinkClick}
                         className="block px-4 hover:border-b hover:border-gray-800 hover:pb-2"
                       >
