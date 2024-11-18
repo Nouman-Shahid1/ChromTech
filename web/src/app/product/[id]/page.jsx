@@ -7,6 +7,7 @@ import Footer from "@/components/Footer/Footer";
 import { useMyContext } from "@/ContextApi/store";
 import axios from "axios";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+import Chatbot from "@/components/Chatbot/chatbot";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -145,6 +146,7 @@ const ProductDetails = () => {
         </div>
       </div>
       <Footer />
+      <Chatbot/>
     </>
   );
 };

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { registerUser } from "../../reducers/Auth/authSlice";
 import logo from "../../assets/images/logo.png";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -11,6 +12,8 @@ const Register = () => {
   const { loading } = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
   const [step, setStep] = useState(1);
+  const [showPassword, setShowPassword] = useState(false);
+
   const [accountType, setAccountType] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -78,6 +81,9 @@ const Register = () => {
   };
   const handleFinish = () => {
     router.push("/login");
+  };
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
   };
   if (isSubmitted) {
     return (
@@ -194,7 +200,7 @@ const Register = () => {
 
         {/* Step Components */}
         {step === 1 && (
-          <div >
+          <div>
             <h2 className="text-lg sm:text-xl font-semibold mb-4">
               Account Registration
             </h2>
@@ -343,7 +349,7 @@ const Register = () => {
               Create a password for {formData.email}
             </p>
 
-            <div className="mb-6">
+            <div className="mb-6 relative">
               <input
                 type="password"
                 name="password"
@@ -351,6 +357,16 @@ const Register = () => {
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600 mb-4"
               />
+              <span
+                className="absolute top-4 right-3 cursor-pointer"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? (
+                  <AiFillEyeInvisible size={24} />
+                ) : (
+                  <AiFillEye size={24} />
+                )}
+              </span>
               <span className="text-gray-500 text-xs sm:text-sm mt-1 block">
                 By clicking Continue, you agree to our Terms of Service and
                 Privacy Policy

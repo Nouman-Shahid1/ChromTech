@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import Link from "next/link";
 import AboutUs from "../about-us/page";
 import Footer from "@/components/Footer/Footer";
+import Chatbot from "@/components/Chatbot/chatbot";
 
 const Support = () => {
   return (
@@ -21,19 +22,18 @@ const Support = () => {
         </div>
       </div>
       <div className="w-[80%] mx-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 justify-items-center items-center mt-4 mb-4">
-        
-          <div className="w-[300px] sm:w-[400px] h-[550px] flex justify-center items-center flex-col bgAboutus">
-            <h1 className="h-[150px] text-2xl sm:text-4xl font-bold text-white mt-28 p-4 text-center">
-              Your Chromatography Experts
-            </h1>
-            <span className="text-white text-md">
-              <i>Empowering Laboratories Since 1983</i>
+        <div className="w-[300px] sm:w-[400px] h-[550px] flex justify-center items-center flex-col bgAboutus">
+          <h1 className="h-[150px] text-2xl sm:text-4xl font-bold text-white mt-28 p-4 text-center">
+            Your Chromatography Experts
+          </h1>
+          <span className="text-white text-md">
+            <i>Empowering Laboratories Since 1983</i>
+          </span>
+          <Link href="/about-us" className="mt-14">
+            <span className="text-xl font-bold border border-white px-8 py-4 text-white hover:bg-white hover:text-black">
+              ABOUT US
             </span>
-            <Link href="/about-us" className="mt-14">
-              <span className="text-xl font-bold border border-white px-8 py-4 text-white hover:bg-white hover:text-black">
-                ABOUT US
-              </span>
-            </Link>
+          </Link>
         </div>
 
         <div className="w-[300px] sm:w-[400px] h-[550px] flex justify-center items-center flex-col bgBlog">
@@ -66,6 +66,7 @@ const Support = () => {
       </div>
 
       <Footer />
+      <Chatbot />
     </div>
   );
 };

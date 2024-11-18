@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import RelatedProducts from "@/components/RelatedProducts/RelatedProducts";
@@ -7,70 +7,66 @@ import MenuPage from "@/components/MenuPage/MenuPage";
 import { getCategories } from "@/reducers/Category/categorySlice";
 import { getProducts } from "@/reducers/Product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Chatbot from "@/components/Chatbot/chatbot";
 
 const GC = () => {
-  const [gcData, setGcData] = useState([]);
   const [gcCategory, setGcCategory] = useState(null);
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.categories);
   const products = useSelector((state) => state.product.products);
 
+  // Fetch categories and products concurrently
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch categories and products
-        await dispatch(getCategories());
-        await dispatch(getProducts());
-
-        // Find the "GC" category
-        const category = categories.find(
-          (cat) => cat.name?.toUpperCase() === "GC"
-        );
-
-        if (category) {
-          setGcCategory(category);
-
-          // Extract subcategories with image and subtitle fallback to parent category
-          const updatedData = category.subcategories?.map((subcategory) => {
-            const imgUrl = subcategory?.image
-              ? `http://localhost:5000/uploads/${subcategory.image
-                  .split("\\")
-                  .pop()}`
-              : `http://localhost:5000/uploads/${category.image
-                  .split("\\")
-                  .pop()}`;
-
-            const subTitle =
-              subcategory?.subtitle && subcategory?.subtitle.trim() !== ""
-                ? subcategory.subtitle
-                : "No subtitle provided";
-
-            return {
-              title: subcategory?.name || "Unnamed Subcategory",
-              img: imgUrl,
-              subTitle: subTitle,
-            };
-          });
-
-          setGcData(updatedData || []);
-
-          // Filter products by "GC" category
-          const gcProducts = products.filter(
-            (product) => product.category?.name?.toUpperCase() === "GC"
-          );
-
-          setFilteredProducts(gcProducts);
-        } else {
-          console.warn("GC category not found");
-        }
+        await Promise.all([dispatch(getCategories()), dispatch(getProducts())]);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
     };
-
     fetchData();
-  }, [dispatch, categories, products]);
+  }, [dispatch]);
+
+  // Memoize category and subcategories data
+  const gcData = useMemo(() => {
+    const category = categories.find((cat) => cat.name?.toUpperCase() === "GC");
+
+    if (!category) {
+      console.warn("GC category not found");
+      return [];
+    }
+
+    setGcCategory(category);
+
+    return (
+      category.subcategories?.map((subcategory) => {
+        const imgUrl = subcategory?.image
+          ? `http://localhost:5000/uploads/${subcategory.image
+              .split("\\")
+              .pop()}`
+          : `http://localhost:5000/uploads/${category.image.split("\\").pop()}`;
+
+        const subTitle =
+          subcategory?.subtitle && subcategory?.subtitle.trim() !== ""
+            ? subcategory.subtitle
+            : "No subtitle provided";
+
+        return {
+          title: subcategory?.name || "Unnamed Subcategory",
+          img: imgUrl,
+          subTitle,
+        };
+      }) || []
+    );
+  }, [categories]);
+
+  // Memoize filtered products
+  const filteredProducts = useMemo(() => {
+    if (!gcCategory) return [];
+    return products.filter(
+      (product) => product.category?.name?.toUpperCase() === "GC"
+    );
+  }, [products, gcCategory]);
 
   return (
     <>
@@ -84,6 +80,7 @@ const GC = () => {
       />
       <RelatedProducts category={gcCategory} products={filteredProducts} />
       <Footer />
+      <Chatbot/>
     </>
   );
 };
