@@ -102,7 +102,8 @@ const Navbar = ({ hasHeadline }) => {
                 <span></span>
                 <span></span>
               </div>
-              <div>
+              <div onClick={() => (window.location.href = "/")}
+  style={{ cursor: "pointer" }}>
                 <img
                   src="https://cdn11.bigcommerce.com/s-czhvm5lnv4/images/stencil/245x80/2023chromtechlogo_1675205357__83333.original.png"
                   alt="Logo"
@@ -242,7 +243,7 @@ const Navbar = ({ hasHeadline }) => {
                 </li>
                 <li>
                   <Link
-                    href="/syringes"
+                    href="/sryingers"
                     prefetch
                     onClick={() => handleLinkClick("/syringes")}
                   >

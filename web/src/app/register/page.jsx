@@ -351,7 +351,7 @@ const Register = () => {
 
             <div className="mb-6 relative">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password *"
                 onChange={handleChange}

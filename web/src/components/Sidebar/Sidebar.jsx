@@ -74,7 +74,7 @@ const Sidebar = () => {
         } sm:translate-x-0 w-[270px] sm:w-[250px] md:w-[280px] lg:w-[345px] py-10 px-3 sm:px-6 md:px-8 lg:px-10`}
         aria-label="Sidebar"
       >
-        <Image src={Logo} height={56} width={200} alt="" />
+        <Image onClick={() => (window.location.href = "/")} src={Logo} height={56} width={200} alt="" />
         <Link href="/myaccount" passHref>
           <div className="rounded-2xl text-lg items-center font-poppins font-semibold mt-11 leading-[27px] py-4 px-6 pr-1 flex gap-6 text-white bg-red-600 shadow-[0px 20px 50px 0px #3745571A]">
             <span>Dashboard</span>

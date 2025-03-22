@@ -11,7 +11,6 @@ import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import Chatbot from "@/components/Chatbot/chatbot";
 
-// Lazy load components
 const ProductCard = dynamic(
   () => import("../../components/ProductCard/ProductCard"),
   {
@@ -33,7 +32,7 @@ const SearchResults = () => {
   );
   const searchQuery = new URLSearchParams(window.location.search).get("query");
 
-  // State for filters
+
   const [filters, setFilters] = useState({
     category: [],
     priceRange: [0, 1000],

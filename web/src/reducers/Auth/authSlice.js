@@ -3,9 +3,9 @@ import axios from "../../axios/config";
 import { setCookie, getCookie, deleteCookie } from "../../utilities/utils";
 
 let refreshRequestPending = false;
-
+const userRaw = localStorage.getItem("user");
 const initialState = {
-  user: JSON.parse(localStorage.getItem("user")) || null,
+  user: userRaw && userRaw !== "undefined" ? JSON.parse(userRaw) : null,
   userRole: localStorage.getItem("userRole") || null,
   accessToken: getCookie("access_token") || null,
   loading: false,
