@@ -14,7 +14,7 @@ export default function Dashboard() {
           <Profile />
         </div>
         <div className="md:px-0 max-w-screen-2xl">
-          <div className="flex flex-wrap  md:w-full mt-8 px-6">
+          <div className="flex flex-wrap gap-4 lg:gap-0  md:w-full mt-8 px-6">
             <DashboardCard
               details={{
                 name: "Vials and Plates",
@@ -29,7 +29,7 @@ export default function Dashboard() {
                 url: "/admin/",
               }}
             />
-            <div className="flex flex-wrap w-full md:mt-8">
+            <div className="flex flex-wrap gap-4 lg:gap-0 w-full md:mt-8">
               <DashboardCard
                 details={{
                   name: "GC",
@@ -45,7 +45,7 @@ export default function Dashboard() {
                 }}
               />
             </div>
-            <div className="flex flex-wrap w-full md:mt-8">
+            <div className="flex flex-wrap gap-4 lg:gap-0 w-full md:mt-8">
               <DashboardCard
                 details={{
                   name: "Sryingers",
@@ -62,7 +62,7 @@ export default function Dashboard() {
                 }}
               />
             </div>
-            <div className="flex flex-wrap w-full md:mt-8">
+            <div className="flex flex-wrap gap-4 lg:gap-0 w-full md:mt-8">
               <DashboardCard
                 details={{
                   name: "Orders",

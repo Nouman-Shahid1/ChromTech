@@ -71,7 +71,7 @@ const Sidebar = () => {
       <aside
         className={`fixed top-0 left-0 z-40 bg-white h-screen transition-transform flex flex-col ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } sm:translate-x-0 w-[270px] sm:w-[250px] md:w-[280px] lg:w-[345px] py-10 px-3 sm:px-6 md:px-8 lg:px-10`}
+        } md:translate-x-0 w-[270px] sm:w-[250px] md:w-[280px] lg:w-[345px] py-10 px-3 sm:px-6 md:px-8 lg:px-10`}
         aria-label="Sidebar"
       >
         <Image onClick={() => (window.location.href = "/")} src={Logo} height={56} width={200} alt="" />
